@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  </head>
+  <body>
+    <div>
+      지갑주소: <input type="text" id="addressInput" />
+      <button id="btn">조회</button>
+    </div>
+    <div id="box"></div>
+  </body>
+  <script>
+    const $addressInput = document.querySelector('#addressInput');
+    const $box = document.querySelector('#box');
+
+    btn.onclick = async () => {
+      const account = $addressInput.value;
+      const { data } = await axios.get(`http://localhost:4000/queryTokens/${account}`);
+      const items = data.data.items;
+      console.log(items);
+
+      const html = items
+        .map(item => {
+          return `<li>
+            <div>${item.extras.name}</div>
+            <div>${item.contractAddress}</div>
+          </li>`;
+        })
+        .join('');
+
+      $box.innerHTML = html;
+    };
+  </script>
+</html>
