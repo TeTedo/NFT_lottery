@@ -27,13 +27,18 @@ app.get('/queryTokens/:account', async (req, res) => {
     },
   };
 
+  let success, data;
   try {
     const response = await axios.request(options);
-    res.send({ success: true, data: response.data });
+    success = true;
+    data = response.data;
   } catch (err) {
     console.log(err);
-    res.send({ success: false });
+    success = true;
+    data = response.data;
   }
+
+  res.send({ success, data });
 });
 
 app.listen(PORT, () => {
