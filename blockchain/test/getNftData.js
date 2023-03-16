@@ -1,8 +1,8 @@
+// const { ethers } = require('hardhat');
 const { expect } = require('chai');
-const { ethers } = require('hardhat');
 
 describe('GetNftData', async () => {
-  let token, contract, owner, account1, account2;
+  let token, contract, owner, account1, account2, tokensOfOwner;
 
   beforeEach(async () => {
     // deploy TestToken contract
@@ -15,16 +15,34 @@ describe('GetNftData', async () => {
 
     // set accounts for test
     [owner, account1, account2] = await ethers.getSigners();
+
+    // mint tokenId 1, 2 with owner address
+    tokensOfOwner = [1, 2];
+    for (const tokenId of tokensOfOwner) {
+      await token.connect(owner).mint(tokenId);
+    }
   });
 
-  it('mint Token', async () => {
-    await token.connect(owner).mint(1);
-    expect(await token.ownerOf(1)).to.equal(owner.address);
-  });
+  //   it('mint Token', async () => {
+  //     const returnVal = await token.ownerOf(1);
+  //     expect(returnVal).to.equal(owner.address);
+  //   });
 
   //   call TestToken function from GetNftData contract
   it('function ownerOf', async () => {
-    await token.connect(owner).mint(1);
-    expect(await contract.ownerOf(token.address, 1)).to.equal(owner.address);
+    const returnVal = await contract.ownerOf(token.address, 1);
+    expect(returnVal).to.equal(owner.address);
+  });
+
+  it('function tokenURI', async () => {
+    const baseTokenURI = 'http://test.baseURI/';
+    const returnVal = await contract.tokenURI(token.address, 1);
+    expect(returnVal).to.equal(baseTokenURI + '1');
+    console.log('@tokenUri: ' + returnVal);
+  });
+
+  it('function tokensOfOwner', async () => {
+    const returnVal = await contract.tokensOfOwner(token.address, owner.address);
+    expect(returnVal).to.deep.equal(tokensOfOwner);
   });
 });
