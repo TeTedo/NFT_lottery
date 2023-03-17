@@ -2,12 +2,12 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+// import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 contract TestToken is ERC721Enumerable {
     uint256 public price;
-    string private _baseTokenURI = "http://test.baseURI/";
+    string private _baseTokenURI = "http://ERC721Enuerable.baseURI/";
 
     constructor(
         string memory name_,
