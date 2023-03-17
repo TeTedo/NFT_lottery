@@ -2,15 +2,16 @@
 const { expect } = require('chai');
 
 describe('GetNftData', async () => {
-  let token,
-    contract,
-    testToken,
-    bellyGomToken,
-    owner,
-    account1,
-    account2,
-    tokensOfOwner,
-    baseTokenURI;
+  let token, contract, owner, account1, account2, tokensOfOwner, baseTokenURI;
+
+  beforeEach(async () => {
+    // set accounts for test
+    [owner, account1, account2] = await ethers.getSigners();
+
+    // deploy GetNftData contract
+    const Contract = await ethers.getContractFactory('GetNftData');
+    contract = await Contract.deploy();
+  });
 
   // ==================================ERC721Eumerable=======================================
   describe('ERC721Eumerable', () => {
@@ -18,16 +19,9 @@ describe('GetNftData', async () => {
       // deploy Token contract
       const Token = await ethers.getContractFactory('TestToken');
       token = await Token.deploy('TestToken', 'TTK', ethers.utils.parseEther('1'));
-
-      // deploy GetNftData contract
-      const Contract = await ethers.getContractFactory('GetNftData');
-      contract = await Contract.deploy();
-
-      // set accounts for test
-      [owner, account1, account2] = await ethers.getSigners();
+      baseTokenURI = 'http://ERC721Enuerable.baseURI/';
 
       // mint tokenId 1, 2 with owner address
-      baseTokenURI = 'http://test.baseURI/';
       tokensOfOwner = [1, 2];
 
       for (const tokenId of tokensOfOwner) {
@@ -42,6 +36,7 @@ describe('GetNftData', async () => {
 
     it('function tokenURI', async () => {
       const returnVal = await contract.tokenURI(token.address, 1);
+      console.log('@@@@@@@@tokenURI: tokenURI', returnVal);
       expect(returnVal).to.equal(baseTokenURI + '1');
     });
 
@@ -59,16 +54,9 @@ describe('GetNftData', async () => {
       // deploy Token contract
       const Token = await ethers.getContractFactory('OwnableKIP17');
       token = await Token.deploy('BellyGomToken', 'BGT');
-
-      // deploy GetNftData contract
-      const Contract = await ethers.getContractFactory('GetNftData');
-      contract = await Contract.deploy();
-
-      // set accounts for test
-      [owner, account1, account2] = await ethers.getSigners();
+      baseTokenURI = 'http://OwnableKIP17.baseURI/';
 
       // mint tokenId 1, 2 with owner address
-      baseTokenURI = 'http://test.baseURI/';
       tokensOfOwner = [1, 2];
 
       for (const tokenId of tokensOfOwner) {
@@ -84,6 +72,7 @@ describe('GetNftData', async () => {
     it('function tokenURI', async () => {
       const returnVal = await contract.tokenURI(token.address, 1);
       expect(returnVal).to.equal(baseTokenURI + '1');
+      console.log('@@@@@@@@tokenURI: ', returnVal);
     });
 
     it('function tokensOfOwner', async () => {
