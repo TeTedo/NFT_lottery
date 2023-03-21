@@ -10,25 +10,25 @@ const CHAIN_ID = {
 };
 const CREDENTIAL =
   'Basic S0FTS0xZV1lLQUI3TUNRQTc2SU5JRVZBOkpUeVpHaGoxclZ6R0lsM1dtT3oxb0V1YlpoZmtCUDNQUXBIQnVmNm0=';
+const config = {
+  baseURL: 'https://th-api.klaytnapi.com/v2/',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-chain-id': CHAIN_ID.main,
+    Authorization: CREDENTIAL,
+  },
+};
 
 app.use(cors({ origin: '*' }));
 
 app.get('/queryTokens/:account', async (req, res) => {
   const { account } = req.params;
 
-  const options = {
-    method: 'GET',
-    url: `https://th-api.klaytnapi.com/v2/account/${account}/token`,
-    params: { kind: 'nft' },
-    headers: {
-      'Content-Type': 'application/json',
-      'x-chain-id': CHAIN_ID.main,
-      Authorization: CREDENTIAL,
-    },
-  };
-
   try {
-    const response = await axios.request(options);
+    const response = await axios.get(`account/${account}/token`, {
+      ...config,
+      params: { kind: 'nft' },
+    });
     const items = response.data.items;
     const data = new Array();
 
@@ -40,15 +40,17 @@ app.get('/queryTokens/:account', async (req, res) => {
           ? (await axios.get(item.extras.tokenUri, { timeout: 500 })).data
           : null;
       } catch (err) {
+        console.log(`Failed to fetch metadata for token ${item.contractAddress}: ${err.message}`);
         metaData = null;
       }
 
       item.metaData = metaData;
       data.push(item);
     }
+
     res.send({ success: true, data });
   } catch (err) {
-    console.log(err);
+    console.log(`Failed to fetch tokens for account ${account}: ${err.message}`);
     res.send({ success: false });
   }
 });
