@@ -18,7 +18,7 @@ app.get('/queryTokens/:account', async (req, res) => {
 
   const options = {
     method: 'GET',
-    url: `https://th-api.klaytnapi.com/v2/account/${account}/contract`,
+    url: `https://th-api.klaytnapi.com/v2/account/${account}/token`,
     params: { kind: 'nft' },
     headers: {
       'Content-Type': 'application/json',
@@ -27,18 +27,30 @@ app.get('/queryTokens/:account', async (req, res) => {
     },
   };
 
-  let success, data;
   try {
     const response = await axios.request(options);
-    success = true;
-    data = response.data;
+    const items = response.data.items;
+    const data = new Array();
+
+    for (const item of items) {
+      let metaData;
+
+      try {
+        metaData = item.extras.tokenUri
+          ? (await axios.get(item.extras.tokenUri, { timeout: 500 })).data
+          : null;
+      } catch (err) {
+        metaData = null;
+      }
+
+      item.metaData = metaData;
+      data.push(item);
+    }
+    res.send({ success: true, data });
   } catch (err) {
     console.log(err);
-    success = true;
-    data = response.data;
+    res.send({ success: false });
   }
-
-  res.send({ success, data });
 });
 
 app.listen(PORT, () => {
