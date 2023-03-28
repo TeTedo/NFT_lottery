@@ -10,8 +10,4 @@ app.get("/", (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`server start at ${PORT}`);
-});
-
 module.exports = app;
