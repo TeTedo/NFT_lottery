@@ -1,0 +1,25 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=DEV nodemon server",
+    "test": "jest",
+    "production": "cross-env NODE_ENV=PROD npx pm2 start server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22",
+    "pm2": "^5.3.0",
+    "sequelize": "^6.30.0",
+    "supertest": "^6.3.3"
+  }
+}
