@@ -33,19 +33,18 @@ app.get('/queryTokens/:account', async (req, res) => {
     const data = new Array();
 
     for (const item of items) {
-      let metaData;
+      let metaData = null;
 
       try {
-        metaData = item.extras.tokenUri
-          ? (await axios.get(item.extras.tokenUri, { timeout: 500 })).data
-          : null;
+        if (item.extras.tokenUri) {
+          const metaDataResponse = await axios.get(item.extras.tokenUri, { timeout: 500 });
+          metaData = metaDataResponse.data;
+        }
       } catch (err) {
         console.log(`Failed to fetch metadata for token ${item.contractAddress}: ${err.message}`);
-        metaData = null;
       }
 
-      item.metaData = metaData;
-      data.push(item);
+      data.push({ ...item, metaData });
     }
 
     res.send({ success: true, data });
