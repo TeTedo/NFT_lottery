@@ -1,3 +1,7 @@
+# env 관련
+
+slack 참고
+
 ## COMMIT CONVENTION
 
 ```
