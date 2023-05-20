@@ -5,6 +5,13 @@ pragma solidity ^0.8.18;
 import "./RaffleClaimInfo.sol";
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
 
+// 1. registerRaffle을 통해 레플등록 -> _raffles에 RaffleInfo 등록됨
+// 2. buyTickets를 통해 티켓 구매(레플 참여)가능 -> batch로 구매
+// 3. 경매시간 마감 혹은 티켓이 다 팔린 경우 chooseWinner실행 -> 이건 일단 백서버에서 owner 계정으로 실행시킨다는 전제로 구성
+// chooseWinner로직에서 랜덤으로 winner를 선발한뒤 _raffles에서 해당 RaffleInfo 삭제
+// 유저가 판매금 및 nft 클레임 할수 있도록
+// ** 티켓 하나도 안팔렸을때 처리 **
+
 contract RaffleSale is RaffleClaimInfo {
     struct RaffleInfo {
         address seller;
@@ -47,6 +54,7 @@ contract RaffleSale is RaffleClaimInfo {
             raffleFeePercentage_
         );
         __Ownable_init();
+        __ReentrancyGuard_init();
     }
 
     function registerRaffle(
