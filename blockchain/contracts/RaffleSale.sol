@@ -102,7 +102,7 @@ contract RaffleSale is RaffleClaimInfo {
         emit BuyTickets(msg.sender, fromIndex, toIndex, amount);
     }
 
-    function chooseWinner(address nftCa, uint256 tokenId) external {
+    function chooseWinner(address nftCa, uint256 tokenId) external onlyOwner {
         RaffleInfo memory raffleInfo = _raffles[nftCa][tokenId];
         require(
             raffleInfo.endTime < block.timestamp ||
