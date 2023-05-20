@@ -6,16 +6,12 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 contract TestToken is ERC721Enumerable {
-    uint256 public price;
     string private _baseTokenURI = "http://ERC721Enuerable.baseURI/";
 
     constructor(
         string memory name_,
-        string memory symbol_,
-        uint256 price_
-    ) ERC721(name_, symbol_) {
-        price = price_;
-    }
+        string memory symbol_
+    ) ERC721(name_, symbol_) {}
 
     function _baseURI() internal view override returns (string memory) {
         return _baseTokenURI;
