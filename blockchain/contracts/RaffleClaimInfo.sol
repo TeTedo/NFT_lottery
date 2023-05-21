@@ -53,4 +53,6 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
     function getClaimableBalance(address user) external view returns (uint256) {
         return _claimableBalance[user];
     }
+
+    uint256[48] private __gap;
 }
