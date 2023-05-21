@@ -3,7 +3,7 @@ import { RaffleSale, RaffleSale__factory, TestToken } from '../typechain-types/i
 
 async function main() {
   const MAX_TICKET_AMOUNT = 1_000;
-  const MIN_TICKET_PRICE = ethers.utils.parseEther('1');
+  const MIN_TICKET_PRICE = ethers.utils.parseEther('0.0001');
   const COMMISSION_PERCENTAGE = 10;
 
   const signer = (await ethers.getSigners())[0];
@@ -17,11 +17,23 @@ async function main() {
     }
   )) as RaffleSale;
   await raffleSaleProxy.deployed();
+  const deployTx = raffleSaleProxy.deployTransaction;
+  const txReceipt = await signer.provider?.getTransactionReceipt(deployTx.hash);
+  const gasUSed = txReceipt?.gasUsed;
 
-  console.log(`deployed at ${network.name} network CA: ${raffleSaleProxy.address}`);
+  console.log(
+    `deployed at ${network.name} network, Proxy_CA: ${raffleSaleProxy.address}, use ${gasUSed} gas`
+  );
 }
 
 main().catch(error => {
   console.log(error);
   process.exitCode = 1;
 });
+
+// ** gas used **
+// sepolia: {
+//   logic_contract: 3,180,375,
+//   proxy_admin_contract: 443,289,
+//   proxy_contract: 750,751,
+// }
