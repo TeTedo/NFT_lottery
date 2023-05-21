@@ -1,20 +1,20 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0x68002E2a9f044FEBAa5eedB2aD1CCe95DA82Eac6",
-    "txHash": "0x82bdef5ab7d13dd7b6f0f4ff63228b51a8b6a692b238d6d543563cffc3b62628"
+    "address": "0x4753e619cE2503c6579198aAC6ACeecb20067002",
+    "txHash": "0xf995459b6da3745f992b061ebd2b71b9e234dd2d668497e2743c6854a7f4fe8c"
   },
   "proxies": [
     {
-      "address": "0xC43a5cB3f7B81A31BCa48171CFe2bDb8843D6533",
-      "txHash": "0x7ed66ddf3a4f1e4ab940a5107fa109a8a8d69729165a887734d7a71aea72bf12",
+      "address": "0xe672c34Bb4577eE4296bE360b8917Cc27C735D3A",
+      "txHash": "0xcbd016a890738363556f2b3d952494351aec76008c1ce698dfd29a5d2342366d",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "dedce826399bd6d4b1b262225bade89786993448eb0b9b5446faa4e59565e809": {
-      "address": "0xCE4Eea7d6bA8372714A46b3a86576dC4a6214517",
-      "txHash": "0x5ae5d30dd83bfbfead76f225beaefca1d9b60bfc8005d7552cb8d65936ef96e6",
+    "c9df2710c066406486490d5ef4e483c33f670d30700654f0e6dcc9e7224313a0": {
+      "address": "0xB02d8B9612eA582db15b8B14ED85c32b0Fe0Ac6B",
+      "txHash": "0xf84c53898eb07031bc76e4e137a6d50a6cfef0b952af185e644442d950edc13b",
       "layout": {
         "solcVersion": "0.8.18",
         "storage": [
@@ -95,14 +95,14 @@
             "label": "__gap",
             "offset": 0,
             "slot": "105",
-            "type": "t_array(t_uint256)47_storage",
+            "type": "t_array(t_uint256)46_storage",
             "contract": "RaffleEnv",
             "src": "contracts/RaffleEnv.sol:90"
           },
           {
             "label": "_status",
             "offset": 0,
-            "slot": "152",
+            "slot": "151",
             "type": "t_uint256",
             "contract": "ReentrancyGuardUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
@@ -110,7 +110,7 @@
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "153",
+            "slot": "152",
             "type": "t_array(t_uint256)49_storage",
             "contract": "ReentrancyGuardUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:80"
@@ -118,15 +118,15 @@
           {
             "label": "_claimableNft",
             "offset": 0,
-            "slot": "202",
-            "type": "t_mapping(t_address,t_array(t_struct(NftInfo)1925_storage)dyn_storage)",
+            "slot": "201",
+            "type": "t_mapping(t_address,t_array(t_struct(NftInfo)3986_storage)dyn_storage)",
             "contract": "RaffleClaimInfo",
             "src": "contracts/RaffleClaimInfo.sol:15"
           },
           {
             "label": "_claimableBalance",
             "offset": 0,
-            "slot": "203",
+            "slot": "202",
             "type": "t_mapping(t_address,t_uint256)",
             "contract": "RaffleClaimInfo",
             "src": "contracts/RaffleClaimInfo.sol:16"
@@ -134,16 +134,16 @@
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "204",
-            "type": "t_array(t_uint256)50_storage",
+            "slot": "203",
+            "type": "t_array(t_uint256)48_storage",
             "contract": "RaffleClaimInfo",
             "src": "contracts/RaffleClaimInfo.sol:59"
           },
           {
             "label": "_raffles",
             "offset": 0,
-            "slot": "254",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(RaffleInfo)2318_storage))",
+            "slot": "251",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(RaffleInfo)4379_storage))",
             "contract": "RaffleSale",
             "src": "contracts/RaffleSale.sol:34"
           }
@@ -157,13 +157,17 @@
             "label": "address[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_struct(NftInfo)1925_storage)dyn_storage": {
+          "t_array(t_struct(NftInfo)3986_storage)dyn_storage": {
             "label": "struct RaffleClaimInfo.NftInfo[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_uint256)47_storage": {
-            "label": "uint256[47]",
-            "numberOfBytes": "1504"
+          "t_array(t_uint256)46_storage": {
+            "label": "uint256[46]",
+            "numberOfBytes": "1472"
+          },
+          "t_array(t_uint256)48_storage": {
+            "label": "uint256[48]",
+            "numberOfBytes": "1536"
           },
           "t_array(t_uint256)49_storage": {
             "label": "uint256[49]",
@@ -177,11 +181,11 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_mapping(t_address,t_array(t_struct(NftInfo)1925_storage)dyn_storage)": {
+          "t_mapping(t_address,t_array(t_struct(NftInfo)3986_storage)dyn_storage)": {
             "label": "mapping(address => struct RaffleClaimInfo.NftInfo[])",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(RaffleInfo)2318_storage))": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(RaffleInfo)4379_storage))": {
             "label": "mapping(address => mapping(uint256 => struct RaffleSale.RaffleInfo))",
             "numberOfBytes": "32"
           },
@@ -189,11 +193,11 @@
             "label": "mapping(address => uint256)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(RaffleInfo)2318_storage)": {
+          "t_mapping(t_uint256,t_struct(RaffleInfo)4379_storage)": {
             "label": "mapping(uint256 => struct RaffleSale.RaffleInfo)",
             "numberOfBytes": "32"
           },
-          "t_struct(NftInfo)1925_storage": {
+          "t_struct(NftInfo)3986_storage": {
             "label": "struct RaffleClaimInfo.NftInfo",
             "members": [
               {
@@ -211,7 +215,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(RaffleInfo)2318_storage": {
+          "t_struct(RaffleInfo)4379_storage": {
             "label": "struct RaffleSale.RaffleInfo",
             "members": [
               {
