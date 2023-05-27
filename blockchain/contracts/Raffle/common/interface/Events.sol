@@ -1,21 +1,9 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
+import "./Structs.sol";
 
-interface IRaffle {
-    struct RaffleInfo {
-        address seller;
-        uint128 ticketAmount;
-        uint128 lefTicketAmount;
-        uint256 ticketPrice;
-        uint256 endTime;
-        address[] buyers;
-    }
-    struct NftInfo {
-        address ca;
-        uint256 tokenId;
-    }
-
+interface Events is Structs {
     event ClaimNft(address claimer, NftInfo nftInfo);
     event ClaimBalance(address claimer, uint256 amount, uint256 afterBalance);
     event WithdrawCommission(uint256 amount, uint256 afterBalance);
