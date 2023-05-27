@@ -25,7 +25,10 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
     }
 
     function claimBalance(uint256 amount) external nonReentrant {
-        require(_claimableBalance[msg.sender] >= amount);
+        require(
+            _claimableBalance[msg.sender] >= amount,
+            "not enough claimable balance"
+        );
         _claimableBalance[msg.sender] -= amount;
         (bool success, ) = msg.sender.call{value: amount}("");
         if (!success) revert("send transaction failed");
