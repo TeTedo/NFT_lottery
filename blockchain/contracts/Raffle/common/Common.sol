@@ -31,10 +31,7 @@ abstract contract Common is States, Events {
         return _raffles[nftCa][tokenId].seller != address(0);
     }
 
-    function _isListed(address nftCa) internal view returns (bool) {
-        for (uint i = 0; i < _listedNfts.length; i++) {
-            if (_listedNfts[i] == nftCa) return true;
-        }
-        return false;
+    function isListed(address nftCa) public view returns (bool) {
+        return _listedNfts[nftCa];
     }
 }

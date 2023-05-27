@@ -1,5 +1,5 @@
-import { config, ethers, network, upgrades } from "hardhat";
-import { RaffleSale, RaffleSale__factory, TestToken } from "../typechain-types/index";
+import { ethers, network, upgrades } from "hardhat";
+import { Raffle } from "../typechain-types/index";
 
 async function main() {
   const MAX_TICKET_AMOUNT = 1_000;
@@ -8,21 +8,21 @@ async function main() {
 
   const signer = (await ethers.getSigners())[0];
   const contractFactory = await ethers.getContractFactory("Raffle", signer);
-  const raffleSaleProxy = (await upgrades.deployProxy(
+  const raffleProxy = (await upgrades.deployProxy(
     contractFactory,
     [MAX_TICKET_AMOUNT, MIN_TICKET_PRICE, COMMISSION_PERCENTAGE],
     {
       initializer: "initialize",
       unsafeAllow: ["constructor"],
     }
-  )) as RaffleSale;
-  await raffleSaleProxy.deployed();
-  const deployTx = raffleSaleProxy.deployTransaction;
+  )) as Raffle;
+  await raffleProxy.deployed();
+  const deployTx = raffleProxy.deployTransaction;
   const txReceipt = await signer.provider?.getTransactionReceipt(deployTx.hash);
   const gasUSed = txReceipt?.gasUsed;
 
   console.log(
-    `deployed at ${network.name} network, Proxy_CA: ${raffleSaleProxy.address}, use ${gasUSed} gas`
+    `deployed at ${network.name} network, Proxy_CA: ${raffleProxy.address}, use ${gasUSed} gas`
   );
 }
 

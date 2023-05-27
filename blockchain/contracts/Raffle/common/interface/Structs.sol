@@ -6,7 +6,7 @@ interface Structs {
     struct RaffleInfo {
         address seller;
         uint128 ticketAmount;
-        uint128 lefTicketAmount;
+        uint128 leftTicketAmount;
         uint256 ticketPrice;
         uint256 endTime;
         address[] buyers;

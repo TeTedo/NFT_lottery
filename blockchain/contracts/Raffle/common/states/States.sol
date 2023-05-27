@@ -9,7 +9,7 @@ abstract contract States is Structs {
     uint256 internal _maxTicketAmount;
     uint256 internal _minTicketPrice;
     uint8 internal _commissionPercentage; // 0 ~ 100
-    address[] internal _listedNfts;
+    mapping(address => bool) internal _listedNfts;
 
     // claim
     mapping(address => NftInfo[]) internal _claimableNft;

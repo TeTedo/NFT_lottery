@@ -37,7 +37,7 @@ contract RaffleClaim is RaffleInfo, ReentrancyGuardUpgradeable {
         require(_isRegisteredRaffle(nftCa, tokenId), "unregistered raffle");
         RaffleInfo storage raffleInfo = _raffles[nftCa][tokenId];
         require(raffleInfo.endTime < block.timestamp, "not ended");
-        require(raffleInfo.lefTicketAmount == 0, "not failed raffle");
+        require(raffleInfo.leftTicketAmount == 0, "not failed raffle");
 
         _deregisterRaffle(nftCa, tokenId);
     }

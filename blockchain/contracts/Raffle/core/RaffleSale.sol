@@ -19,7 +19,7 @@ contract RaffleSale is RaffleInfo {
         uint256 ticketPrice,
         uint256 day
     ) external {
-        require(_isListed(nftCa), "This nft is not listed");
+        require(isListed(nftCa), "This nft is not listed");
         require(
             !_isRegisteredRaffle(nftCa, tokenId),
             "This nft is already on raffle"
@@ -53,17 +53,17 @@ contract RaffleSale is RaffleInfo {
         require(_isRegisteredRaffle(nftCa, tokenId), "unregisterd raffle");
         RaffleInfo storage raffleInfo = _raffles[nftCa][tokenId];
         require(raffleInfo.endTime > block.timestamp, "raffle times up");
-        require(raffleInfo.lefTicketAmount >= amount, "not enough tickets");
+        require(raffleInfo.leftTicketAmount >= amount, "not enough tickets");
         require(amount * raffleInfo.ticketPrice == msg.value, "improper money");
 
         address[] storage buyers = raffleInfo.buyers;
         uint256 soldTicketsAmount = raffleInfo.ticketAmount -
-            raffleInfo.lefTicketAmount;
+            raffleInfo.leftTicketAmount;
         uint256 fromIndex = soldTicketsAmount;
         uint256 toIndex = soldTicketsAmount + amount - 1;
 
         buyers[toIndex] = msg.sender;
-        raffleInfo.lefTicketAmount -= amount;
+        raffleInfo.leftTicketAmount -= amount;
         emit BuyTickets(msg.sender, fromIndex, toIndex, amount);
     }
 
@@ -75,17 +75,17 @@ contract RaffleSale is RaffleInfo {
         require(_isRegisteredRaffle(nftCa, tokenId), "unregisterd raffle");
         RaffleInfo storage raffleInfo = _raffles[nftCa][tokenId];
         require(
-            raffleInfo.ticketAmount - raffleInfo.lefTicketAmount > 0,
+            raffleInfo.ticketAmount - raffleInfo.leftTicketAmount > 0,
             "failed raffle"
         );
         require(
             raffleInfo.endTime < block.timestamp ||
-                raffleInfo.lefTicketAmount <= 0,
+                raffleInfo.leftTicketAmount <= 0,
             "not ended or not sold out"
         );
 
         uint256 soldTicketsAmount = raffleInfo.ticketAmount -
-            raffleInfo.lefTicketAmount;
+            raffleInfo.leftTicketAmount;
         uint256 randIndex = uint(
             keccak256(
                 abi.encodePacked(block.prevrandao, block.timestamp, randNum)

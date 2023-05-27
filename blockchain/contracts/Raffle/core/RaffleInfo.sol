@@ -45,9 +45,14 @@ contract RaffleInfo is Common, OwnableUpgradeable {
     }
 
     function listNft(address nftCa) external onlyOwner {
-        require(!_isListed(nftCa), "Already listed NFT");
-        _listedNfts.push(nftCa);
+        require(!isListed(nftCa), "Already listed NFT");
+        _listedNfts[nftCa] = true;
         emit ListNft(nftCa);
+    }
+
+    function deListNft(address nftCa) external onlyOwner {
+        require(isListed(nftCa), "unlisted Nft");
+        delete _listedNfts[nftCa];
     }
 
     function getMaxTicketAmount() public view returns (uint256) {
@@ -56,10 +61,6 @@ contract RaffleInfo is Common, OwnableUpgradeable {
 
     function getMinTicketPrice() public view returns (uint256) {
         return _minTicketPrice;
-    }
-
-    function getListedNft() public view returns (address[] memory) {
-        return _listedNfts;
     }
 
     function getCommissionPercentage() public view returns (uint8) {
