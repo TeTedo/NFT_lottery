@@ -49,6 +49,7 @@ contract RaffleEnv is OwnableUpgradeable {
     }
 
     function setCommisssionPercentage(uint8 percentage) external onlyOwner {
+        require(percentage <= 100, "between 0 ~ 100");
         _commissionPercentage = percentage;
         emit SetCommissionPercentage(percentage);
     }
