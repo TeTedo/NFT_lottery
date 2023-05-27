@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.0;
 
 import "./RaffleClaimInfo.sol";
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
@@ -10,34 +10,11 @@ import "@openzeppelin/contracts/interfaces/IERC721.sol";
 // 3. 경매시간 마감 혹은 티켓이 다 팔린 경우 chooseWinner실행 -> 이건 일단 백서버에서 owner 계정으로 실행시킨다는 전제로 구성
 // chooseWinner로직에서 랜덤으로 winner를 선발한뒤 _raffles에서 해당 RaffleInfo 삭제(어차피 DB에 저장하고 있을꺼고 event에서 제공되는 블록넘버로 언제던지 블록체인 히스토리 열람 가능)
 // 유저가 판매금 및 nft 클레임 할수 있도록 _claimableNft, _claimableBalance에 추가
-// ** 티켓 하나도 안팔렸을때 처리하는 로직 **
 
 contract RaffleSale is RaffleClaimInfo {
-    struct RaffleInfo {
-        address seller;
-        uint128 ticketAmount;
-        uint128 lefTicketAmount;
-        uint256 ticketPrice;
-        uint256 endTime;
-        address[] buyers;
-    }
-
     mapping(address => mapping(uint256 => RaffleInfo)) private _raffles; // nftCa -> tokenId -> RaffleInfo
 
     // RaffleInfo[] private _rafflesList; // 테스트 편의성을 위한 임시값
-
-    event RegisterRaffle(RaffleInfo raffleInfo);
-    event BuyTickets(
-        address buyer,
-        uint256 fromIndex,
-        uint256 toIndex,
-        uint128 amount
-    );
-    event ChooseWinner(
-        address winner,
-        RaffleInfo raffleInfo,
-        uint256 blockNumber
-    );
 
     constructor() {
         _disableInitializers();
@@ -64,18 +41,18 @@ contract RaffleSale is RaffleClaimInfo {
         uint256 ticketPrice,
         uint256 day
     ) external {
-        IERC721 nft = IERC721(nftCa);
         require(_isListed(nftCa), "This nft is not listed");
         require(
-            _raffles[nftCa][tokenId].seller == address(0),
+            !_isRegisteredRaffle(nftCa, tokenId),
             "This nft is already on raffle"
         );
-        require(nft.getApproved(tokenId) == address(this), "not approved");
+        require(ticketAmount > 0);
         require(ticketAmount <= getMaxTicketAmount());
         require(ticketPrice >= getMinTicketPrice());
+        IERC721 nft = IERC721(nftCa);
+        require(nft.getApproved(tokenId) == address(this), "not approved");
 
         nft.transferFrom(msg.sender, address(this), tokenId);
-
         uint256 endTime = block.timestamp + day * 1 days;
         RaffleInfo memory newRaffleInfo = RaffleInfo(
             msg.sender,
@@ -95,12 +72,16 @@ contract RaffleSale is RaffleClaimInfo {
         uint256 tokenId,
         uint128 amount
     ) external payable {
+        require(
+            _isRegisteredRaffle(nftCa, tokenId),
+            "this nft is not registerd on raffle"
+        );
         RaffleInfo storage raffleInfo = _raffles[nftCa][tokenId];
-        address[] storage buyers = raffleInfo.buyers;
         require(raffleInfo.endTime > block.timestamp, "raffle ended");
         require(raffleInfo.lefTicketAmount >= amount, "not enough tickets");
         require(amount * raffleInfo.ticketPrice == msg.value, "improper money");
 
+        address[] storage buyers = raffleInfo.buyers;
         uint256 soldTicketsAmount = raffleInfo.ticketAmount -
             raffleInfo.lefTicketAmount;
         uint256 fromIndex = soldTicketsAmount;
@@ -117,6 +98,10 @@ contract RaffleSale is RaffleClaimInfo {
         uint256 randNum
     ) external onlyOwner {
         RaffleInfo memory raffleInfo = _raffles[nftCa][tokenId];
+        require(
+            _isRegisteredRaffle(nftCa, tokenId),
+            "this nft is not registerd on raffle"
+        );
         require(
             raffleInfo.endTime < block.timestamp ||
                 raffleInfo.lefTicketAmount <= 0,
@@ -135,13 +120,15 @@ contract RaffleSale is RaffleClaimInfo {
         uint256 commission = (wholeSales * getCommissionPercentage()) / 100;
         uint256 settlement = wholeSales - commission;
 
-        _deregisterRaffle(nftCa, tokenId);
         _setClaimInfo(
             winner,
             raffleInfo.seller,
             NftInfo(nftCa, tokenId),
             settlement
         );
+        _addCommissionBox(commission);
+        _deregisterRaffle(nftCa, tokenId);
+
         emit ChooseWinner(winner, raffleInfo, block.number);
     }
 
@@ -170,5 +157,12 @@ contract RaffleSale is RaffleClaimInfo {
 
     function _deregisterRaffle(address nftCa, uint256 tokenId) internal {
         delete _raffles[nftCa][tokenId];
+    }
+
+    function _isRegisteredRaffle(
+        address nftCa,
+        uint256 tokenId
+    ) internal view returns (bool) {
+        return _raffles[nftCa][tokenId].seller != address(0);
     }
 }

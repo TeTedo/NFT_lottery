@@ -1,20 +1,16 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts/utils/Arrays.sol";
+import "./IRaffle.sol";
 
-contract RaffleEnv is OwnableUpgradeable {
+contract RaffleEnv is OwnableUpgradeable, IRaffle {
     uint256 private _maxTicketAmount;
     uint256 private _minTicketPrice;
     uint8 private _commissionPercentage; // 0 ~ 100
     address[] private _listedNfts;
-
-    event SetMaxTicketAmount(uint256 amount);
-    event SetMinTicketPrice(uint256 price);
-    event SetCommissionPercentage(uint8 percentage);
-    event ListNft(address nftCa);
 
     function __RaffleEnv_init(
         uint256 maxTicketAmount_,
@@ -49,6 +45,7 @@ contract RaffleEnv is OwnableUpgradeable {
     }
 
     function setCommisssionPercentage(uint8 percentage) external onlyOwner {
+        require(percentage <= 100, "between 0 ~ 100");
         _commissionPercentage = percentage;
         emit SetCommissionPercentage(percentage);
     }
