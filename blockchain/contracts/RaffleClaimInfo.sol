@@ -34,14 +34,6 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
         if (!success) revert("send transaction failed");
     }
 
-    function calimAllBalance() external nonReentrant {
-        uint256 balance = _claimableBalance[msg.sender];
-        require(balance > 0, "not enough balance");
-        _claimableBalance[msg.sender] = 0;
-        (bool success, ) = msg.sender.call{value: balance}("");
-        if (!success) revert("send transaction failed");
-    }
-
     function withdrawCommission(uint256 amount) external onlyOwner {
         require(_commissionBox >= amount, "not enough commssion balance");
         _commissionBox -= amount;
