@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.0;
 
 import "./RaffleEnv.sol";
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
 import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 
 contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
-    struct NftInfo {
-        address ca;
-        uint256 tokenId;
-    }
     mapping(address => NftInfo[]) private _claimableNft;
     mapping(address => uint256) private _claimableBalance;
     uint256 private _commissionBox;
@@ -24,7 +20,8 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
             address(this),
             msg.sender,
             nftInfo.tokenId
-        ); // transfer를 IERC721에 넣을까?
+        );
+        emit ClaimNft(msg.sender, nftInfo);
     }
 
     function claimBalance(uint256 amount) external nonReentrant {
@@ -32,6 +29,7 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
         _claimableBalance[msg.sender] -= amount;
         (bool success, ) = msg.sender.call{value: amount}("");
         if (!success) revert("send transaction failed");
+        emit ClaimBalance(msg.sender, amount, _claimableBalance[msg.sender]);
     }
 
     function withdrawCommission(uint256 amount) external onlyOwner {
@@ -39,6 +37,7 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
         _commissionBox -= amount;
         (bool success, ) = msg.sender.call{value: amount}("");
         if (!success) revert("send transaction failed");
+        emit WithdrawCommission(amount, _commissionBox);
     }
 
     function _setClaimInfo(
