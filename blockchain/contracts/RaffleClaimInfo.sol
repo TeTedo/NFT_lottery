@@ -14,6 +14,33 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
     }
     mapping(address => NftInfo[]) private _claimableNft;
     mapping(address => uint256) private _claimableBalance;
+    uint256 private _commissionBox;
+
+    function claimNft(uint256 index) external {
+        NftInfo memory nftInfo = _claimableNft[msg.sender][index];
+        require(nftInfo.ca == address(0), "not claimable index"); // tokenId는 0인경우도 있어서 default(0)이랑 비교하는거 무의미
+
+        delete _claimableNft[msg.sender];
+        IERC721(nftInfo.ca).transferFrom(
+            address(this),
+            msg.sender,
+            nftInfo.tokenId
+        ); // transfer를 IERC721에 넣을까?
+    }
+
+    function claimBalance(uint256 amount) external nonReentrant {
+        require(_claimableBalance[msg.sender] >= amount);
+        _claimableBalance[msg.sender] -= amount;
+        (bool success, ) = msg.sender.call{value: amount}("");
+        if (!success) revert("send transaction failed");
+    }
+
+    function withdrawCommission(uint256 amount) external onlyOwner {
+        require(_commissionBox >= amount, "not enough commssion balance");
+        _commissionBox -= amount;
+        (bool success, ) = msg.sender.call{value: amount}("");
+        if (!success) revert("send transaction failed");
+    }
 
     function _setClaimInfo(
         address winner,
@@ -25,23 +52,8 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
         _claimableBalance[seller] = settlement;
     }
 
-    function claimNft(uint256 index) external {
-        NftInfo memory nftInfo = _claimableNft[msg.sender][index];
-        require(nftInfo.ca == address(0), "not claimable index"); // tokenId는 0인경우도 있어서 default(0)이랑 비교하는거 무의미
-
-        delete _claimableNft[msg.sender];
-        IERC721(nftInfo.ca).transferFrom(
-            address(this),
-            msg.sender,
-            nftInfo.tokenId
-        );
-    }
-
-    function claimBalance(uint256 amount) external nonReentrant {
-        require(amount <= _claimableBalance[msg.sender]);
-        _claimableBalance[msg.sender] -= amount;
-        (bool success, ) = msg.sender.call{value: amount}("");
-        if (!success) revert("send transaction failed");
+    function _addCommissionBox(uint256 amount) internal {
+        _commissionBox += amount;
     }
 
     function getClaimableNfts(
@@ -54,5 +66,14 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
         return _claimableBalance[user];
     }
 
-    uint256[48] private __gap;
+    function getCommssionBoxBalance()
+        external
+        view
+        onlyOwner
+        returns (uint256)
+    {
+        return _commissionBox;
+    }
+
+    uint256[47] private __gap;
 }
