@@ -10,7 +10,6 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
     struct NftInfo {
         address ca;
         uint256 tokenId;
-        // uint128 tokenId; -> 나중에결정
     }
     mapping(address => NftInfo[]) private _claimableNft;
     mapping(address => uint256) private _claimableBalance;
@@ -32,6 +31,14 @@ contract RaffleClaimInfo is RaffleEnv, ReentrancyGuardUpgradeable {
         require(_claimableBalance[msg.sender] >= amount);
         _claimableBalance[msg.sender] -= amount;
         (bool success, ) = msg.sender.call{value: amount}("");
+        if (!success) revert("send transaction failed");
+    }
+
+    function calimAllBalance() external nonReentrant {
+        uint256 balance = _claimableBalance[msg.sender];
+        require(balance > 0, "not enough balance");
+        _claimableBalance[msg.sender] = 0;
+        (bool success, ) = msg.sender.call{value: balance}("");
         if (!success) revert("send transaction failed");
     }
 
