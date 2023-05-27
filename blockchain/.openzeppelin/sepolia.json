@@ -6,39 +6,111 @@
   },
   "proxies": [
     {
-      "address": "0xe672c34Bb4577eE4296bE360b8917Cc27C735D3A",
-      "txHash": "0xcbd016a890738363556f2b3d952494351aec76008c1ce698dfd29a5d2342366d",
+      "address": "0xBAc0f5135a02D070a1D8c3Bd51be13F2dd148b7E",
+      "txHash": "0xae3183e647eeed66e88bb21e8ac49d57aa33b716de2772c3db7d4f19f6610355",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "c9df2710c066406486490d5ef4e483c33f670d30700654f0e6dcc9e7224313a0": {
-      "address": "0xB02d8B9612eA582db15b8B14ED85c32b0Fe0Ac6B",
-      "txHash": "0xf84c53898eb07031bc76e4e137a6d50a6cfef0b952af185e644442d950edc13b",
+    "ad3231a85a5d2484ade53c2147e1800466f48aff35d274ef679f1a1b16b7aad7": {
+      "address": "0xAc6b54D5e7E8760F41B6e89469b6aa0345c08F13",
+      "txHash": "0x97f8b1253419f465322b94653fea72cf56a3c8bac2ff589918bd3bbaa0e29ae8",
       "layout": {
         "solcVersion": "0.8.18",
         "storage": [
           {
-            "label": "_initialized",
+            "label": "_maxTicketAmount",
             "offset": 0,
             "slot": "0",
+            "type": "t_uint256",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:9"
+          },
+          {
+            "label": "_minTicketPrice",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:10"
+          },
+          {
+            "label": "_commissionPercentage",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_uint8",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:11"
+          },
+          {
+            "label": "_listedNfts",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_array(t_address)dyn_storage",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:12"
+          },
+          {
+            "label": "_claimableNft",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_address,t_array(t_struct(NftInfo)1128_storage)dyn_storage)",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:15"
+          },
+          {
+            "label": "_claimableBalance",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_mapping(t_address,t_uint256)",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:16"
+          },
+          {
+            "label": "_commissionBox",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_uint256",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:17"
+          },
+          {
+            "label": "_raffles",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(RaffleInfo)1123_storage))",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:20"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_array(t_uint256)42_storage",
+            "contract": "States",
+            "src": "contracts/Raffle/common/states/States.sol:28"
+          },
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "50",
             "type": "t_uint8",
             "contract": "Initializable",
-            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:63",
             "retypedFrom": "bool"
           },
           {
             "label": "_initializing",
             "offset": 1,
-            "slot": "0",
+            "slot": "50",
             "type": "t_bool",
             "contract": "Initializable",
-            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:68"
           },
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "1",
+            "slot": "51",
             "type": "t_array(t_uint256)50_storage",
             "contract": "ContextUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
@@ -46,7 +118,7 @@
           {
             "label": "_owner",
             "offset": 0,
-            "slot": "51",
+            "slot": "101",
             "type": "t_address",
             "contract": "OwnableUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
@@ -54,50 +126,10 @@
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "52",
+            "slot": "102",
             "type": "t_array(t_uint256)49_storage",
             "contract": "OwnableUpgradeable",
             "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
-          },
-          {
-            "label": "_maxTicketAmount",
-            "offset": 0,
-            "slot": "101",
-            "type": "t_uint256",
-            "contract": "RaffleEnv",
-            "src": "contracts/RaffleEnv.sol:9"
-          },
-          {
-            "label": "_minTicketPrice",
-            "offset": 0,
-            "slot": "102",
-            "type": "t_uint256",
-            "contract": "RaffleEnv",
-            "src": "contracts/RaffleEnv.sol:10"
-          },
-          {
-            "label": "_commissionPercentage",
-            "offset": 0,
-            "slot": "103",
-            "type": "t_uint8",
-            "contract": "RaffleEnv",
-            "src": "contracts/RaffleEnv.sol:11"
-          },
-          {
-            "label": "_listedNfts",
-            "offset": 0,
-            "slot": "104",
-            "type": "t_array(t_address)dyn_storage",
-            "contract": "RaffleEnv",
-            "src": "contracts/RaffleEnv.sol:12"
-          },
-          {
-            "label": "__gap",
-            "offset": 0,
-            "slot": "105",
-            "type": "t_array(t_uint256)46_storage",
-            "contract": "RaffleEnv",
-            "src": "contracts/RaffleEnv.sol:90"
           },
           {
             "label": "_status",
@@ -113,39 +145,7 @@
             "slot": "152",
             "type": "t_array(t_uint256)49_storage",
             "contract": "ReentrancyGuardUpgradeable",
-            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:80"
-          },
-          {
-            "label": "_claimableNft",
-            "offset": 0,
-            "slot": "201",
-            "type": "t_mapping(t_address,t_array(t_struct(NftInfo)3986_storage)dyn_storage)",
-            "contract": "RaffleClaimInfo",
-            "src": "contracts/RaffleClaimInfo.sol:15"
-          },
-          {
-            "label": "_claimableBalance",
-            "offset": 0,
-            "slot": "202",
-            "type": "t_mapping(t_address,t_uint256)",
-            "contract": "RaffleClaimInfo",
-            "src": "contracts/RaffleClaimInfo.sol:16"
-          },
-          {
-            "label": "__gap",
-            "offset": 0,
-            "slot": "203",
-            "type": "t_array(t_uint256)48_storage",
-            "contract": "RaffleClaimInfo",
-            "src": "contracts/RaffleClaimInfo.sol:59"
-          },
-          {
-            "label": "_raffles",
-            "offset": 0,
-            "slot": "251",
-            "type": "t_mapping(t_address,t_mapping(t_uint256,t_struct(RaffleInfo)4379_storage))",
-            "contract": "RaffleSale",
-            "src": "contracts/RaffleSale.sol:34"
+            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:88"
           }
         ],
         "types": {
@@ -157,17 +157,13 @@
             "label": "address[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_struct(NftInfo)3986_storage)dyn_storage": {
-            "label": "struct RaffleClaimInfo.NftInfo[]",
+          "t_array(t_struct(NftInfo)1128_storage)dyn_storage": {
+            "label": "struct Structs.NftInfo[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_uint256)46_storage": {
-            "label": "uint256[46]",
-            "numberOfBytes": "1472"
-          },
-          "t_array(t_uint256)48_storage": {
-            "label": "uint256[48]",
-            "numberOfBytes": "1536"
+          "t_array(t_uint256)42_storage": {
+            "label": "uint256[42]",
+            "numberOfBytes": "1344"
           },
           "t_array(t_uint256)49_storage": {
             "label": "uint256[49]",
@@ -181,24 +177,24 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_mapping(t_address,t_array(t_struct(NftInfo)3986_storage)dyn_storage)": {
-            "label": "mapping(address => struct RaffleClaimInfo.NftInfo[])",
+          "t_mapping(t_address,t_array(t_struct(NftInfo)1128_storage)dyn_storage)": {
+            "label": "mapping(address => struct Structs.NftInfo[])",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_mapping(t_uint256,t_struct(RaffleInfo)4379_storage))": {
-            "label": "mapping(address => mapping(uint256 => struct RaffleSale.RaffleInfo))",
+          "t_mapping(t_address,t_mapping(t_uint256,t_struct(RaffleInfo)1123_storage))": {
+            "label": "mapping(address => mapping(uint256 => struct Structs.RaffleInfo))",
             "numberOfBytes": "32"
           },
           "t_mapping(t_address,t_uint256)": {
             "label": "mapping(address => uint256)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(RaffleInfo)4379_storage)": {
-            "label": "mapping(uint256 => struct RaffleSale.RaffleInfo)",
+          "t_mapping(t_uint256,t_struct(RaffleInfo)1123_storage)": {
+            "label": "mapping(uint256 => struct Structs.RaffleInfo)",
             "numberOfBytes": "32"
           },
-          "t_struct(NftInfo)3986_storage": {
-            "label": "struct RaffleClaimInfo.NftInfo",
+          "t_struct(NftInfo)1128_storage": {
+            "label": "struct Structs.NftInfo",
             "members": [
               {
                 "label": "ca",
@@ -215,8 +211,8 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(RaffleInfo)4379_storage": {
-            "label": "struct RaffleSale.RaffleInfo",
+          "t_struct(RaffleInfo)1123_storage": {
+            "label": "struct Structs.RaffleInfo",
             "members": [
               {
                 "label": "seller",
