@@ -53,6 +53,7 @@ contract RaffleInfo is Common, OwnableUpgradeable {
     function deListNft(address nftCa) external onlyOwner {
         require(isListed(nftCa), "unlisted Nft");
         delete _listedNfts[nftCa];
+        emit DeListNft(nftCa);
     }
 
     function getMaxTicketAmount() public view returns (uint256) {
