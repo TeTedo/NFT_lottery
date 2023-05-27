@@ -6,11 +6,6 @@ import "./RaffleInfo.sol";
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-// 1. registerRaffle을 통해 레플등록 -> _raffles에 RaffleInfo 등록됨
-// 2. buyTickets를 통해 티켓 구매(레플 참여)가능 -> batch로 구매
-// 3. 경매시간 마감 혹은 티켓이 다 팔린 경우 chooseWinner실행 -> 이건 일단 백서버에서 owner 계정으로 실행시킨다는 전제로 구성
-// chooseWinner로직에서 랜덤으로 winner를 선발한뒤 _raffles에서 해당 RaffleInfo 삭제(어차피 DB에 저장하고 있을꺼고 event에서 제공되는 블록넘버로 언제던지 블록체인 히스토리 열람 가능)
-
 contract RaffleSale is RaffleInfo {
     function registerRaffle(
         address nftCa,

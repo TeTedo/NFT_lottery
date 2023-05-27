@@ -11,6 +11,7 @@ interface Events is Structs {
     event SetMinTicketPrice(uint256 price);
     event SetCommissionPercentage(uint8 percentage);
     event ListNft(address nftCa);
+    event DeListNft(address nftCa);
     event RegisterRaffle(RaffleInfo raffleInfo);
     event BuyTickets(
         address buyer,
