@@ -3,28 +3,22 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
-import "@openzeppelin/contracts/utils/Arrays.sol";
-import "./IRaffle.sol";
+import "../common/Common.sol";
 
-contract RaffleEnv is OwnableUpgradeable, IRaffle {
-    uint256 private _maxTicketAmount;
-    uint256 private _minTicketPrice;
-    uint8 private _commissionPercentage; // 0 ~ 100
-    address[] private _listedNfts;
-
-    function __RaffleEnv_init(
+contract RaffleInfo is Common, OwnableUpgradeable {
+    function __RaffleInfo_init(
         uint256 maxTicketAmount_,
         uint256 minTicketPrice_,
         uint8 raffleFeePercentage_
     ) internal onlyInitializing {
-        __RaffleEnv_init_unchained(
+        __RaffleInfo_init_unchained(
             maxTicketAmount_,
             minTicketPrice_,
             raffleFeePercentage_
         );
     }
 
-    function __RaffleEnv_init_unchained(
+    function __RaffleInfo_init_unchained(
         uint256 maxTicketAmount_,
         uint256 minTicketPrice_,
         uint8 commissionPercentage_
@@ -71,18 +65,4 @@ contract RaffleEnv is OwnableUpgradeable, IRaffle {
     function getCommissionPercentage() public view returns (uint8) {
         return _commissionPercentage;
     }
-
-    function _isListed(address nftCa) internal view returns (bool) {
-        for (uint i = 0; i < _listedNfts.length; i++) {
-            if (_listedNfts[i] == nftCa) return true;
-        }
-        return false;
-    }
-
-    /**
-     * @dev This empty reserved space is put in place to allow future versions to add new
-     * variables without shifting down storage in the inheritance chain.
-     * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
-     */
-    uint256[46] private __gap;
 }
