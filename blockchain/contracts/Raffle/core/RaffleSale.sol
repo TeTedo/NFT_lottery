@@ -45,8 +45,8 @@ contract RaffleSale is RaffleInfo {
         uint256 tokenId,
         uint128 amount
     ) external payable {
-        require(_isRegisteredRaffle(nftCa, tokenId), "unregisterd raffle");
         RaffleInfo storage raffleInfo = _raffles[nftCa][tokenId];
+        require(_isRegisteredRaffleByInfo(raffleInfo), "unregisterd raffle");
         require(raffleInfo.endTime > block.timestamp, "raffle times up");
         require(raffleInfo.leftTicketAmount >= amount, "not enough tickets");
         require(amount * raffleInfo.ticketPrice == msg.value, "improper money");
@@ -67,21 +67,18 @@ contract RaffleSale is RaffleInfo {
         uint256 tokenId,
         uint256 randNum
     ) external onlyOwner {
-        require(_isRegisteredRaffle(nftCa, tokenId), "unregisterd raffle");
         RaffleInfo storage raffleInfo = _raffles[nftCa][tokenId];
-        require(
-            raffleInfo.ticketAmount - raffleInfo.leftTicketAmount > 0,
-            "failed raffle"
-        );
+        require(_isRegisteredRaffleByInfo(raffleInfo), "unregisterd raffle");
+        uint256 soldTicketsAmount = raffleInfo.ticketAmount -
+            raffleInfo.leftTicketAmount;
+        require(soldTicketsAmount > 0, "failed raffle");
         require(
             raffleInfo.endTime < block.timestamp ||
                 raffleInfo.leftTicketAmount <= 0,
             "not ended or not sold out"
         );
 
-        uint256 soldTicketsAmount = raffleInfo.ticketAmount -
-            raffleInfo.leftTicketAmount;
-        uint256 randIndex = uint(
+        uint256 randIndex = uint256(
             keccak256(
                 abi.encodePacked(block.prevrandao, block.timestamp, randNum)
             )
@@ -99,7 +96,6 @@ contract RaffleSale is RaffleInfo {
         );
         _addCommissionBox(commission);
         _deregisterRaffle(nftCa, tokenId);
-
         emit ChooseWinner(winner, raffleInfo, block.number);
     }
 

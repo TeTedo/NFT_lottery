@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./states/States.sol";
+import "./state/States.sol";
 import "./interface/Events.sol";
 
 abstract contract Common is States, Events {
@@ -29,6 +29,12 @@ abstract contract Common is States, Events {
         uint256 tokenId
     ) internal view returns (bool) {
         return _raffles[nftCa][tokenId].seller != address(0);
+    }
+
+    function _isRegisteredRaffleByInfo(
+        RaffleInfo storage raffleInfo
+    ) internal view returns (bool) {
+        return raffleInfo.seller != address(0);
     }
 
     function isListed(address nftCa) public view returns (bool) {
