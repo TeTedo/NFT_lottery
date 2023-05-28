@@ -16,19 +16,19 @@ async function main() {
       unsafeAllow: ["constructor"],
     }
   )) as Raffle;
-  await raffleProxy.deployed();
-  const deployTx = raffleProxy.deployTransaction;
-  const txReceipt = await signer.provider?.getTransactionReceipt(deployTx.hash);
-  const gasUSed = txReceipt?.gasUsed;
+  const deployed = await raffleProxy.deployed();
+  const txHash = deployed.deployTransaction.hash;
+  const txReceipt = await signer.provider?.getTransactionReceipt(txHash);
+  const gasUsed = txReceipt?.gasUsed;
 
   console.log(
-    `deployed at ${network.name} network, Proxy_CA: ${raffleProxy.address}, use ${gasUSed} gas`
+    `deployed at ${network.name} network, Proxy_CA: ${deployed.address}, use ${gasUsed} gas`
   );
 }
 
 main().catch((error) => {
   console.log(error);
-  process.exitCode = 1;
+  process.exit(1);
 });
 
 // ** gas used **
