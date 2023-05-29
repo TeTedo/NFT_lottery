@@ -18,15 +18,29 @@ repositories {
 	mavenCentral()
 }
 
+jar {
+	enabled = false
+}
+
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+	// DB
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// MYSQL Driver
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	// H2 Driver
+	runtimeOnly 'com.h2database:h2'
+	// Dev tools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
