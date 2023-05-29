@@ -15,7 +15,7 @@ import "./core/RaffleClaim.sol";
 // * 가스비적인 측면에서 손해임
 // * 해당 리스트들은 오프체인(서버 DB)에서 따로 유지시켜주는 방향이 좋을듯
 
-contract Raffle is RaffleSale, RaffleClaim {
+contract RaffleV2 is RaffleSale, RaffleClaim {
     constructor() {
         _disableInitializers();
     }

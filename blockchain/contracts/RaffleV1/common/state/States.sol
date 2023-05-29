@@ -6,15 +6,17 @@ import "../interface/Structs.sol";
 
 abstract contract States is Structs {
     // info
+    mapping(address => bool) internal _listedNfts;
     uint256 internal _maxTicketAmount;
     uint256 internal _minTicketPrice;
     uint8 internal _commissionPercentage; // 0 ~ 100
-    mapping(address => bool) internal _listedNfts;
+    uint256[10] private __gap_info;
 
     // claim
     mapping(address => NftInfo[]) internal _claimableNft;
     mapping(address => uint256) internal _claimableBalance;
     uint256 internal _commissionBox;
+    uint256[10] private __gap_claim;
 
     // sale
     mapping(address => mapping(uint256 => RaffleInfo)) internal _raffles; // nftCa -> tokenId -> RaffleInfo
@@ -25,5 +27,5 @@ abstract contract States is Structs {
      * variables without shifting down storage in the inheritance chain.
      * See https://docs.openzeppelin.com/contracts/4.x/upgradeable#storage_gaps
      */
-    uint256[42] private __gap;
+    uint256[21] private __gap;
 }

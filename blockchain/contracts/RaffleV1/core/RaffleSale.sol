@@ -20,8 +20,11 @@ contract RaffleSale is RaffleInfo {
             "This nft is already on raffle"
         );
         require(ticketAmount > 0);
-        require(ticketAmount <= getMaxTicketAmount());
-        require(ticketPrice >= getMinTicketPrice());
+        require(
+            ticketAmount <= getMaxTicketAmount(),
+            "ticket amount outof range"
+        );
+        require(ticketPrice >= getMinTicketPrice(), "ticket price too small");
         IERC721 nft = IERC721(nftCa);
         require(nft.getApproved(tokenId) == address(this), "not approved");
 
@@ -37,7 +40,14 @@ contract RaffleSale is RaffleInfo {
         );
         _raffles[nftCa][tokenId] = newRaffleInfo;
         // _rafflesList.push(newRaffleInfo);
-        emit RegisterRaffle(newRaffleInfo);
+        emit RegisterRaffle(
+            msg.sender,
+            nftCa,
+            tokenId,
+            ticketAmount,
+            ticketPrice,
+            endTime
+        );
     }
 
     function buyTickets(
@@ -51,13 +61,12 @@ contract RaffleSale is RaffleInfo {
         require(raffleInfo.leftTicketAmount >= amount, "not enough tickets");
         require(amount * raffleInfo.ticketPrice == msg.value, "improper money");
 
-        address[] storage buyers = raffleInfo.buyers;
         uint256 soldTicketsAmount = raffleInfo.ticketAmount -
             raffleInfo.leftTicketAmount;
         uint256 fromIndex = soldTicketsAmount;
         uint256 toIndex = soldTicketsAmount + amount - 1;
 
-        buyers[toIndex] = msg.sender;
+        raffleInfo.buyers[toIndex] = msg.sender;
         raffleInfo.leftTicketAmount -= amount;
         emit BuyTickets(msg.sender, fromIndex, toIndex, amount);
     }
@@ -67,7 +76,7 @@ contract RaffleSale is RaffleInfo {
         uint256 tokenId,
         uint256 randNum
     ) external onlyOwner {
-        RaffleInfo storage raffleInfo = _raffles[nftCa][tokenId];
+        RaffleInfo memory raffleInfo = _raffles[nftCa][tokenId];
         require(_isRegisteredRaffleByInfo(raffleInfo), "unregisterd raffle");
         uint256 soldTicketsAmount = raffleInfo.ticketAmount -
             raffleInfo.leftTicketAmount;
@@ -96,7 +105,18 @@ contract RaffleSale is RaffleInfo {
         );
         _addCommissionBox(commission);
         _deregisterRaffle(nftCa, tokenId);
-        emit ChooseWinner(winner, raffleInfo, block.number);
+        // emit ChooseWinner(winner, raffleInfo, block.number);
+        emit ChooseWinner(
+            winner,
+            raffleInfo.seller,
+            nftCa,
+            tokenId,
+            raffleInfo.ticketAmount,
+            raffleInfo.leftTicketAmount,
+            raffleInfo.ticketPrice,
+            raffleInfo.endTime,
+            block.number
+        );
     }
 
     function getRaffleInfo(
@@ -111,11 +131,15 @@ contract RaffleSale is RaffleInfo {
         uint256 tokenId,
         uint256 index
     ) public view returns (address) {
-        address[] memory buyers = _raffles[nftCa][tokenId].buyers;
-        for (uint i = index; i < buyers.length; i++) {
+        RaffleInfo memory raffleInfo = _raffles[nftCa][tokenId];
+        uint256 soldTicketsAmount = raffleInfo.ticketAmount -
+            raffleInfo.leftTicketAmount;
+        require(index < soldTicketsAmount, "unsold index");
+        address[] memory buyers = raffleInfo.buyers;
+        for (uint i = index; i < soldTicketsAmount; i++) {
             if (buyers[i] != address(0)) return buyers[i];
         }
-        return address(0);
+        revert("something wrong");
     }
 
     // function getRaffleList() external view returns (RaffleInfo[] memory) {
