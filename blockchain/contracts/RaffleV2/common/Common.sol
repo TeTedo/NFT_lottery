@@ -6,10 +6,6 @@ import "./state/States.sol";
 import "./interface/Events.sol";
 
 abstract contract Common is States, Events {
-    function _deregisterRaffle(address nftCa, uint256 tokenId) internal {
-        delete _raffles[nftCa][tokenId];
-    }
-
     function _addCommissionBox(uint256 amount) internal {
         _commissionBox += amount;
     }
@@ -22,19 +18,6 @@ abstract contract Common is States, Events {
     ) internal {
         _claimableNft[winner].push(nft);
         _claimableBalance[seller] = settlement;
-    }
-
-    function _isRegisteredRaffle(
-        address nftCa,
-        uint256 tokenId
-    ) internal view returns (bool) {
-        return _raffles[nftCa][tokenId].seller != address(0);
-    }
-
-    function _isRegisteredRaffleByInfo(
-        RaffleInfo storage raffleInfo
-    ) internal view returns (bool) {
-        return raffleInfo.seller != address(0);
     }
 
     function isListed(address nftCa) public view returns (bool) {

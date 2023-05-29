@@ -5,6 +5,7 @@ import "./Structs.sol";
 
 interface Events is Structs {
     event ClaimNft(address claimer, NftInfo nftInfo);
+    event ClaimAllNfts(address claimer, NftInfo[] nftInfoList);
     event ClaimBalance(address claimer, uint256 amount, uint256 afterBalance);
     event WithdrawCommission(uint256 amount, uint256 afterBalance);
     event SetMaxTicketAmount(uint256 amount);
@@ -12,7 +13,14 @@ interface Events is Structs {
     event SetCommissionPercentage(uint8 percentage);
     event ListNft(address nftCa);
     event DeListNft(address nftCa);
-    event RegisterRaffle(RaffleInfo raffleInfo);
+    event RegisterRaffle(
+        address register,
+        address nftCa,
+        uint256 tokenId,
+        uint128 ticketAmount,
+        uint256 ticketPrice,
+        uint256 endTime
+    );
     event BuyTickets(
         address buyer,
         uint256 fromIndex,
@@ -21,7 +29,13 @@ interface Events is Structs {
     );
     event ChooseWinner(
         address winner,
-        RaffleInfo raffleInfo,
+        address seller,
+        address nftCa,
+        uint256 tokenId,
+        uint128 ticketAmount,
+        uint128 leftTicketAmount,
+        uint256 ticketPrice,
+        uint256 endTime,
         uint256 blockNumber
     );
 }
