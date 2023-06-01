@@ -51,10 +51,11 @@ contract RaffleClaim is RaffleInfo, ReentrancyGuardUpgradeable {
     }
 
     // 티켓이 하나도 안팔린 nft를 판매자가 스스로 수령해가는 함수
-    function claimNftForFailedSeller(uint256 raffleId) external {
+    function claimNftForFailedSeller(
+        uint256 raffleId
+    ) external onlyRegistered(raffleId) {
         RaffleInfo storage raffleInfo = _raffles[raffleId];
-        require(msg.sender == raffleInfo.seller, "not seller");
-        require(raffleId < _raffleIndex, "unregisterd raffle ID");
+        require(raffleInfo.seller == msg.sender, "not seller");
         require(raffleInfo.endTime < block.timestamp, "not ended");
         require(raffleInfo.leftTickets == 0, "not failed raffle");
         require(raffleInfo.winner == address(0), "already claimed");
@@ -64,6 +65,7 @@ contract RaffleClaim is RaffleInfo, ReentrancyGuardUpgradeable {
             msg.sender,
             raffleInfo.tokenId
         );
+        // emit ClaimNftForFailedSeller(raffleId, raffleInfo.seller);
     }
 
     function withdrawCommission(uint256 amount) external onlyOwner {

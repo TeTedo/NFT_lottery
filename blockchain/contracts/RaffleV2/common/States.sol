@@ -2,11 +2,11 @@
 
 pragma solidity ^0.8.0;
 
-import "../interface/Structs.sol";
+import "./interface/Structs.sol";
 
 abstract contract States is Structs {
     // info
-    mapping(address => bool) internal _listedNfts;
+    mapping(address => bool) internal _isListed;
     uint256 internal _maxTicketAmount;
     uint256 internal _minTicketPrice;
     uint8 internal _commissionPercentage; // 0 ~ 100
@@ -15,13 +15,14 @@ abstract contract States is Structs {
     // claim
     mapping(address => NftInfo[]) internal _claimableNft;
     mapping(address => uint256) internal _claimableBalance;
-    uint256 internal _commissionBox;
     uint256[10] private __gap_claim;
 
     // sale
-    mapping(uint256 => RaffleInfo) internal _raffles; // raffleId => raffleInfo
+    // mapping(uint256 => RaffleInfo) internal _raffles; // raffleId => raffleInfo
+    // uint256 internal _raffleIndex; // 레플 등록때마다 1씩 증가
+    RaffleInfo[] internal _raffles; // raffleId => raffleInfo
     mapping(uint256 => mapping(uint256 => address)) internal _buyers; // raffleId => ticketIndex => buyer
-    uint256 internal _raffleIndex; // 레플 등록때마다 1씩 증가
+    uint256 internal _commissionBox;
 
     /**
      * @dev This empty reserved space is put in place to allow future versions to add new
