@@ -15,7 +15,8 @@ interface Structs {
         address winner;
     }
     struct NftInfo {
-        address ca;
+        uint256 raffleId;
         uint256 tokenId;
+        address ca;
     }
 }

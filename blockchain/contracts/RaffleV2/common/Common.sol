@@ -2,25 +2,17 @@
 
 pragma solidity ^0.8.0;
 
-import "./state/States.sol";
+import "./States.sol";
 import "./interface/Events.sol";
 
 abstract contract Common is States, Events {
-    function _addCommissionBox(uint256 amount) internal {
-        _commissionBox += amount;
+    modifier onlyRegistered(uint256 raffleId) {
+        require(raffleId < _raffles.length, "unregisterd raffle ID");
+        _;
     }
 
-    function _setClaimInfo(
-        address winner,
-        address seller,
-        NftInfo memory nft,
-        uint256 settlement
-    ) internal {
-        _claimableNft[winner].push(nft);
-        _claimableBalance[seller] = settlement;
-    }
-
-    function isListed(address nftCa) public view returns (bool) {
-        return _listedNfts[nftCa];
+    modifier onlyListed(address nftCa) {
+        require(_isListed[nftCa], "unlisted nft");
+        _;
     }
 }
