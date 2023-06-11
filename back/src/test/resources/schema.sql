@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS `collections`
     contract_address    varchar(66)     NOT NULL,
     contract_name       varchar(100)    NOT NULL,
     contract_owner      varchar(66)     NOT NULL,
-    opensea_slug        varchar(255)    NOT NULL,   --- 이거 뭐였는지 기억이 안남
+    opensea_slug        varchar(255)    NOT NULL,
     creator_fee         double          NOT NULL,
-    type                varchar(255)    NOT NULL,   --- erc721, kip17 등등
+    type                varchar(255)    NOT NULL,
     description         varchar(255)    NOT NULL,
     link_twitter        varchar(255)    NOT NULL,
     link_discord        varchar(255)    NOT NULL,
