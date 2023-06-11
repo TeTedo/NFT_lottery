@@ -1,0 +1,30 @@
+spring:
+  #  DB
+  datasource:
+    driverClassname: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL_TEST}
+    username: ${DB_USERNAME_TEST}
+    password: ${DB_PASSWORD_TEST}
+  #  env파일 설정
+  config:
+    import: optional:file:.env[.properties]
+  #   Jpa
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      jdbc:
+        time-zone: Asia/Seoul
+      ddl-auto: none
+    properties:
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+      hibernate:
+        format_sql: true
+  #   flyway
+  flyway:
+    enabled: false
+  #   sql
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql

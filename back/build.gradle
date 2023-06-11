@@ -25,17 +25,20 @@ jar {
 dependencies {
 	// Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	// DB
+	// Jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// flyway
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-mysql'
 	// MYSQL Driver
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	// H2 Driver
 	runtimeOnly 'com.h2database:h2'
 	// Dev tools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	// Lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
