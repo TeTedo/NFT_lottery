@@ -7,29 +7,35 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   color: #fff;
+  font-weight: 700;
 `;
 const Contents = styled.div`
   width: 1400px;
-  border: 1px solid #fff;
   margin-top: 110px;
   margin-bottom: 100px;
   display: flex;
 `;
 const LeftUpContent = styled.div`
-  border: 1px solid #fff;
+  padding: 10px;
   flex: 2;
 `;
 const LeftDownContent = styled.div`
-  border: 1px solid #fff;
+  padding: 10px;
   flex: 1;
+`;
+const LeftUpTitle = styled.div`
+  flex: 2;
+  font-size: 30px;
 `;
 const RightUpContent = styled.div`
-  border: 1px solid #fff;
+  display: flex;
   flex: 2;
+  padding: 10px;
 `;
+
 const RightDownContent = styled.div`
-  border: 1px solid #fff;
   flex: 1;
+  padding: 10px;
 `;
 const LeftContents = styled.div`
   flex: 1;
@@ -41,6 +47,23 @@ const RigthContents = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const NFTImg = styled.div`
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: gray;
+`;
+const PriceContainer = styled.div`
+  display: flex;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #1a1d1e;
+  justify-content: space-between;
+`;
+const PriceTitles = styled.div`
+  font-size: 20px;
+  flex: 1;
+  text-align: center;
+`;
 
 export {
   Container,
@@ -51,4 +74,8 @@ export {
   RightDownContent,
   LeftContents,
   RigthContents,
+  NFTImg,
+  LeftUpTitle,
+  PriceContainer,
+  PriceTitles,
 };
