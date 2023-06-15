@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 100vw;
+  /* overflow: hidden; */
+  width: 100%;
   min-height: calc(100vh);
   background-color: #000305;
   display: flex;

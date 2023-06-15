@@ -3,7 +3,7 @@ import styled from "styled-components";
 const TopbBarContainer = styled.div`
   position: fixed;
   box-sizing: border-box;
-  width: 100vw;
+  width: 100%;
   height: 60px;
   display: flex;
   flex-direction: row;
