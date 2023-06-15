@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const TopbBarContainer = styled.div`
+const TopBarContainer = styled.div`
   position: fixed;
   box-sizing: border-box;
   width: 100%;
@@ -14,7 +14,7 @@ const TopbBarContainer = styled.div`
   align-content: center;
   flex-wrap: nowrap;
   color: #fff;
-  border-bottom: 1px solid #fff;  
+  border-bottom: 1px solid #fff;
 `;
 
-export { TopbBarContainer };
+export { TopBarContainer };

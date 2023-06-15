@@ -43,7 +43,7 @@ const LeftContents = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const RigthContents = styled.div`
+const RightContents = styled.div`
   flex: 2.5;
   display: flex;
   flex-direction: column;
@@ -74,7 +74,7 @@ export {
   RightUpContent,
   RightDownContent,
   LeftContents,
-  RigthContents,
+  RightContents,
   NFTImg,
   LeftUpTitle,
   PriceContainer,

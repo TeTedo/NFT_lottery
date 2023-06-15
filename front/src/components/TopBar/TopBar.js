@@ -1,10 +1,8 @@
-import React from 'react'
-import {TopbBarContainer} from "./styles"
+import React from "react";
+import { TopBarContainer } from "./styles";
 
 function TopBar() {
-  return (
-    <TopbBarContainer>TopBar</TopbBarContainer>
-  )
+  return <TopBarContainer>TopBar</TopBarContainer>;
 }
 
-export default TopBar
+export default TopBar;

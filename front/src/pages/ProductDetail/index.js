@@ -8,7 +8,7 @@ import {
   RightDownContent,
   Contents,
   LeftContents,
-  RigthContents,
+  RightContents,
   NFTImg,
   LeftUpTitle,
   PriceContainer,
@@ -42,7 +42,7 @@ function ProductDetail() {
             <PricesDetail />
           </LeftDownContent>
         </LeftContents>
-        <RigthContents>
+        <RightContents>
           <RightUpContent>
             <NFTImg>ProductDetail3</NFTImg>
           </RightUpContent>
@@ -97,7 +97,7 @@ function ProductDetail() {
                     textAlign: "center",
                   }}
                 >
-                  Current pirce
+                  Current price
                 </Box>
               </Box>
               <Box
@@ -190,7 +190,7 @@ function ProductDetail() {
               </Button>
             </Box>
           </RightDownContent>
-        </RigthContents>
+        </RightContents>
       </Contents>
     </Container>
   );
