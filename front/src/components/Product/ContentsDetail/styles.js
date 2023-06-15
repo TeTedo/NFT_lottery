@@ -14,8 +14,7 @@ const Contents = styled.div`
   padding: 3px;
   font-weight: 600;
 `;
-const Tilte = styled.div``;
+const Title = styled.div``;
 const Content = styled.div``;
 
-export { Container, Contents, Tilte, Content };
-
+export { Container, Contents, Title, Content };

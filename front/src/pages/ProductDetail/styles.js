@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  width: 100vw;
+  /* overflow: hidden; */
+  width: 100%;
   min-height: calc(100vh);
   background-color: #000305;
   display: flex;
@@ -42,7 +43,7 @@ const LeftContents = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const RigthContents = styled.div`
+const RightContents = styled.div`
   flex: 2.5;
   display: flex;
   flex-direction: column;
@@ -73,7 +74,7 @@ export {
   RightUpContent,
   RightDownContent,
   LeftContents,
-  RigthContents,
+  RightContents,
   NFTImg,
   LeftUpTitle,
   PriceContainer,

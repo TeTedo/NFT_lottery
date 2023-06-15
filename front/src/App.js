@@ -8,7 +8,7 @@ import ProductDetail from "./pages/ProductDetail";
 function App() {
   return (
     <Router>
-      <Topbar/>
+      <Topbar />
       <Routes>
         <Route path="/" element={<ProductDetail />} />
         <Route path="/page1" element={<Page1 />} />

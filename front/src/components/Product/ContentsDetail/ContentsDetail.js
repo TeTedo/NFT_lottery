@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Contents, Tilte, Content } from "./styles";
+import { Container, Contents, Title, Content } from "./styles";
 
 function ContentsDetail() {
   const items = {
@@ -12,23 +12,23 @@ function ContentsDetail() {
   return (
     <Container>
       <Contents>
-        <Tilte>Contract Address</Tilte>
+        <Title>Contract Address</Title>
         <Content> {items.address}</Content>
       </Contents>
       <Contents>
-        <Tilte>TokenID</Tilte>
+        <Title>TokenID</Title>
         <Content> {items.tokenID}</Content>
       </Contents>
       <Contents>
-        <Tilte>TokenStandard</Tilte>
+        <Title>TokenStandard</Title>
         <Content> {items.tokenStandard}</Content>
       </Contents>
       <Contents>
-        <Tilte>Blockchain</Tilte>
+        <Title>Blockchain</Title>
         <Content> {items.blockchain}</Content>
       </Contents>
       <Contents>
-        <Tilte>Creator Fees</Tilte>
+        <Title>Creator Fees</Title>
         <Content> {items.creatorFees}</Content>
       </Contents>
     </Container>
