@@ -25,6 +25,12 @@ jar {
 dependencies {
 	// Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Web3J
+	implementation 'org.web3j:core:5.0.0'
+	// rxjava
+	implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
+	// websocket
+	implementation 'org.java-websocket:Java-WebSocket:1.5.3'
 	// Jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	// flyway
