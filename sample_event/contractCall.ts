@@ -5,7 +5,7 @@ dotenv.config();
 
 const END_POINT = "https://public-en-baobab.klaytn.net";
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
-const CONTRACT_ADDR = "0x5d73e59868C2EcC79c4A59920931d449346B8680";
+const CONTRACT_ADDR = "0x381c7d85673f230de554097372e0FC4F14b5B0a6";
 
 const 반복횟수 = 1;
 const 반복간격_밀리세컨드단위 = 500;

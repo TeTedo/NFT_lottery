@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const 웹소켓엔드포인트 = "wss://public-en-baobab.klaytn.net/ws";
-const CONTRACT_ADDR = "0x5d73e59868C2EcC79c4A59920931d449346B8680";
+const CONTRACT_ADDR = "0x381c7d85673f230de554097372e0FC4F14b5B0a6";
 const EVENT_NAME = "Test";
 
 async function main(reconnectionCount = 0, lastBlock = 0) {
@@ -24,22 +24,19 @@ async function main(reconnectionCount = 0, lastBlock = 0) {
 
   // 콜백함수 파라미터에 이벤트값 다 넣어주는데
   // 자세히 보고싶으면 ...agrs로 보시길
-  contract.on(
-    EVENT_NAME,
-    (_uint, _string, _bool, _address, _bytes, _uintArray, _struct, blockNumber) => {
-      console.log({
-        _uint: formatter(_uint),
-        _string: formatter(_string),
-        _bool: formatter(_bool),
-        _address: formatter(_address),
-        _bytes: formatter(_bytes),
-        _uintArray: formatter(_uintArray),
-        _struct: formatter(_struct),
-      });
-      console.log("");
-      lastBlock = Number(blockNumber);
-    }
-  );
+  contract.on(EVENT_NAME, (_uint, _string, blockNumber) => {
+    console.log({
+      _uint: formatter(_uint),
+      _string: formatter(_string),
+      // _bool: formatter(_bool),
+      // _address: formatter(_address),
+      // _bytes: formatter(_bytes),
+      // _uintArray: formatter(_uintArray),
+      // _struct: formatter(_struct),
+    });
+    console.log("");
+    lastBlock = Number(blockNumber);
+  });
   console.log("이벤트 구독중");
 
   wsProvider._websocket.on("close", () => {
