@@ -64,7 +64,7 @@ contract UndefinedConfig is IUndefinedConfig, OwnableUpgradeable {
     }
 
     function setFeeTo(address feeTo_) external onlyOwner {
-        require(feeTo != address(0), "feeTo address is zero address");
+        require(feeTo_ != address(0), "feeTo address is zero address");
         feeTo = feeTo_;
     }
 
