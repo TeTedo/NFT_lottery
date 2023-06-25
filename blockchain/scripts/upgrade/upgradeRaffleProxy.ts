@@ -1,5 +1,5 @@
 import { ethers, network, upgrades } from "hardhat";
-import { proxies } from "../.openzeppelin/sepolia.json";
+import { proxies } from "../../.openzeppelin/sepolia.json";
 
 async function main() {
   const signer = (await ethers.getSigners())[0];
