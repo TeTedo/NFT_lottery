@@ -30,7 +30,7 @@ interface IUndefined {
         address indexed buyer,
         uint fromIndex,
         uint toIndex,
-        uint128 amount,
+        uint amount,
         uint128 leftTickets
     );
     event ChooseWinner(
@@ -47,7 +47,7 @@ interface IUndefined {
     function getClaimableNftsLength(address owner) external view returns(uint length);
 
     function registerRaffle(address nftCa, uint tokenId, uint120 totalTickets, uint120 ticketPrice, uint day) external;
-    function buyTickets(uint raffleId, uint128 amount) external payable;
+    function buyTickets(uint raffleId, uint amount) external payable;
     function chooseWinner(uint raffleId, uint randNum, address creator, uint creatorFee) external;
     function claimAllNfts() external;
     function claimNftByIndex(uint index) external;

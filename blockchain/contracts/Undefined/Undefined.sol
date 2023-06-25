@@ -65,13 +65,12 @@ contract Undefined is IUndefined, UndefinedConfig, ReentrancyGuardUpgradeable {
 
     function buyTickets(
         uint raffleId,
-        uint128 amount
+        uint amount
     ) external payable onlyRegistered(raffleId) {
         RaffleInfo storage raffleInfo = raffles[raffleId];
-        require(amount > 0, "amount should bigger than zero");
+        require(0 < amount && amount <= raffleInfo.leftTickets, "invalid amount");
         require(amount * raffleInfo.ticketPrice == msg.value, "improper money");
         require(raffleInfo.endTime > block.timestamp, "raffle times up");
-        require(raffleInfo.leftTickets >= amount, "not enough tickets");
         uint soldTicketsAmount;
         uint toIndex;
         unchecked {
@@ -87,7 +86,7 @@ contract Undefined is IUndefined, UndefinedConfig, ReentrancyGuardUpgradeable {
         } // 구매자가 티켓 100개이상 구매하면 인덱스 50 단위마다 주인 등록하는 기능
         buyers[raffleId][toIndex] = msg.sender;
         unchecked {
-            raffleInfo.leftTickets -= amount; // leftTickets >= amount
+            raffleInfo.leftTickets -= uint128(amount); // leftTickets >= amount
         }
         emit BuyTickets(
             raffleId,
@@ -197,7 +196,7 @@ contract Undefined is IUndefined, UndefinedConfig, ReentrancyGuardUpgradeable {
 
     function claimBalance(uint amount) external nonReentrant {
         uint balance = claimableBalance[msg.sender];
-        require(balance >= amount, "not enough claimable balance");
+        require(balance >= amount, "not enough balance");
         claimableBalance[msg.sender] -= amount;
         (bool success, ) = msg.sender.call{value: amount}("");
         if (!success) revert("send transaction failed");
