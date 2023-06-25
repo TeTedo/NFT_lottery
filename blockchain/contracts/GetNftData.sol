@@ -4,7 +4,6 @@ pragma solidity ^0.8.18;
 
 import "@openzeppelin/contracts/interfaces/IERC721Enumerable.sol";
 import "@openzeppelin/contracts/interfaces/IERC721Metadata.sol";
-import "hardhat/console.sol";
 
 contract GetNftData {
     struct BalanceOfNft {
@@ -43,8 +42,7 @@ contract GetNftData {
             listedNftList.length
         );
         for (uint i = 0; i < listedNftList.length; i++) {
-            IERC721Enumerable nft = IERC721Enumerable(listedNftList[i]);
-            uint256 balance = nft.balanceOf(owner);
+            uint256 balance = IERC721Enumerable(listedNftList[i]).balanceOf(owner);
             balanceOfNft[i] = BalanceOfNft(listedNftList[i], uint128(balance));
         }
         return balanceOfNft;
@@ -61,11 +59,10 @@ contract GetNftData {
         for (uint i = 0; i < balanceOfNftList.length; i++) {
             address nftCa = balanceOfNftList[i].nftCa;
             uint128 balance = balanceOfNftList[i].balance;
-            IERC721Enumerable nft = IERC721Enumerable(nftCa);
             uint128[] memory tokenIds = new uint128[](balance);
             for (uint256 index = 0; index < balance; index++) {
                 tokenIds[index] = uint128(
-                    nft.tokenOfOwnerByIndex(owner, index)
+                    IERC721Enumerable(nftCa).tokenOfOwnerByIndex(owner, index)
                 );
             }
             tokensOfOwner[i] = TokensOfOwner(nftCa, tokenIds);
@@ -90,12 +87,11 @@ contract GetNftData {
         );
         for (uint i = 0; i < listedNftList.length; i++) {
             address nftCa = listedNftList[i];
-            IERC721Enumerable nft = IERC721Enumerable(nftCa);
-            uint256 balance = nft.balanceOf(owner);
+            uint256 balance = IERC721Enumerable(nftCa).balanceOf(owner);
             uint128[] memory tokenIds = new uint128[](balance);
             for (uint256 index = 0; index < balance; index++) {
                 tokenIds[index] = uint128(
-                    nft.tokenOfOwnerByIndex(owner, index)
+                    IERC721Enumerable(nftCa).tokenOfOwnerByIndex(owner, index)
                 );
             }
             tokensOfOwner[i] = TokensOfOwner(nftCa, tokenIds);
@@ -108,13 +104,12 @@ contract GetNftData {
         address tokenCa,
         address owner
     ) public view returns (uint256[] memory) {
-        IERC721Enumerable token = IERC721Enumerable(tokenCa);
-        uint balance = token.balanceOf(owner);
+        uint balance = IERC721Enumerable(tokenCa).balanceOf(owner);
         if (balance == 0) return new uint256[](0);
 
         uint256[] memory tokensOfOwner = new uint256[](balance);
         for (uint256 index = 0; index < balance; index++) {
-            tokensOfOwner[index] = token.tokenOfOwnerByIndex(owner, index);
+            tokensOfOwner[index] = IERC721Enumerable(tokenCa).tokenOfOwnerByIndex(owner, index);
         }
 
         return tokensOfOwner;
@@ -122,36 +117,28 @@ contract GetNftData {
 
     // meta_data
     function getName(address tokenCa) external view returns (string memory) {
-        IERC721Metadata token = IERC721Metadata(tokenCa);
-
-        return token.name();
+        return IERC721Metadata(tokenCa).name();
     }
 
     function getSymbol(address tokenCa) external view returns (string memory) {
-        IERC721Metadata token = IERC721Metadata(tokenCa);
-
-        return token.symbol();
+        return IERC721Metadata(tokenCa).symbol();
     }
 
     function getTokenUri(
         address tokenCa,
         uint256 tokenId
     ) external view returns (string memory) {
-        IERC721Metadata token = IERC721Metadata(tokenCa);
-        return token.tokenURI(tokenId);
+        return IERC721Metadata(tokenCa).tokenURI(tokenId);
     }
 
     function getTokenUriBatch(
         address tokenCa,
         uint256[] calldata tokenIds
-    ) external view returns (string[] memory) {
-        IERC721Metadata token = IERC721Metadata(tokenCa);
-        string[] memory tokenUris = new string[](tokenIds.length);
+    ) external view returns (string[] memory tokenUriList) {
+        tokenUriList = new string[](tokenIds.length);
 
         for (uint i = 0; i < tokenIds.length; i++) {
-            tokenUris[i] = token.tokenURI(tokenIds[i]);
+            tokenUriList[i] = IERC721Metadata(tokenCa).tokenURI(tokenIds[i]);
         }
-
-        return tokenUris;
     }
 }
