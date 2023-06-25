@@ -1,0 +1,55 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.0'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.undefined'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+jar {
+	enabled = false
+}
+
+dependencies {
+	// Web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Web3J
+	implementation 'org.web3j:core:5.0.0'
+	// rxjava
+	implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
+	// websocket
+	implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+	// Jpa
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// flyway
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-mysql'
+	// MYSQL Driver
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	// Lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	// H2 Driver
+	runtimeOnly 'com.h2database:h2'
+	// Dev tools
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	// test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
