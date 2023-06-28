@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Contents, Left, Right } from "./styles";
-import LeftUpComponents from "./LeftUpComponents";
-import LeftDownComponents from "./LeftDownComponents";
-import RightUpComponents from "./RightUpComponents";
-import RightDownComponents from "./RightDownComponents";
+import LeftUpComponents from "./Left/LeftUpComponents";
+import LeftDownComponents from "./Left/LeftDownComponents";
+import RightUpComponents from "./Right/RightUpComponents";
+import RightDownComponents from "./Right/RightDownComponents";
 
 function ProductDetail() {
   const items = {

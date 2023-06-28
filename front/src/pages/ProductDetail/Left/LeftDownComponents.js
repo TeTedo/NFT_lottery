@@ -1,6 +1,6 @@
 import React from "react";
-import { LeftDown } from "./styles";
-import PricesDetail from "../../components/Product/PricesDetail/PricesDetail";
+import { LeftDown } from "../styles";
+import PricesDetail from "../../../components/Product/PricesDetail/PricesDetail";
 
 function LeftDownComponents() {
   return (

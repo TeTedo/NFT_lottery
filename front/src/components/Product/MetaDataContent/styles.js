@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  flex: 1;
+  /* flex: 1; */
   background-color: #1a1d1e;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  height: 450px;
+  /* margin-top: 15px; */
+  /* margin-bottom: 10px; */
   padding: 15px;
   border-radius: 10px;
 `;
