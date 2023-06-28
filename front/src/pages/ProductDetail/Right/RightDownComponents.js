@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import React from "react";
-import { RightDown } from "./styles";
+import { RightDown } from "../styles";
 
 function RightDownComponents({ items }) {
   return (

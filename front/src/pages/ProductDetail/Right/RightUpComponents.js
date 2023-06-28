@@ -1,5 +1,5 @@
 import React from "react";
-import { RightUp } from "./styles";
+import { RightUp } from "../styles";
 
 function RightUpComponents() {
   return (

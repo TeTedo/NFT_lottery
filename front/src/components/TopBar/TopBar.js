@@ -1,7 +1,7 @@
 import React from "react";
 import { TopBarContainer } from "./styles";
 
-function TopBar() {
+export function TopBar() {
   return <TopBarContainer>TopBar</TopBarContainer>;
 }
 

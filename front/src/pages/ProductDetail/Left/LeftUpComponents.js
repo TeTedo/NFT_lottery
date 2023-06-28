@@ -1,6 +1,6 @@
 import React from "react";
-import MetaDataContent from "../../components/Product/MetaDataContent";
-import { LeftUp } from "./styles";
+import { LeftUp } from "../styles";
+import MetaDataContent from "../../../components/Product/MetaDataContent";
 
 function LeftUpComponents() {
   return (

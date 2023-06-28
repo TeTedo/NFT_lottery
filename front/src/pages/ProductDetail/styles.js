@@ -1,4 +1,6 @@
+import { colors } from "@mui/material";
 import styled from "styled-components";
+import { background } from "../globalStyles";
 
 const Container = styled.div`
   width: 100%;
@@ -28,6 +30,8 @@ const LeftUp = {
   Content: styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    gap: 10px;
     padding: 10px;
     flex: 2;
   `,
@@ -66,14 +70,17 @@ const Right = {
 const RightUp = {
   Content: styled.div`
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 2;
     padding: 10px;
   `,
   Img: styled.div`
-    flex: 1;
+    width: 500px;
+    height: 500px;
     padding: 10px;
-    border-radius: 20px;
-    background-color: gray;
+    border-radius: 10px;
+    background-color: ${background.grey};
   `,
   Title: styled.div`
     flex: 1;
