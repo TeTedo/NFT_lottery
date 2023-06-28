@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.div`
+  flex: 1;
   background-color: #1a1d1e;
   margin-top: 10px;
   margin-bottom: 10px;
