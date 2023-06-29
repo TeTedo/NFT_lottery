@@ -2,11 +2,10 @@ import styled from "styled-components";
 
 const Contents = {
   Container: styled.div`
-    margin-top: 10px;
+    margin-top: 20px;
     display: flex;
     width: 100%;
     overflow-x: auto;
-    /* flex: 0 0 600px; */
     padding-bottom: 20px;
     gap: 30px;
     display: flex;

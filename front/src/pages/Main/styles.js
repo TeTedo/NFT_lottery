@@ -12,9 +12,9 @@ const Container = styled.div`
 `;
 const Contents = {
   Container: styled.div`
-    margin-top: 110px;
-    width: 1400px;
-    padding: 10px;
+    margin-top: 130px;
+    width: 1400px;  
+    padding-bottom: 110px;
   `,
   Title: styled.div`
     font-size: 30px;

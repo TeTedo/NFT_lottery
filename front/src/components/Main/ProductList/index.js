@@ -1,11 +1,9 @@
-import { useRef } from "react";
 import { Contents } from "./styles";
 import ProductCard from "../../Common/ProductCard";
 
-export default function ProductClosingItem() {
-  const ref = useRef(null);
+export default function ProductList() {
   return (
-    <Contents.Container ref={ref}>
+    <Contents.Container>
       <ProductCard />
       <ProductCard />
       <ProductCard />
@@ -19,13 +17,8 @@ export default function ProductClosingItem() {
       <ProductCard />
       <ProductCard />
       <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
-      <ProductCard />
+
+
     </Contents.Container>
   );
 }
