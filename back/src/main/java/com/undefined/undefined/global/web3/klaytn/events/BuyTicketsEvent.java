@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.events;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
