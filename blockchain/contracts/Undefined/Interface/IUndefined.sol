@@ -1,55 +1,68 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0;
+pragma solidity 0.8.18;
 
 interface IUndefined {
     struct RaffleInfo {
         uint tokenId;
-        uint128 raffleId;
+        uint96 raffleId;
         uint128 ticketPrice;
         uint endTime;
-        uint128 leftTickets;
-        uint128 totalTickets;
+        uint80 totalTickets;
         address nftCa;
+        uint80 leftTickets;
         address seller;
         address winner;
     }
     struct NftInfo {
-        // uint raffleId;
-        uint tokenId;
+        uint96 raffleId;
         address nftCa;
+        uint tokenId;
     }
 
-    event ClaimNft(address claimer, NftInfo nftInfo);
-    event ClaimAllNfts(address claimer, NftInfo[] nftInfoList);
-    event ClaimBalance(address indexed claimer, uint amount, uint afterBalance);
-    event ClaimNftForFailedSeller(uint raffleId, address seller);
     event RegisterRaffle(RaffleInfo);
     event BuyTickets(
         uint indexed raffleId,
         address indexed buyer,
         uint fromIndex,
         uint toIndex,
-        uint amount,
         uint128 leftTickets
     );
     event ChooseWinner(
         uint raffleId,
         address indexed winner,
         uint winnerTicketIndex,
-        uint blockNumber
+        uint settlement
     );
+    event ClaimNft(address claimer, uint96 raffleId);
+    event ClaimAllNfts(address claimer, uint96[] raffleIds);
+    event ClaimBalance(address indexed claimer, uint amount, uint afterBalance);
+    // event ClaimNftForFailedSeller(uint raffleId, address seller);
+    event WithdrawFee(address indexed to, uint amount);
 
-    function raffles(uint raffleId) external view returns (uint tokenId, uint128 id, uint128 ticketPrice, uint endTime, uint128 leftTickets, uint128 totalTickets, address nftCa, address seller, address winner);
-    function claimableNft(address nftCa, uint index) external view returns (uint tokenId, address ca);
-    function claimableBalance(address owner) external view returns (uint balance);
-    function getTicketOwnerByIndex(uint raffleId, uint index) external view returns (address owner);
-    function getClaimableNftsLength(address owner) external view returns(uint length);
 
-    function registerRaffle(address nftCa, uint tokenId, uint120 totalTickets, uint120 ticketPrice, uint day) external;
-    function buyTickets(uint raffleId, uint amount) external payable;
-    function chooseWinner(uint raffleId, uint randNum, address creator, uint creatorFee) external;
+    function raffles(uint id) external view returns ( 
+        uint tokenId,
+        uint96 raffleId,
+        uint128 ticketPrice,
+        uint endTime,
+        uint80 totalTickets,
+        address nftCa,
+        uint80 leftTickets,
+        address seller,
+        address winner
+    );
+    function buyer(uint raffleId, uint ticketIndex) external view returns (address);
+    function claimableNft(address owner, uint index) external view returns (uint96 raffleId,  address ca, uint tokenId);
+    function claimableBalance(address owner) external view returns (uint);
+    function getTicketOwnerByIndex(uint raffleId, uint index) external view returns (address);
+    function getClaimableNftsLength(address owner) external view returns(uint);
+
+    function registerRaffle(address nftCa, uint tokenId, uint80 totalTickets, uint120 ticketPrice, uint day) external;
+    function buyTickets(uint96 raffleId, uint80 amount) external payable;
+    function chooseWinner(uint96 raffleId, uint randNum) external;
     function claimAllNfts() external;
     function claimNftByIndex(uint index) external;
-    function claimNftForFailedSeller(uint raffleId) external;
+    function claimNftForFailedSeller(uint96 raffleId) external;
+    function withdrawFee(address to, uint amount) external;
 }
