@@ -1,4 +1,3 @@
-import { colors } from "@mui/material";
 import styled from "styled-components";
 import { background } from "../globalStyles";
 
