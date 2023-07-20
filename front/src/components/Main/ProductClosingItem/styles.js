@@ -15,12 +15,10 @@ const Contents = {
       background: #fff3;
       -webkit-border-radius: 1ex;
     }
-
     &::-webkit-scrollbar-thumb {
       background: white;
       -webkit-border-radius: 1ex;
     }
-
     &::-webkit-scrollbar-corner {
       background: #fff3;
     }
