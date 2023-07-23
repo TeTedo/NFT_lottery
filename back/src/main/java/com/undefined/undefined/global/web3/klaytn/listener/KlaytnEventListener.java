@@ -26,7 +26,7 @@ public class KlaytnEventListener {
 
 
     private static final String WEBSOCKET_URI = "wss://public-en-baobab.klaytn.net/ws";
-    private static final String CONTRACT_ADDRESS = "0x381c7d85673f230de554097372e0FC4F14b5B0a6";
+    private static final String CONTRACT_ADDRESS = "0x82bD8791f11b79ee24a37c2cb5BbD1A74B8ced24";
 
     private final WebSocketService webSocketService;
     private final Web3j web3j;

@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.events;
 
+import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -12,6 +13,7 @@ import org.web3j.protocol.core.methods.response.Log;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class ClaimNftEvent {
     private final Event event;
 
@@ -19,7 +21,7 @@ public class ClaimNftEvent {
 
     private Uint96 raffleId;
 
-    public ClaimNftEvent(Event event) {
+    public ClaimNftEvent() {
         this.event =  new Event("ClaimNft", Arrays.<TypeReference<?>>asList(
                 new TypeReference<Address>() {},
                 new TypeReference<Uint96>() {})

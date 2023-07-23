@@ -25,7 +25,7 @@ public class ChooseWinnerEvent {
 
     private Uint settlement;
 
-    public ChooseWinnerEvent(Event event) {
+    public ChooseWinnerEvent() {
         this.event =  new Event("ChooseWinner", Arrays.<TypeReference<?>>asList(
                 new TypeReference<Uint>() {},
                 new TypeReference<Address>() {},

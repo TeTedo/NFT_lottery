@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.events;
 
+import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -11,12 +12,13 @@ import org.web3j.protocol.core.methods.response.Log;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class DeListNftEvent {
     private final Event event;
 
     private Address nftCa;
 
-    public DeListNftEvent(Event event) {
+    public DeListNftEvent() {
         this.event =  new Event("DeListNft", Arrays.<TypeReference<?>>asList(
                 new TypeReference<Address>() {})
         );

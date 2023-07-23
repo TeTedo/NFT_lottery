@@ -18,6 +18,7 @@ public class KlaytnService {
     private final RegisterRaffleEvent registerRaffleEvent;
 
     public void eventBalancer(Log log, Object eventHash) {
+        System.out.println("Event start!");
         if(eventHash.equals(buyTicketsEvent.getEventHash())) buyTicketsEvent.saveData(log);
         if(eventHash.equals(chooseWinnerEvent.getEventHash())) chooseWinnerEvent.saveData(log);
         if(eventHash.equals(claimAllNftsEvent.getEventHash())) claimAllNftsEvent.saveData(log);
