@@ -6,7 +6,6 @@ import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Event;
 import org.web3j.abi.datatypes.Type;
-import org.web3j.abi.datatypes.Uint;
 import org.web3j.protocol.core.methods.response.Log;
 
 import java.util.Arrays;
