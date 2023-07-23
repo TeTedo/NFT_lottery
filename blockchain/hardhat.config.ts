@@ -9,23 +9,26 @@ import "@nomicfoundation/hardhat-chai-matchers";
 import "hardhat-gas-reporter";
 import "@openzeppelin/hardhat-upgrades";
 import dotenv from "dotenv";
+import { chains } from "./ common/config";
+import { network } from "hardhat";
 dotenv.config();
 
 const SEPOLIA_PK = process.env.SEPOLIA_PK || "";
 const SEPOLIA_API = process.env.SEPOLIA_API || "";
 const ETHER_SCAN_API = process.env.ETHER_SCAN_API || "";
-const BAOBAB_PK = process.env.BAOBAB_PK || "";
+const VAULT_PK = process.env.VAULT_PK || "";
 
 const config: HardhatUserConfig = {
   solidity: "0.8.18",
   networks: {
     sepolia: {
       url: `https://sepolia.infura.io/v3/${SEPOLIA_API}`,
-      accounts: [SEPOLIA_PK],
+      accounts: chains["sepolia"].pk,
     },
     baobab: {
       url: "https://public-en-baobab.klaytn.net",
-      accounts: [BAOBAB_PK],
+      accounts: chains["baobab"].pk,
+      gasPrice: 25 * 10 ** 9,
     },
   },
   gasReporter: {

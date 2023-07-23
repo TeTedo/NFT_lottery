@@ -8,10 +8,10 @@ async function main() {
   const COMMISSON_VAULt = "";
 
   const signer = (await ethers.getSigners())[0];
-  const contractFactory = await ethers.getContractFactory("RaffleV2", signer);
+  const contractFactory = await ethers.getContractFactory("Undefined", signer);
   const raffleProxy = (await upgrades.deployProxy(
     contractFactory,
-    [MAX_TICKET_AMOUNT, MIN_TICKET_PRICE, COMMISSION, signer.address],
+    [COMMISSION, MAX_TICKET_AMOUNT, MIN_TICKET_PRICE],
     {
       initializer: "initialize",
       unsafeAllow: ["constructor"],
@@ -39,7 +39,12 @@ main().catch((error) => {
 
 // ** gas used **
 // sepolia: {
-//   logic_contract: 4,352,949,
+//   logic_contract: 4,224,827,
 //   proxy_admin_contract: 443,289,
-//   proxy_contract: 750,751 | 750,742,
+//   proxy_contract: 707,599
+// }
+// baobab: {
+//   logic_contract: 5,910,359 | 0.147758975 KLAY
+//   proxy_admin_contract: 596,715 | 0.014917875 KLAY
+//   proxy_contract: 750,751 | 1,055,787 | 0.026394675KLAY
 // }

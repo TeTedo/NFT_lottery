@@ -1,13 +1,21 @@
-import { Contract, Event, Signer } from "ethers";
-import { ethers, upgrades } from "hardhat";
+import { BigNumber, Contract, Event, Signer } from "ethers";
+import { ethers, network, upgrades } from "hardhat";
 import { expect } from "chai";
-import { Undefined, TestToken } from "../typechain-types/index";
+import {
+  Undefined,
+  TestToken,
+  TestToken__factory,
+  IUndefined,
+  Undefined__factory,
+} from "../typechain-types/index";
 import { parseEther } from "ethers/lib/utils";
+import { chains } from "../ common/config";
 
 describe("Raffle", () => {
+  // const MAX_TICKET_AMOUNT = BigNumber.from(2).pow(80) // out-of-bounds error
   const MAX_TICKET_AMOUNT = 1_000;
-  const MIN_TICKET_PRICE = parseEther("0.01");
-  const COMMISSION = 100; // 0.1% 단위
+  const MIN_TICKET_PRICE = ethers.utils.parseEther("0.0001");
+  const FEE_NUMERATOR = 100; // 0.1% 단위
   let raffleProxy: Undefined;
   let testToken: TestToken;
   let owner: Signer, seller: Signer, buyer1: Signer, buyer2: Signer, buyer3: Signer, vault: Signer;
@@ -15,58 +23,81 @@ describe("Raffle", () => {
   let winnerAddr: string;
 
   before(async () => {
-    [owner, seller, buyer1, buyer2, buyer3, vault] = await ethers.getSigners();
+    if (network.name === "hardhat") {
+      [owner, seller, buyer1, buyer2, buyer3, vault] = await ethers.getSigners();
 
-    // deploy raffle contract by proxy
-    const raffleFactory = await ethers.getContractFactory("Undefined", owner);
-    raffleProxy = (await upgrades.deployProxy(
-      raffleFactory,
-      [MAX_TICKET_AMOUNT, MIN_TICKET_PRICE, COMMISSION, await vault.getAddress()],
-      { initializer: "initialize", kind: "transparent", unsafeAllow: ["constructor"] }
-    )) as Undefined;
-    await raffleProxy.deployed();
+      // deploy raffle contract by proxy
+      const raffleFactory = await ethers.getContractFactory("Undefined", owner);
+      raffleProxy = (await upgrades.deployProxy(
+        raffleFactory,
+        [FEE_NUMERATOR, MAX_TICKET_AMOUNT, MIN_TICKET_PRICE],
+        { initializer: "initialize", kind: "transparent", unsafeAllow: ["constructor"] }
+      )) as Undefined;
+      await raffleProxy.deployed();
 
-    // console.log("@@", await raffleProxy.getEnvInfo());
-
-    // deploy token
-    const testTokenFactory = await ethers.getContractFactory("TestToken");
-    testToken = (await testTokenFactory.deploy("Test", "TST")) as TestToken;
-    await testToken.deployed();
-  });
-
-  it("mint nft", async () => {
-    const tokenId = 10;
-    const mintTx = await testToken.connect(seller).mint(tokenId);
-    await mintTx.wait();
-    expect(await testToken.ownerOf(tokenId)).to.equal(await seller.getAddress());
+      // deploy token
+      const testTokenFactory = await ethers.getContractFactory("TestToken");
+      testToken = (await testTokenFactory.deploy("Test", "TST")) as TestToken;
+      await testToken.deployed();
+      //
+    } else {
+      if (!chains[network.name]) throw new Error("wrong network");
+      raffleProxy = new ethers.Contract(
+        chains[network.name].ca.raffle,
+        Undefined__factory.abi,
+        ethers.provider
+      ) as Undefined;
+      testToken = new ethers.Contract(
+        chains[network.name].ca.testNft,
+        TestToken__factory.abi,
+        ethers.provider
+      ) as TestToken;
+      [owner, seller, buyer1, buyer2, buyer3] = chains[network.name].pk.map(
+        (pk) => new ethers.Wallet(pk, ethers.provider)
+      );
+    }
   });
 
   it("list nft", async () => {
     const nftCa = testToken.address;
+    if (!(await raffleProxy.isListed(nftCa))) {
+      const listTx = await raffleProxy
+        .connect(owner)
+        ["listNft(address,address,uint8)"](nftCa, await owner.getAddress(), 100);
+      await listTx.wait();
 
-    const listTx = await raffleProxy.connect(owner).listNft(nftCa);
-    await listTx.wait();
+      const isListed = await raffleProxy.isListed(nftCa);
+      expect(isListed).to.eq(true);
+    }
+  });
 
-    const isListed = await raffleProxy.isListed(nftCa);
-    expect(isListed).to.eq(true);
+  it("mint nft", async () => {
+    if ((await testToken.balanceOf(await seller.getAddress())).eq(BigNumber.from("0"))) {
+      const tokenId = await testToken.totalSupply();
+      const mintTx = await testToken.connect(seller).mint(tokenId);
+      await mintTx.wait();
+      expect(await testToken.ownerOf(tokenId)).to.equal(await seller.getAddress());
+    }
   });
 
   it("register raffle", async () => {
     const sellerAddr = await seller.getAddress();
     const nftCa = testToken.address;
-    const tokenId = testToken.tokenOfOwnerByIndex(sellerAddr, 0);
-    const ticketAmount = MAX_TICKET_AMOUNT;
-    const ticketPrice = MIN_TICKET_PRICE;
-    const day = 2;
+    const tokenId = await testToken.tokenOfOwnerByIndex(sellerAddr, 0);
+    const ticketAmount = await raffleProxy.maxTicketAmount();
+    const ticketPrice = await raffleProxy.minTicketPrice();
+    // const day = 2;
+    const minutes = 10;
 
     // approve token from seller to raffle sale proxy contract
     const approveTx = await testToken.connect(seller).approve(raffleProxy.address, tokenId);
     await approveTx.wait();
-
+    console.log("approved");
+    console.log(await testToken.getApproved(tokenId));
     // register raffle
     const registerTx = await raffleProxy
       .connect(seller)
-      .registerRaffle(nftCa, tokenId, ticketAmount, ticketPrice, day);
+      .registerRaffle(nftCa, tokenId, ticketAmount, ticketPrice, minutes, { gasLimit: 1000000 });
     const registerReceipt = await registerTx.wait();
     registerReceipt.events?.forEach((event) => {
       raffleId = event.args?.at(0).raffleId.toString();
@@ -76,7 +107,7 @@ describe("Raffle", () => {
   });
 
   it("buy tickets", async () => {
-    const buyAmount = 30;
+    const buyAmount = BigNumber.from(30);
     const ticketPrice = (await raffleProxy.raffles(raffleId)).ticketPrice;
 
     const buyTx = await raffleProxy
@@ -105,9 +136,7 @@ describe("Raffle", () => {
 
   it("choose winner", async () => {
     const randNum = Math.floor(Math.random() * 1_000_000);
-    const chooseTx = await raffleProxy
-      .connect(owner)
-      .chooseWinner(raffleId, randNum, ethers.constants.AddressZero, 0);
+    const chooseTx = await raffleProxy.connect(owner).chooseWinner(raffleId, randNum);
     const chooseReceipt = await chooseTx.wait();
     const events = chooseReceipt.events;
     let winnerTicketIndex = "";

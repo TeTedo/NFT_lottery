@@ -1,20 +1,20 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0xaAF91369c34e63AdD19611dc59179fb1DB30E58f",
-    "txHash": "0xb6fab3b7c0bd17a2b431336630ef3e5226bf55736fac02431e1bd292fce95d5c"
+    "address": "0xE225aFc1d18c5C5b4C1b686fb335eA042ee413E3",
+    "txHash": "0x343563023dbc9731ba92921e12a65509b0b8f38b02475301acb0c7fa0a4b3c71"
   },
   "proxies": [
     {
-      "address": "0x286DA79e5C2612c6059e42Abecd56115Fa9456D5",
-      "txHash": "0x0a970d58894ceefcc638d2f2d5583f9be5038f609dae4177b84816200042c23f",
+      "address": "0xD43Ce70303eA993BBcA67a846f7D0F383D66223C",
+      "txHash": "0xadaba6027b2ead406ac8ffd971035b24282f083a64e955b08c4904f10389fbd8",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "40b516601da3b050062aba8d9080287e4002f95732ad52feb37793d4940db685": {
-      "address": "0xFFFA0bFA1186bFE4865e3F9b6aF0dd6cf7a6741d",
-      "txHash": "0xad094dce110feb92f58f2826a6ede7e57b48db10e76c5de6fe5756f1ea750b1f",
+    "59967d913bcbb05c4b303bd2e1e042a3d7f168b778d934daaa999a4be06b18d2": {
+      "address": "0x473DF00124D555e64a2180ebff514F76020C293C",
+      "txHash": "0xab30ffedbd0fa22127f2ccf60c07f7d35d66efdcc166506830cec0db3920384d",
       "layout": {
         "solcVersion": "0.8.18",
         "storage": [
@@ -65,95 +65,95 @@
             "slot": "101",
             "type": "t_mapping(t_address,t_bool)",
             "contract": "UndefinedConfig",
-            "src": "contracts/Undefined/UndefinedConfing.sol:9"
+            "src": "contracts/Undefined/UndefinedConfig.sol:9"
           },
           {
-            "label": "feeTo",
+            "label": "creatorInfo",
             "offset": 0,
             "slot": "102",
-            "type": "t_address",
+            "type": "t_mapping(t_address,t_struct(CreatorInfo)9018_storage)",
             "contract": "UndefinedConfig",
-            "src": "contracts/Undefined/UndefinedConfing.sol:10"
+            "src": "contracts/Undefined/UndefinedConfig.sol:10"
           },
           {
-            "label": "maxTicketAmount",
+            "label": "feeBox",
             "offset": 0,
             "slot": "103",
-            "type": "t_uint120",
+            "type": "t_uint256",
             "contract": "UndefinedConfig",
-            "src": "contracts/Undefined/UndefinedConfing.sol:15"
-          },
-          {
-            "label": "minTicketPrice",
-            "offset": 15,
-            "slot": "103",
-            "type": "t_uint120",
-            "contract": "UndefinedConfig",
-            "src": "contracts/Undefined/UndefinedConfing.sol:16"
+            "src": "contracts/Undefined/UndefinedConfig.sol:11"
           },
           {
             "label": "feeNumerator",
-            "offset": 30,
-            "slot": "103",
-            "type": "t_uint16",
-            "contract": "UndefinedConfig",
-            "src": "contracts/Undefined/UndefinedConfing.sol:17"
-          },
-          {
-            "label": "__gap",
             "offset": 0,
             "slot": "104",
-            "type": "t_array(t_uint256)47_storage",
+            "type": "t_uint16",
             "contract": "UndefinedConfig",
-            "src": "contracts/Undefined/UndefinedConfing.sol:82"
+            "src": "contracts/Undefined/UndefinedConfig.sol:12"
           },
           {
-            "label": "_status",
-            "offset": 0,
-            "slot": "151",
-            "type": "t_uint256",
-            "contract": "ReentrancyGuardUpgradeable",
-            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:38"
+            "label": "maxTicketAmount",
+            "offset": 2,
+            "slot": "104",
+            "type": "t_uint16",
+            "contract": "UndefinedConfig",
+            "src": "contracts/Undefined/UndefinedConfig.sol:13"
+          },
+          {
+            "label": "minTicketPrice",
+            "offset": 4,
+            "slot": "104",
+            "type": "t_uint224",
+            "contract": "UndefinedConfig",
+            "src": "contracts/Undefined/UndefinedConfig.sol:14"
           },
           {
             "label": "__gap",
             "offset": 0,
-            "slot": "152",
-            "type": "t_array(t_uint256)49_storage",
-            "contract": "ReentrancyGuardUpgradeable",
-            "src": "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol:88"
+            "slot": "105",
+            "type": "t_array(t_uint256)46_storage",
+            "contract": "UndefinedConfig",
+            "src": "contracts/Undefined/UndefinedConfig.sol:106"
           },
           {
             "label": "raffles",
             "offset": 0,
-            "slot": "201",
-            "type": "t_array(t_struct(RaffleInfo)908_storage)dyn_storage",
+            "slot": "151",
+            "type": "t_array(t_struct(RaffleInfo)8834_storage)dyn_storage",
             "contract": "Undefined",
             "src": "contracts/Undefined/Undefined.sol:13"
           },
           {
-            "label": "buyers",
+            "label": "buyer",
             "offset": 0,
-            "slot": "202",
+            "slot": "152",
             "type": "t_mapping(t_uint256,t_mapping(t_uint256,t_address))",
             "contract": "Undefined",
-            "src": "contracts/Undefined/Undefined.sol:14"
+            "src": "contracts/Undefined/Undefined.sol:13"
           },
           {
             "label": "claimableNft",
             "offset": 0,
-            "slot": "203",
-            "type": "t_mapping(t_address,t_array(t_struct(NftInfo)913_storage)dyn_storage)",
+            "slot": "153",
+            "type": "t_mapping(t_address,t_array(t_struct(NftInfo)8841_storage)dyn_storage)",
             "contract": "Undefined",
             "src": "contracts/Undefined/Undefined.sol:15"
           },
           {
             "label": "claimableBalance",
             "offset": 0,
-            "slot": "204",
+            "slot": "154",
             "type": "t_mapping(t_address,t_uint256)",
             "contract": "Undefined",
             "src": "contracts/Undefined/Undefined.sol:16"
+          },
+          {
+            "label": "door",
+            "offset": 0,
+            "slot": "155",
+            "type": "t_uint256",
+            "contract": "Undefined",
+            "src": "contracts/Undefined/Undefined.sol:21"
           }
         ],
         "types": {
@@ -161,17 +161,17 @@
             "label": "address",
             "numberOfBytes": "20"
           },
-          "t_array(t_struct(NftInfo)913_storage)dyn_storage": {
+          "t_array(t_struct(NftInfo)8841_storage)dyn_storage": {
             "label": "struct IUndefined.NftInfo[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_struct(RaffleInfo)908_storage)dyn_storage": {
+          "t_array(t_struct(RaffleInfo)8834_storage)dyn_storage": {
             "label": "struct IUndefined.RaffleInfo[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_uint256)47_storage": {
-            "label": "uint256[47]",
-            "numberOfBytes": "1504"
+          "t_array(t_uint256)46_storage": {
+            "label": "uint256[46]",
+            "numberOfBytes": "1472"
           },
           "t_array(t_uint256)49_storage": {
             "label": "uint256[49]",
@@ -185,12 +185,16 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_mapping(t_address,t_array(t_struct(NftInfo)913_storage)dyn_storage)": {
+          "t_mapping(t_address,t_array(t_struct(NftInfo)8841_storage)dyn_storage)": {
             "label": "mapping(address => struct IUndefined.NftInfo[])",
             "numberOfBytes": "32"
           },
           "t_mapping(t_address,t_bool)": {
             "label": "mapping(address => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(CreatorInfo)9018_storage)": {
+            "label": "mapping(address => struct IUndefinedConfig.CreatorInfo)",
             "numberOfBytes": "32"
           },
           "t_mapping(t_address,t_uint256)": {
@@ -205,25 +209,49 @@
             "label": "mapping(uint256 => mapping(uint256 => address))",
             "numberOfBytes": "32"
           },
-          "t_struct(NftInfo)913_storage": {
+          "t_struct(CreatorInfo)9018_storage": {
+            "label": "struct IUndefinedConfig.CreatorInfo",
+            "members": [
+              {
+                "label": "creator",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "creatorFeeNumerator",
+                "type": "t_uint8",
+                "offset": 20,
+                "slot": "0"
+              }
+            ],
+            "numberOfBytes": "32"
+          },
+          "t_struct(NftInfo)8841_storage": {
             "label": "struct IUndefined.NftInfo",
             "members": [
               {
-                "label": "tokenId",
-                "type": "t_uint256",
+                "label": "raffleId",
+                "type": "t_uint96",
                 "offset": 0,
                 "slot": "0"
               },
               {
                 "label": "nftCa",
                 "type": "t_address",
+                "offset": 12,
+                "slot": "0"
+              },
+              {
+                "label": "tokenId",
+                "type": "t_uint256",
                 "offset": 0,
                 "slot": "1"
               }
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(RaffleInfo)908_storage": {
+          "t_struct(RaffleInfo)8834_storage": {
             "label": "struct IUndefined.RaffleInfo",
             "members": [
               {
@@ -234,14 +262,14 @@
               },
               {
                 "label": "raffleId",
-                "type": "t_uint128",
+                "type": "t_uint96",
                 "offset": 0,
                 "slot": "1"
               },
               {
                 "label": "ticketPrice",
                 "type": "t_uint128",
-                "offset": 16,
+                "offset": 12,
                 "slot": "1"
               },
               {
@@ -251,41 +279,37 @@
                 "slot": "2"
               },
               {
-                "label": "leftTickets",
-                "type": "t_uint128",
-                "offset": 0,
-                "slot": "3"
-              },
-              {
                 "label": "totalTickets",
-                "type": "t_uint128",
-                "offset": 16,
+                "type": "t_uint80",
+                "offset": 0,
                 "slot": "3"
               },
               {
                 "label": "nftCa",
                 "type": "t_address",
+                "offset": 10,
+                "slot": "3"
+              },
+              {
+                "label": "leftTickets",
+                "type": "t_uint80",
                 "offset": 0,
                 "slot": "4"
               },
               {
                 "label": "seller",
                 "type": "t_address",
-                "offset": 0,
-                "slot": "5"
+                "offset": 10,
+                "slot": "4"
               },
               {
                 "label": "winner",
                 "type": "t_address",
                 "offset": 0,
-                "slot": "6"
+                "slot": "5"
               }
             ],
-            "numberOfBytes": "224"
-          },
-          "t_uint120": {
-            "label": "uint120",
-            "numberOfBytes": "15"
+            "numberOfBytes": "192"
           },
           "t_uint128": {
             "label": "uint128",
@@ -295,6 +319,10 @@
             "label": "uint16",
             "numberOfBytes": "2"
           },
+          "t_uint224": {
+            "label": "uint224",
+            "numberOfBytes": "28"
+          },
           "t_uint256": {
             "label": "uint256",
             "numberOfBytes": "32"
@@ -302,6 +330,14 @@
           "t_uint8": {
             "label": "uint8",
             "numberOfBytes": "1"
+          },
+          "t_uint80": {
+            "label": "uint80",
+            "numberOfBytes": "10"
+          },
+          "t_uint96": {
+            "label": "uint96",
+            "numberOfBytes": "12"
           }
         }
       }
