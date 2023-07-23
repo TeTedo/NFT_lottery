@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `raffles`
 (
-    id              bigint          NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
+    id              bigint          NOT NULL    PRIMARY KEY,
     ca              varchar(66)     NOT NULL,
     token_id        int             NOT NULL,
     seller          varchar(66)     NOT NULL,
@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `raffles`
     end_time        dateTime        NOT NULL,
     is_end          boolean         NOT NULL    DEFAULT false,
     is_paid         boolean         NOT NULL    DEFAULT false,
+    settlement      bigint          NULL,
     created_at      dateTime        NOT NULL    DEFAULT now(),
     updated_at      dateTime        NOT NULL    DEFAULT now()
 );
