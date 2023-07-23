@@ -1,6 +1,7 @@
 package com.undefined.undefined.global.web3.klaytn.events;
 
 import org.springframework.stereotype.Component;
+import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
@@ -31,6 +32,10 @@ public class ChooseWinnerEvent {
                 new TypeReference<Uint>() {},
                 new TypeReference<Uint>() {})
         );
+    }
+
+    public String getEventHash() {
+        return EventEncoder.encode(event);
     }
 
     public void saveData(Log log) {

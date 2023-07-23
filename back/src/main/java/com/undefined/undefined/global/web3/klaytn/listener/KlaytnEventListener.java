@@ -51,7 +51,7 @@ public class KlaytnEventListener {
 
     private void handledEvent(Log log) {
         String eventHash = log.getTopics().get(0);
-        klaytnService.balancer(log, eventHash);
+        klaytnService.eventBalancer(log, eventHash);
     }
 }
 

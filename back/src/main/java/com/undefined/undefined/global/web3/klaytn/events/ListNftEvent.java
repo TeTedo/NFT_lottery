@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.events;
 
+import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
@@ -27,6 +28,10 @@ public class ListNftEvent {
                 new TypeReference<Address>() {},
                 new TypeReference<Uint8>() {})
         );
+    }
+
+    public String getEventHash() {
+        return EventEncoder.encode(event);
     }
 
     public void saveData(Log log) {
