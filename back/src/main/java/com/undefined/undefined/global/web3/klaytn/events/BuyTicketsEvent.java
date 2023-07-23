@@ -19,14 +19,12 @@ public class BuyTicketsEvent {
     private Address buyer;
     private Uint fromIndex;
     private Uint toIndex;
-    private Uint amount;
     private Uint128 leftTickets;
 
     public BuyTicketsEvent() {
         event = new Event("BuyTickets", Arrays.<TypeReference<?>>asList(
                 new TypeReference<Uint>() {},
                 new TypeReference<Address>() {},
-                new TypeReference<Uint>() {},
                 new TypeReference<Uint>() {},
                 new TypeReference<Uint>() {},
                 new TypeReference<Uint128>() {})
@@ -40,12 +38,11 @@ public class BuyTicketsEvent {
     public void saveData(Log log) {
         List<Type> decodedData = FunctionReturnDecoder.decode(log.getData(), event.getParameters());
 
-        raffleId = (Uint) decodedData.get(0);
-        buyer = (Address) decodedData.get(1);
-        fromIndex = (Uint) decodedData.get(2);
-        toIndex = (Uint) decodedData.get(3);
-        amount = (Uint) decodedData.get(4);
-        leftTickets = (Uint128) decodedData.get(5);
+        this.raffleId = (Uint) decodedData.get(0);
+        this.buyer = (Address) decodedData.get(1);
+        this.fromIndex = (Uint) decodedData.get(2);
+        this.toIndex = (Uint) decodedData.get(3);
+        this.leftTickets = (Uint128) decodedData.get(4);
 
         callBack();
     }
