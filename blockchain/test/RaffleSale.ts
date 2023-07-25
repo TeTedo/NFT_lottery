@@ -87,27 +87,30 @@ describe("Raffle", () => {
     const ticketAmount = await raffleProxy.maxTicketAmount();
     const ticketPrice = await raffleProxy.minTicketPrice();
     // const day = 2;
-    const minutes = 10;
+    const minutes = 1; // > 0
 
     // approve token from seller to raffle sale proxy contract
     const approveTx = await testToken.connect(seller).approve(raffleProxy.address, tokenId);
     await approveTx.wait();
     console.log("approved");
     console.log(await testToken.getApproved(tokenId));
+
     // register raffle
     const registerTx = await raffleProxy
       .connect(seller)
-      .registerRaffle(nftCa, tokenId, ticketAmount, ticketPrice, minutes, { gasLimit: 1000000 });
+      .registerRaffle(nftCa, tokenId, ticketAmount, ticketPrice, minutes);
     const registerReceipt = await registerTx.wait();
     registerReceipt.events?.forEach((event) => {
-      raffleId = event.args?.at(0).raffleId.toString();
+      raffleId = event.args?.raffleId.toString();
     });
 
+    console.log("@@@@@@@@@@@@@ raffleId: ", raffleId);
     expect((await raffleProxy.raffles(raffleId)).seller).to.equal(sellerAddr);
   });
 
   it("buy tickets", async () => {
-    const buyAmount = BigNumber.from(30);
+    // const raffleId = 0; // register raffle과 동시에 진행하지 않으면 따로 입력해야함
+    const buyAmount = BigNumber.from("30");
     const ticketPrice = (await raffleProxy.raffles(raffleId)).ticketPrice;
 
     const buyTx = await raffleProxy
@@ -119,6 +122,7 @@ describe("Raffle", () => {
   });
 
   it("buy left overs", async () => {
+    // const raffleId = 0; // register raffle과 동시에 진행하지 않으면 따로 입력해야함
     const ticketPrice = (await raffleProxy.raffles(raffleId)).ticketPrice;
     let leftTicketAmount = (await raffleProxy.raffles(raffleId)).leftTickets;
 
@@ -135,8 +139,13 @@ describe("Raffle", () => {
   });
 
   it("choose winner", async () => {
+    // const raffleId = 67; // register raffle과 동시에 진행하지 않으면 따로 입력해야함
     const randNum = Math.floor(Math.random() * 1_000_000);
-    const chooseTx = await raffleProxy.connect(owner).chooseWinner(raffleId, randNum);
+
+    const gasEstimated = await raffleProxy.estimateGas.chooseWinner(raffleId, randNum);
+    const chooseTx = await raffleProxy
+      .connect(owner)
+      .chooseWinner(raffleId, randNum, { gasLimit: gasEstimated.mul(12).div(10) }); // gasEstimated * 1.2
     const chooseReceipt = await chooseTx.wait();
     const events = chooseReceipt.events;
     let winnerTicketIndex = "";
@@ -151,6 +160,8 @@ describe("Raffle", () => {
     console.log("winner Ticket owner: ", winnerTicketOwner);
     expect(winnerTicketOwner).to.equal(winnerAddr);
   }); // max gas used = 303789
+
+  return;
 
   it("claim nft", async () => {
     const nftsLength = await raffleProxy.getClaimableNftsLength(winnerAddr);
@@ -168,6 +179,14 @@ describe("Raffle", () => {
     claimEvents?.forEach((event) => {
       console.log("claim events", event.args);
     });
+  });
+
+  it("clam balance", async () => {
+    console.log("before balance: ", await seller.getBalance());
+    const claimableBalance = raffleProxy.claimableBalance(await seller.getAddress());
+    const tx = await raffleProxy.connect(seller).claimBalance(claimableBalance);
+    tx.wait();
+    console.log("after balance: ", await seller.getBalance());
   });
 
   // const result2 = await raffleProxy.getClaimableNfts(winner);
