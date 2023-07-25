@@ -11,7 +11,6 @@ interface IUndefinedConfig {
     event SetMaxTicketAmount(uint amount);
     event SetMinTicketPrice(uint price);
     event SetFeeNumerator(uint16 commission);
-    event SetFeeTo(address feeTo);
     event ListNft(address nftCa, address creator, uint8 creatorFeeNumerator);
     event DeListNft(address nftCa);
     event SetCreatorInfo(address creator, uint8 creatorFeeNumerator);
