@@ -26,7 +26,7 @@ const config: HardhatUserConfig = {
       accounts: chains["sepolia"].pk,
     },
     baobab: {
-      url: "https://public-en-baobab.klaytn.net",
+      url: "https://archive-en.baobab.klaytn.net/",
       accounts: chains["baobab"].pk,
       gasPrice: 25 * 10 ** 9,
     },
