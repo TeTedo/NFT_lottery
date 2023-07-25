@@ -1,9 +1,10 @@
 import { ethers, network, upgrades } from "hardhat";
-import { proxies } from "../../.openzeppelin/sepolia.json";
+// import { proxies } from "../../.openzeppelin/sepolia.json";
+import { proxies } from "../../.openzeppelin/unknown-1001.json"; // baobab
 
 async function main() {
   const signer = (await ethers.getSigners())[0];
-  const newImplements = await ethers.getContractFactory("", signer);
+  const newImplements = await ethers.getContractFactory("Undefined", signer);
   const upgrade = await upgrades.upgradeProxy(proxies[0], newImplements, {
     unsafeAllow: ["constructor"],
   });
