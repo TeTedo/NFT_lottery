@@ -9,7 +9,7 @@ export type Chains = { [key: string]: Chain };
 export const chains: Chains = {
   baobab: {
     ca: {
-      testNft: "0x82bD8791f11b79ee24a37c2cb5BbD1A74B8ced24",
+      testNft: "0xcc8bAE08bD1e05d0D71e92Ee0abEA449784aD4f5",
       raffle: "0xedE916cA2375F50aEaB50a9cCb92Bb69F8c37438",
     },
     pk: [
