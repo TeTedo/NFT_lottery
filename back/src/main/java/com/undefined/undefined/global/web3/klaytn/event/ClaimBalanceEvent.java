@@ -1,4 +1,4 @@
-package com.undefined.undefined.global.web3.klaytn.events;
+package com.undefined.undefined.global.web3.klaytn.event;
 
 import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
@@ -13,8 +13,7 @@ import org.web3j.protocol.core.methods.response.Log;
 import java.util.Arrays;
 import java.util.List;
 
-@Component
-public class ClaimBalanceEvent {
+public abstract class ClaimBalanceEvent {
     private final Event event;
 
     private Address claimer;
@@ -25,7 +24,7 @@ public class ClaimBalanceEvent {
 
     public ClaimBalanceEvent() {
         this.event =  new Event("ClaimBalance", Arrays.<TypeReference<?>>asList(
-                new TypeReference<Address>() {},
+                new TypeReference<Address>(true) {},
                 new TypeReference<Uint>() {},
                 new TypeReference<Uint>() {})
         );
@@ -36,16 +35,20 @@ public class ClaimBalanceEvent {
     }
 
     public void saveData(Log log) {
-        List<Type> decodedData = FunctionReturnDecoder.decode(log.getData(), event.getParameters());
+        List<Type> indexedData = FunctionReturnDecoder.decode(log.getData(), event.getIndexedParameters());
 
-        this.claimer = (Address) decodedData.get(0);
-        this.amount = (Uint) decodedData.get(1);
-        this.afterBalance = (Uint) decodedData.get(2);
+        List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
+
+        String claimer = indexedData.get(0).getValue().toString();
+        String amount = nonIndexedData.get(0).getValue().toString();
+        String afterBalance = nonIndexedData.get(0).getValue().toString();
+
+        System.out.println(claimer);
+        System.out.println(amount);
+        System.out.println(afterBalance);
 
         callBack();
     }
 
-    private void callBack() {
-
-    }
+    public abstract void callBack();
 }
