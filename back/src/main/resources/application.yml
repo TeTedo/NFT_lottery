@@ -15,7 +15,7 @@ spring:
     hibernate:
       jdbc:
         time-zone: Asia/Seoul
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
       hibernate:

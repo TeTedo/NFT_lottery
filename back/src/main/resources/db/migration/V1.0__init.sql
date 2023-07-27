@@ -1,8 +1,15 @@
+DROP TABLE IF EXISTS `collections`;
+DROP TABLE IF EXISTS `tickets`;
+DROP TABLE IF EXISTS `raffles`;
+
 CREATE TABLE IF NOT EXISTS `raffles`
 (
     id              bigint          NOT NULL    PRIMARY KEY,
     ca              varchar(66)     NOT NULL,
     token_id        int             NOT NULL,
+    token_uri       varchar(255),
+    total_ticket    int             NOT NULL,
+    ticket_price    double          NOT NULL,
     seller          varchar(66)     NOT NULL,
     winner          varchar(66),
     end_time        dateTime        NOT NULL,
@@ -34,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `collections`
     contract_address    varchar(66)     NOT NULL,
     contract_name       varchar(100)    NOT NULL,
     contract_owner      varchar(66)     NOT NULL,
+    token_uri           varchar(255),
     opensea_slug        varchar(255)    NOT NULL,
     creator_fee         double          NOT NULL,
     type                varchar(255)    NOT NULL,

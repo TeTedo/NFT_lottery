@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 public class Raffle extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 66, nullable = false)
@@ -28,10 +27,16 @@ public class Raffle extends BaseTimeEntity {
     @Column(name = "token_uri", length = 255, nullable = true)
     private String tokenUri;
 
+    @Column(name = "total_ticket")
+    private int totalTicket;
+
+    @Column(name = "ticket_price")
+    private double ticketPrice;
+
     @Column(length = 66, nullable = false)
     private String seller;
 
-    @Column(length = 66, nullable = false)
+    @Column(length = 66)
     private String winner;
 
     @Column(name = "end_time", nullable = false)
@@ -46,16 +51,13 @@ public class Raffle extends BaseTimeEntity {
     private boolean isPaid;
 
     @Builder
-
-    public Raffle(
-            Long id, String ca, int tokenId, String tokenUri,
-            String seller, String winner, LocalDateTime endTime,
-            boolean isEnd, boolean isPaid) {
-
+    public Raffle(Long id, String ca, int tokenId, String tokenUri, int totalTicket, double ticketPrice, String seller, String winner, LocalDateTime endTime, boolean isEnd, boolean isPaid) {
         this.id = id;
         this.ca = ca;
         this.tokenId = tokenId;
         this.tokenUri = tokenUri;
+        this.totalTicket = totalTicket;
+        this.ticketPrice = ticketPrice;
         this.seller = seller;
         this.winner = winner;
         this.endTime = endTime;
