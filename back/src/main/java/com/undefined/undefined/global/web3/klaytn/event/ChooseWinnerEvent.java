@@ -39,10 +39,10 @@ public abstract class ChooseWinnerEvent {
         String winnerTicketIndex = nonIndexedData.get(1).getValue().toString();
         String settlement = nonIndexedData.get(2).getValue().toString();
 
-        System.out.println(raffleId);
-        System.out.println(winner);
-        System.out.println(winnerTicketIndex);
-        System.out.println(settlement);
+        System.out.println("ChooseWinner"+raffleId);
+        System.out.println("ChooseWinner"+winner);
+        System.out.println("ChooseWinner"+winnerTicketIndex);
+        System.out.println("ChooseWinner"+settlement);
 
         callBack();
     }

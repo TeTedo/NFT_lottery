@@ -43,9 +43,9 @@ public abstract class ClaimBalanceEvent {
         String amount = nonIndexedData.get(0).getValue().toString();
         String afterBalance = nonIndexedData.get(0).getValue().toString();
 
-        System.out.println(claimer);
-        System.out.println(amount);
-        System.out.println(afterBalance);
+        System.out.println("ClaimBalance"+claimer);
+        System.out.println("ClaimBalance"+amount);
+        System.out.println("ClaimBalance"+afterBalance);
 
         callBack();
     }

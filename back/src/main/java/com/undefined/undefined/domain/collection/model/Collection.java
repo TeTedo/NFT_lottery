@@ -31,7 +31,7 @@ public class Collection extends BaseTimeEntity {
     @Column(name = "opensea_slug", length = 255, nullable = false)
     private String openseaSlug;
 
-    @Column(name = "crator_fee", nullable = false)
+    @Column(name = "creator_fee", nullable = false)
     private double creatorFee;
 
     @Column(nullable = false)

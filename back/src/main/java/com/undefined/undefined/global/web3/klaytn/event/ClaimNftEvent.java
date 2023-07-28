@@ -37,8 +37,8 @@ public abstract class ClaimNftEvent {
         String claimer = nonIndexedData.get(0).getValue().toString();
         String raffleId = nonIndexedData.get(1).getValue().toString();
 
-        System.out.println(claimer);
-        System.out.println(raffleId);
+        System.out.println("ClaimNft"+claimer);
+        System.out.println("ClaimNft"+raffleId);
 
         callBack();
     }

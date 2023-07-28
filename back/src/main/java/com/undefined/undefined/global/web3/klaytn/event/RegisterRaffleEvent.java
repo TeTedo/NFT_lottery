@@ -1,6 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.event;
 
-import org.springframework.stereotype.Component;
+import com.undefined.undefined.global.web3.klaytn.dto.RegisterRaffleDto;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -13,8 +13,12 @@ import org.web3j.abi.datatypes.generated.Uint80;
 import org.web3j.abi.datatypes.generated.Uint96;
 import org.web3j.protocol.core.methods.response.Log;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.TimeZone;
 
 public abstract class RegisterRaffleEvent {
     private final Event event;
@@ -38,24 +42,27 @@ public abstract class RegisterRaffleEvent {
     public void saveData(Log log) {
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
-        String raffleId = nonIndexedData.get(0).getValue().toString();
-        String tokenId = nonIndexedData.get(1).getValue().toString();
+        Long raffleId = Long.parseLong(nonIndexedData.get(0).getValue().toString());
+        int tokenId = Integer.parseInt(nonIndexedData.get(1).getValue().toString());
         String nftCa = nonIndexedData.get(2).getValue().toString();
-        String ticketPrice = nonIndexedData.get(3).getValue().toString();
-        String totalTickets = nonIndexedData.get(4).getValue().toString();
-        String endTime = nonIndexedData.get(5).getValue().toString();
+        double ticketPrice = Double.parseDouble(nonIndexedData.get(3).getValue().toString()) / Math.pow(10,18);
+        int totalTickets = Integer.parseInt(nonIndexedData.get(4).getValue().toString());
+        LocalDateTime endTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(nonIndexedData.get(4).getValue().toString())),
+                TimeZone.getDefault().toZoneId());
         String seller = nonIndexedData.get(6).getValue().toString();
 
-        System.out.println(raffleId);
-        System.out.println(tokenId);
-        System.out.println(nftCa);
-        System.out.println(ticketPrice);
-        System.out.println(totalTickets);
-        System.out.println(endTime);
-        System.out.println(seller);
+        RegisterRaffleDto dto = RegisterRaffleDto.builder()
+                .raffleId(raffleId)
+                .tokenId(tokenId)
+                .nftCa(nftCa)
+                .ticketPrice(ticketPrice)
+                .totalTickets(totalTickets)
+                .endTime(endTime)
+                .seller(seller)
+                .build();
 
-        callBack();
+        callBack(dto);
     }
 
-    public abstract void callBack();
+    public abstract void callBack(RegisterRaffleDto dto);
 }
