@@ -19,7 +19,7 @@ spring:
     properties:
       dialect: org.hibernate.dialect.MySQL8InnoDBDialect
       hibernate:
-        format_sql: true
+        format_sql: false
 #   flyway
   flyway:
     enabled: true
