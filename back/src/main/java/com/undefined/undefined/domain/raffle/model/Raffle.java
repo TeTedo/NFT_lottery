@@ -27,10 +27,13 @@ public class Raffle extends BaseTimeEntity {
     @Column(name = "token_uri", length = 255, nullable = true)
     private String tokenUri;
 
-    @Column(name = "total_ticket")
+    @Column(name = "total_ticket", nullable = false)
     private int totalTicket;
 
-    @Column(name = "ticket_price")
+    @Column(name = "left_ticket", nullable = false)
+    private int leftTicket;
+
+    @Column(name = "ticket_price", nullable = false)
     private double ticketPrice;
 
     @Column(length = 66, nullable = false)
@@ -51,7 +54,7 @@ public class Raffle extends BaseTimeEntity {
     private boolean isPaid;
 
     @Builder
-    public Raffle(Long id, String ca, int tokenId, String tokenUri, int totalTicket, double ticketPrice, String seller, String winner, LocalDateTime endTime, boolean isEnd, boolean isPaid) {
+    public Raffle(Long id, String ca, int tokenId, String tokenUri, int totalTicket, double ticketPrice, String seller, String winner, LocalDateTime endTime, boolean isEnd, boolean isPaid, int leftTicket) {
         this.id = id;
         this.ca = ca;
         this.tokenId = tokenId;
@@ -63,5 +66,12 @@ public class Raffle extends BaseTimeEntity {
         this.endTime = endTime;
         this.isEnd = isEnd;
         this.isPaid = isPaid;
+        this.leftTicket = leftTicket;
     }
+
+    public Raffle updateLeftTicket(int boughtTicket) {
+        this.leftTicket -= boughtTicket;
+        return this;
+    }
+
 }

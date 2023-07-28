@@ -1,7 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.dto;
 
 import com.undefined.undefined.domain.raffle.model.Raffle;
-import com.undefined.undefined.global.web3.klaytn.mapper.EventTypeMapper;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -15,8 +14,12 @@ public class RegisterRaffleDto {
     private final LocalDateTime endTime;
     private final String seller;
 
+    private final int leftTickets;
+
     @Builder
-    public RegisterRaffleDto(Long raffleId, int tokenId, String nftCa, double ticketPrice, int totalTickets, LocalDateTime endTime, String seller) {
+    public RegisterRaffleDto(
+            Long raffleId, int tokenId, String nftCa, double ticketPrice,
+            int totalTickets, LocalDateTime endTime, String seller) {
         this.raffleId = raffleId;
         this.tokenId = tokenId;
         this.nftCa = nftCa;
@@ -24,6 +27,7 @@ public class RegisterRaffleDto {
         this.totalTickets = totalTickets;
         this.endTime = endTime;
         this.seller = seller;
+        this.leftTickets = totalTickets;
     }
 
     public Raffle toRaffle() {
@@ -35,6 +39,7 @@ public class RegisterRaffleDto {
                 .totalTicket(totalTickets)
                 .endTime(endTime)
                 .seller(seller)
+                .leftTicket(leftTickets)
                 .build();
     }
 

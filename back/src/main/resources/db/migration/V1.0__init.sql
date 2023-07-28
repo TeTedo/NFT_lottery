@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `raffles`
     token_id        int             NOT NULL,
     token_uri       varchar(255),
     total_ticket    int             NOT NULL,
+    left_ticket     int             NOT NULL,
     ticket_price    double          NOT NULL,
     seller          varchar(66)     NOT NULL,
     winner          varchar(66),
@@ -24,9 +25,9 @@ CREATE TABLE IF NOT EXISTS `tickets`
 (
     id              bigint          NOT NULL    AUTO_INCREMENT  PRIMARY KEY,
     raffle_id       bigint          NOT NULL,
-    price           double          NOT NULL,
     owner           varchar(66)     NOT NULL,
-    token_uri       varchar(255)    NOT NULL,
+    amount          int             NOT NULL,
+    token_uri       varchar(255),
     created_at      dateTime        NOT NULL    DEFAULT now(),
     updated_at      dateTime        NOT NULL    DEFAULT now(),
 
