@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.event;
 
+import com.undefined.undefined.global.web3.klaytn.dto.ClaimNftDto;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -35,13 +36,15 @@ public abstract class ClaimNftEvent {
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
         String claimer = nonIndexedData.get(0).getValue().toString();
-        String raffleId = nonIndexedData.get(1).getValue().toString();
+        Long raffleId = Long.parseLong(nonIndexedData.get(1).getValue().toString());
 
-        System.out.println("ClaimNft"+claimer);
-        System.out.println("ClaimNft"+raffleId);
+        ClaimNftDto dto = ClaimNftDto.builder()
+                .claimer(claimer)
+                .raffleId(raffleId)
+                .build();
 
-        callBack();
+        callBack(dto);
     }
 
-    public abstract void callBack();
+    public abstract void callBack(ClaimNftDto dto);
 }

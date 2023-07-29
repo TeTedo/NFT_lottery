@@ -1,5 +1,7 @@
 package com.undefined.undefined.global.web3.klaytn.event;
 
+import com.undefined.undefined.global.web3.klaytn.dto.ClaimBalanceDto;
+import com.undefined.undefined.global.web3.klaytn.mapper.EventTypeMapper;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -39,16 +41,18 @@ public abstract class ClaimBalanceEvent {
 
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
-        String claimer = indexedData.get(0).getValue().toString();
-        String amount = nonIndexedData.get(0).getValue().toString();
-        String afterBalance = nonIndexedData.get(0).getValue().toString();
+        String claimer = EventTypeMapper.toAddress(log.getTopics().get(1));
+        double amount = Double.parseDouble(nonIndexedData.get(0).getValue().toString());
+        double afterBalance = Double.parseDouble(nonIndexedData.get(0).getValue().toString());
 
-        System.out.println("ClaimBalance"+claimer);
-        System.out.println("ClaimBalance"+amount);
-        System.out.println("ClaimBalance"+afterBalance);
+        ClaimBalanceDto dto = ClaimBalanceDto.builder()
+                .claimer(claimer)
+                .afterBalance(afterBalance)
+                .amount(amount)
+                .build();
 
-        callBack();
+        callBack(dto);
     }
 
-    public abstract void callBack();
+    public abstract void callBack(ClaimBalanceDto dto);
 }

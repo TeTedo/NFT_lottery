@@ -53,12 +53,16 @@ public class Raffle extends BaseTimeEntity {
     @Column(name = "is_paid", nullable = false)
     private boolean isPaid;
 
+    @ColumnDefault("0")
+    @Column(name = "is_claim_nft", nullable = false)
+    private boolean isClaimNft;
+
     @Column
     private double settlement;
 
     @Builder
     public Raffle(Long id, String ca, int tokenId, String tokenUri, int totalTicket, double ticketPrice, String seller, String winner, LocalDateTime endTime, boolean isEnd, boolean isPaid,
-                  int leftTicket, double settlement) {
+                  int leftTicket, double settlement, boolean isClaimNft) {
         this.id = id;
         this.ca = ca;
         this.tokenId = tokenId;
@@ -70,6 +74,7 @@ public class Raffle extends BaseTimeEntity {
         this.endTime = endTime;
         this.isEnd = isEnd;
         this.isPaid = isPaid;
+        this.isClaimNft = isClaimNft;
         this.leftTicket = leftTicket;
         this.settlement = settlement;
     }
@@ -82,6 +87,16 @@ public class Raffle extends BaseTimeEntity {
     public Raffle chooseWinner(String address, double settlement) {
         this.winner = address;
         this.settlement = settlement;
+        return this;
+    }
+
+    public Raffle claimNft() {
+        this.isClaimNft = true;
+        return this;
+    }
+
+    public Raffle claimBalance() {
+        this.isPaid = true;
         return this;
     }
 }
