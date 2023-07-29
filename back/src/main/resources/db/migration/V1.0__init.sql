@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `raffles`
     end_time        dateTime        NOT NULL,
     is_end          boolean         NOT NULL    DEFAULT false,
     is_paid         boolean         NOT NULL    DEFAULT false,
+    is_claim_nft    boolean         NOT NULL    DEFAULT false,
     settlement      double          NULL,
     created_at      dateTime        NOT NULL    DEFAULT now(),
     updated_at      dateTime        NOT NULL    DEFAULT now()
