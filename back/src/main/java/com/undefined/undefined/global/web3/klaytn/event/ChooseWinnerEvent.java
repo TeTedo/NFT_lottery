@@ -1,5 +1,7 @@
 package com.undefined.undefined.global.web3.klaytn.event;
 
+import com.undefined.undefined.global.web3.klaytn.dto.ChooseWinnerDto;
+import com.undefined.undefined.global.web3.klaytn.mapper.EventTypeMapper;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -34,18 +36,20 @@ public abstract class ChooseWinnerEvent {
 
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
-        String raffleId = nonIndexedData.get(0).getValue().toString();
-        String winner = indexedData.get(0).getValue().toString();
-        String winnerTicketIndex = nonIndexedData.get(1).getValue().toString();
-        String settlement = nonIndexedData.get(2).getValue().toString();
+        Long raffleId = Long.parseLong(nonIndexedData.get(0).getValue().toString());
+        String winner = EventTypeMapper.toAddress(log.getTopics().get(1));
+        int winnerTicketIndex = Integer.parseInt(nonIndexedData.get(1).getValue().toString());
+        double settlement = Double.parseDouble(nonIndexedData.get(2).getValue().toString()) / Math.pow(10,18);
 
-        System.out.println("ChooseWinner"+raffleId);
-        System.out.println("ChooseWinner"+winner);
-        System.out.println("ChooseWinner"+winnerTicketIndex);
-        System.out.println("ChooseWinner"+settlement);
+        ChooseWinnerDto dto = ChooseWinnerDto.builder()
+                .raffleId(raffleId)
+                .winner(winner)
+                .winnerTicketIndex(winnerTicketIndex)
+                .settlement(settlement)
+                .build();
 
-        callBack();
+        callBack(dto);
     }
 
-    public abstract void callBack();
+    public abstract void callBack(ChooseWinnerDto dto);
 }
