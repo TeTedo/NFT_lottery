@@ -82,10 +82,9 @@ public class RaffleControllerTest {
         resultActions.andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcRestDocumentation.document("myRaffle",
                         responseFields(
-                                fieldWithPath("content").description("Array of CollectionResponse objects"),
+                                fieldWithPath("content").description("Array of MyRaffleResponse objects"),
                                 fieldWithPath("content[].id").description("id").type("Long"),
                                 fieldWithPath("content[].ca").description("contract address").type("String"),
-                                fieldWithPath("content").description("Array of MyRaffleResponse objects"),
                                 fieldWithPath("content[].tokenId").description("id").type("number"),
                                 fieldWithPath("content[].tokenUri").description("tokenUri").type("string"),
                                 fieldWithPath("content[].totalTicket").description("Total number of tickets").type("number"),
