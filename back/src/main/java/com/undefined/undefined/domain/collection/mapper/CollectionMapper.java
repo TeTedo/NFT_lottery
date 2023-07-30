@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CollectionMapper {
-    private CollectionResponse toCollectionResponse(Collection collection){
+    public CollectionResponse toCollectionResponse(Collection collection){
         return CollectionResponse.builder()
                 .id(collection.getId())
                 .ca(collection.getContractAddress())
