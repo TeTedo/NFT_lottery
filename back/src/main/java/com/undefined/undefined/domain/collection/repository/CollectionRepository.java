@@ -10,5 +10,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CollectionRepository extends JpaRepository<Collection, Long> {
 
-    Page<Collection> findCollectionsByPage(Pageable pageable);
+    @Query("""
+            SELECT c 
+            FROM Collection c
+            """)
+    Page<Collection> findCollectionByPage(Pageable pageable);
 }

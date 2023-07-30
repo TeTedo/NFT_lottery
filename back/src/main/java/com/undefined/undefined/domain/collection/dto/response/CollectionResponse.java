@@ -1,7 +1,9 @@
 package com.undefined.undefined.domain.collection.dto.response;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class CollectionResponse {
     private long id;
     private String ca;

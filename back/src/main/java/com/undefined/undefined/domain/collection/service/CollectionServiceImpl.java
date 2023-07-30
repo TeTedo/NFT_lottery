@@ -17,7 +17,7 @@ public class CollectionServiceImpl implements CollectionService{
 
     @Override
     public Page<CollectionResponse> getCollectionsByPage(Pageable pageable) {
-        Page<Collection> collectionPage = collectionRepository.findCollectionsByPage(pageable);
+        Page<Collection> collectionPage = collectionRepository.findCollectionByPage(pageable);
 
         return collectionMapper.toResponse(collectionPage);
     }
