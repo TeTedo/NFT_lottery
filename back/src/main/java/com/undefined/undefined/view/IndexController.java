@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class indexController {
+public class IndexController {
 
     @GetMapping("/docs")
     public String viewDocs() {
-        return "/docs/index.html";
+        return "docs/index.html";
     }
 
 }
