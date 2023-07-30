@@ -1,6 +1,9 @@
 package com.undefined.undefined.domain.raffle.service;
 
+import com.undefined.undefined.domain.raffle.dto.request.GetMyRaffleListRequest;
+import com.undefined.undefined.domain.raffle.dto.response.MyRaffleResponse;
 import com.undefined.undefined.domain.raffle.exception.RaffleNotFoundException;
+import com.undefined.undefined.domain.raffle.mapper.RaffleMapper;
 import com.undefined.undefined.domain.raffle.model.Raffle;
 import com.undefined.undefined.domain.raffle.repository.RaffleRepository;
 import com.undefined.undefined.global.web3.klaytn.dto.ChooseWinnerDto;
@@ -9,6 +12,7 @@ import com.undefined.undefined.global.web3.klaytn.dto.ClaimNftDto;
 import com.undefined.undefined.global.web3.klaytn.dto.RegisterRaffleDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RaffleServiceImpl implements  RaffleService{
     private final RaffleRepository raffleRepository;
+    private final RaffleMapper raffleMapper;
 
     @Override
     public void saveRaffleByEvent(RegisterRaffleDto dto) {
@@ -55,5 +60,13 @@ public class RaffleServiceImpl implements  RaffleService{
         raffleList.stream().map(r->r.claimBalance()).collect(Collectors.toList());
 
         raffleRepository.saveAll(raffleList);
+    }
+
+    @Override
+    public Page<MyRaffleResponse> getMyRaffle(GetMyRaffleListRequest request) {
+        Page<Raffle> response = raffleRepository.findBySellerAndPage( request.getPageable(), request.getAddress());
+
+
+        return raffleMapper.toMyRaffleResponse(response);
     }
 }
