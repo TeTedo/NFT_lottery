@@ -1,4 +1,18 @@
 package com.undefined.undefined.domain.collection.repository;
 
-public interface CollectionRepository {
+import com.undefined.undefined.domain.collection.model.Collection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CollectionRepository extends JpaRepository<Collection, Long> {
+
+    @Query("""
+            SELECT c 
+            FROM Collection c
+            """)
+    Page<Collection> findCollectionByPage(Pageable pageable);
 }

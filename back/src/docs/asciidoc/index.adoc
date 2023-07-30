@@ -1,0 +1,13 @@
+= Undefined REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:sectlinks:
+
+[[Collection-API]]
+== Collection API
+
+[[Collections-조회]]
+=== Collections 조회
+operation::collection[snippets='http-request,http-response,response-fields']
