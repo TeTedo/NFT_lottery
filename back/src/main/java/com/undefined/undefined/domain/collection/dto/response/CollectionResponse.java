@@ -7,14 +7,14 @@ import lombok.Getter;
 public class CollectionResponse {
     private long id;
     private String ca;
-    private String token_uri;
+    private String tokenUri;
     private String name;
 
     @Builder
-    public CollectionResponse(long id, String ca, String token_uri, String name) {
+    public CollectionResponse(long id, String ca, String tokenUri, String name) {
         this.id = id;
         this.ca = ca;
-        this.token_uri = token_uri;
+        this.tokenUri = tokenUri;
         this.name = name;
     }
 }

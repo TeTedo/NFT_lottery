@@ -12,7 +12,7 @@ public class CollectionMapper {
                 .id(collection.getId())
                 .ca(collection.getContractAddress())
                 .name(collection.getContractName())
-                .token_uri(collection.getTokenUri())
+                .tokenUri(collection.getTokenUri())
                 .build();
     }
 

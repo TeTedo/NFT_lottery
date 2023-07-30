@@ -59,8 +59,8 @@ public class CollectionControllerTest {
         Pageable request = PageRequest.of(0,10, sort);
 
         List<CollectionResponse> dummyCollectionList = Arrays.asList(
-                CollectionResponse.builder().id(1L).ca("ca1").token_uri("temp1").name("name1").build(),
-                CollectionResponse.builder().id(1L).ca("ca2").token_uri("temp2").name("name2").build()
+                CollectionResponse.builder().id(1L).ca("ca1").tokenUri("temp1").name("name1").build(),
+                CollectionResponse.builder().id(1L).ca("ca2").tokenUri("temp2").name("name2").build()
         );
 
         Page<CollectionResponse> response = new PageImpl<>(dummyCollectionList, request, size);
@@ -82,7 +82,7 @@ public class CollectionControllerTest {
                                 fieldWithPath("content[].id").description("id").type("Long"),
                                 fieldWithPath("content[].ca").description("contract address").type("String"),
                                 fieldWithPath("content[].name").description("contract name").type("String"),
-                                fieldWithPath("content[].token_uri").description("token_uri").type("String"),
+                                fieldWithPath("content[].tokenUri").description("tokenUri").type("String"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
                                 fieldWithPath("pageable").description("Pagination information"),
