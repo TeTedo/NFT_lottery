@@ -1,6 +1,8 @@
 package com.undefined.undefined.domain.raffle.repository;
 
 import com.undefined.undefined.domain.raffle.model.Raffle;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,11 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             WHERE r.seller = :seller
             """)
     List<Raffle> findAllBySeller(@Param("seller") String seller);
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.seller = :seller
+            """)
+    Page<Raffle> findBySellerAndPage(Pageable pageable, @Param("seller") String seller);
 }

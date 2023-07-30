@@ -11,3 +11,10 @@
 [[Collections-조회]]
 === Collections 조회
 operation::collection[snippets='http-request,http-response,response-fields']
+
+[[Raffle-API]]
+== Raffle API
+
+[[my-Raffle-조회]]
+=== my Raffle 조회
+operation::myRaffle[snippets='http-request,http-response,response-fields']
