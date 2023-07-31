@@ -10,29 +10,30 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.Objects;
 
 @Getter
-public class GetMyRaffleListRequest {
+public class GetWinnerRafflesRequest{
     private Pageable pageable;
-    private String address;
+    private String winner;
 
     @Builder
-    public GetMyRaffleListRequest(
+    public GetWinnerRafflesRequest(
             @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC)
             Pageable pageable,
-            @PathVariable("address") String address) {
+            @PathVariable("winner") String winner
+    ) {
         this.pageable = pageable;
-        this.address = address;
+        this.winner = winner;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pageable, address);
+        return Objects.hash(pageable, winner);
     }
 
     @Override
     public boolean equals(Object obj) {
         if(this == obj) return true;
-        if (!(obj instanceof GetMyRaffleListRequest)) return false;
-        GetMyRaffleListRequest that = (GetMyRaffleListRequest) obj;
-        return Objects.equals(address, that.address);
+        if (!(obj instanceof GetWinnerRafflesRequest)) return false;
+        GetWinnerRafflesRequest that = (GetWinnerRafflesRequest) obj;
+        return Objects.equals(winner, that.winner);
     }
 }

@@ -1,6 +1,8 @@
 package com.undefined.undefined.domain.ticket.repository;
 
 import com.undefined.undefined.domain.ticket.model.Ticket;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             AND t.owner = :owner
             """)
     Optional<Ticket> findByRaffleIdAndOwner(@Param("raffleId") Long raffleId, @Param("owner") String owner);
+
+    @Query("""
+            SELECT t
+            FROM Ticket t
+            WHERE owner = :wallet
+            """)
+    Page<Ticket> findMyTicket(Pageable pageable, @Param("wallet") String wallet);
 }

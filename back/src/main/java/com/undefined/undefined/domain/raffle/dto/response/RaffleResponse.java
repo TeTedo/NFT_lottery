@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class MyRaffleResponse {
+public class RaffleResponse {
     private Long id;
     private String ca;
     private int tokenId;
@@ -17,15 +17,16 @@ public class MyRaffleResponse {
     private LocalDateTime endTime;
     private boolean isEnd;
     private boolean isPaid;
+    private boolean isClaimNft;
     private double settlement;
     private LocalDateTime createdAt;
 
     @Builder
-    public MyRaffleResponse(
+    public RaffleResponse(
             Long id, String ca, int tokenId, String tokenUri,
             int totalTicket, int leftTicket, double ticketPrice,
             LocalDateTime endTime, boolean isEnd, boolean isPaid,
-            double settlement, LocalDateTime createdAt) {
+            boolean isClaimNft, double settlement, LocalDateTime createdAt) {
         this.id = id;
         this.ca = ca;
         this.tokenId = tokenId;
@@ -36,6 +37,7 @@ public class MyRaffleResponse {
         this.endTime = endTime;
         this.isEnd = isEnd;
         this.isPaid = isPaid;
+        this.isClaimNft = isClaimNft;
         this.settlement = settlement;
         this.createdAt = createdAt;
     }

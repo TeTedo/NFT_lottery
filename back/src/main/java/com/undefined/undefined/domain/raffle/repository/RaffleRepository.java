@@ -28,4 +28,24 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             WHERE r.seller = :seller
             """)
     Page<Raffle> findBySellerAndPage(Pageable pageable, @Param("seller") String seller);
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            """)
+    Page<Raffle> findAllByPage(Pageable pageable);
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.ca = :ca
+            """)
+    Page<Raffle> findByCaAndPage(Pageable pageable, @Param("ca") String ca);
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.winner = :winner
+            """)
+    Page<Raffle> findByWinnerAndPage(Pageable pageable, @Param("winner") String winner);
 }

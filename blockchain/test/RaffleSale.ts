@@ -18,20 +18,30 @@ describe("Raffle", () => {
   const FEE_NUMERATOR = 100; // 0.1% 단위
   let raffleProxy: Undefined;
   let testToken: TestToken;
-  let owner: Signer, seller: Signer, buyer1: Signer, buyer2: Signer, buyer3: Signer, vault: Signer;
+  let owner: Signer,
+    seller: Signer,
+    buyer1: Signer,
+    buyer2: Signer,
+    buyer3: Signer,
+    vault: Signer;
   let raffleId: string;
   let winnerAddr: string;
 
   before(async () => {
     if (network.name === "hardhat") {
-      [owner, seller, buyer1, buyer2, buyer3, vault] = await ethers.getSigners();
+      [owner, seller, buyer1, buyer2, buyer3, vault] =
+        await ethers.getSigners();
 
       // deploy raffle contract by proxy
       const raffleFactory = await ethers.getContractFactory("Undefined", owner);
       raffleProxy = (await upgrades.deployProxy(
         raffleFactory,
         [FEE_NUMERATOR, MAX_TICKET_AMOUNT, MIN_TICKET_PRICE],
-        { initializer: "initialize", kind: "transparent", unsafeAllow: ["constructor"] }
+        {
+          initializer: "initialize",
+          kind: "transparent",
+          unsafeAllow: ["constructor"],
+        }
       )) as Undefined;
       await raffleProxy.deployed();
 
@@ -63,7 +73,11 @@ describe("Raffle", () => {
     if (!(await raffleProxy.isListed(nftCa))) {
       const listTx = await raffleProxy
         .connect(owner)
-        ["listNft(address,address,uint8)"](nftCa, await owner.getAddress(), 100);
+        ["listNft(address,address,uint8)"](
+          nftCa,
+          await owner.getAddress(),
+          100
+        );
       await listTx.wait();
 
       const isListed = await raffleProxy.isListed(nftCa);
@@ -72,11 +86,17 @@ describe("Raffle", () => {
   });
 
   it("mint nft", async () => {
-    if ((await testToken.balanceOf(await seller.getAddress())).eq(BigNumber.from("0"))) {
+    if (
+      (await testToken.balanceOf(await seller.getAddress())).eq(
+        BigNumber.from("0")
+      )
+    ) {
       const tokenId = await testToken.totalSupply();
       const mintTx = await testToken.connect(seller).mint(tokenId);
       await mintTx.wait();
-      expect(await testToken.ownerOf(tokenId)).to.equal(await seller.getAddress());
+      expect(await testToken.ownerOf(tokenId)).to.equal(
+        await seller.getAddress()
+      );
     }
   });
 
@@ -90,7 +110,9 @@ describe("Raffle", () => {
     const minutes = 1; // > 0
 
     // approve token from seller to raffle sale proxy contract
-    const approveTx = await testToken.connect(seller).approve(raffleProxy.address, tokenId);
+    const approveTx = await testToken
+      .connect(seller)
+      .approve(raffleProxy.address, tokenId);
     await approveTx.wait();
     console.log("approved");
     console.log(await testToken.getApproved(tokenId));
@@ -126,14 +148,18 @@ describe("Raffle", () => {
     const ticketPrice = (await raffleProxy.raffles(raffleId)).ticketPrice;
     let leftTicketAmount = (await raffleProxy.raffles(raffleId)).leftTickets;
 
-    const buyTx1 = await raffleProxy.connect(buyer2).buyTickets(raffleId, leftTicketAmount.div(2), {
-      value: ticketPrice.mul(leftTicketAmount.div(2)),
-    });
+    const buyTx1 = await raffleProxy
+      .connect(buyer2)
+      .buyTickets(raffleId, leftTicketAmount.div(2), {
+        value: ticketPrice.mul(leftTicketAmount.div(2)),
+      });
     await buyTx1.wait();
     leftTicketAmount = (await raffleProxy.raffles(raffleId)).leftTickets;
     const buyTx2 = await raffleProxy
-      .connect(buyer3)
-      .buyTickets(raffleId, leftTicketAmount, { value: ticketPrice.mul(leftTicketAmount) });
+      .connect(buyer1)
+      .buyTickets(raffleId, leftTicketAmount, {
+        value: ticketPrice.mul(leftTicketAmount),
+      });
     await buyTx2.wait();
     // console.log(await raffleProxy.getRaffleInfo(nftCa, tokenId));
   });
@@ -142,10 +168,15 @@ describe("Raffle", () => {
     // const raffleId = 67; // register raffle과 동시에 진행하지 않으면 따로 입력해야함
     const randNum = Math.floor(Math.random() * 1_000_000);
 
-    const gasEstimated = await raffleProxy.estimateGas.chooseWinner(raffleId, randNum);
+    const gasEstimated = await raffleProxy.estimateGas.chooseWinner(
+      raffleId,
+      randNum
+    );
     const chooseTx = await raffleProxy
       .connect(owner)
-      .chooseWinner(raffleId, randNum, { gasLimit: gasEstimated.mul(12).div(10) }); // gasEstimated * 1.2
+      .chooseWinner(raffleId, randNum, {
+        gasLimit: gasEstimated.mul(15).div(10),
+      }); // gasEstimated * 1.2
     const chooseReceipt = await chooseTx.wait();
     const events = chooseReceipt.events;
     let winnerTicketIndex = "";
@@ -156,14 +187,15 @@ describe("Raffle", () => {
       console.log("winner: ", winnerAddr);
       console.log("winner ticket index: ", winnerTicketIndex);
     });
-    const winnerTicketOwner = await raffleProxy.getTicketOwnerByIndex(raffleId, winnerTicketIndex);
+    const winnerTicketOwner = await raffleProxy.getTicketOwnerByIndex(
+      raffleId,
+      winnerTicketIndex
+    );
     console.log("winner Ticket owner: ", winnerTicketOwner);
     expect(winnerTicketOwner).to.equal(winnerAddr);
   }); // max gas used = 303789
 
-  return;
-
-  it("claim nft", async () => {
+  it.only("claim nft", async () => {
     const nftsLength = await raffleProxy.getClaimableNftsLength(winnerAddr);
     const claimableNfts = [];
     for (let i = 0; i < Number(nftsLength); i++) {
@@ -183,7 +215,9 @@ describe("Raffle", () => {
 
   it("clam balance", async () => {
     console.log("before balance: ", await seller.getBalance());
-    const claimableBalance = raffleProxy.claimableBalance(await seller.getAddress());
+    const claimableBalance = raffleProxy.claimableBalance(
+      await seller.getAddress()
+    );
     const tx = await raffleProxy.connect(seller).claimBalance(claimableBalance);
     tx.wait();
     console.log("after balance: ", await seller.getBalance());
