@@ -1,8 +1,9 @@
 package com.undefined.undefined.domain.raffle.service;
 
-import com.undefined.undefined.domain.raffle.dto.request.GetAllRaffleListRequest;
-import com.undefined.undefined.domain.raffle.dto.request.GetMyRaffleListRequest;
+import com.undefined.undefined.domain.raffle.dto.request.GetAllRafflesRequest;
+import com.undefined.undefined.domain.raffle.dto.request.GetMyRafflesRequest;
 import com.undefined.undefined.domain.raffle.dto.request.GetRafflesByCARequest;
+import com.undefined.undefined.domain.raffle.dto.request.GetWinnerRafflesRequest;
 import com.undefined.undefined.domain.raffle.dto.response.RaffleResponse;
 import com.undefined.undefined.domain.raffle.exception.RaffleNotFoundException;
 import com.undefined.undefined.domain.raffle.mapper.RaffleMapper;
@@ -65,7 +66,7 @@ public class RaffleServiceImpl implements  RaffleService{
     }
 
     @Override
-    public Page<RaffleResponse> getMyRaffles(GetMyRaffleListRequest request) {
+    public Page<RaffleResponse> getMyRaffles(GetMyRafflesRequest request) {
         Page<Raffle> response = raffleRepository.findBySellerAndPage( request.getPageable(), request.getAddress());
 
 
@@ -73,14 +74,20 @@ public class RaffleServiceImpl implements  RaffleService{
     }
 
     @Override
-    public Page<RaffleResponse> getAllRaffles(GetAllRaffleListRequest request) {
+    public Page<RaffleResponse> getAllRaffles(GetAllRafflesRequest request) {
         Page<Raffle> rafflePage = raffleRepository.findAllByPage(request.getPageable());
         return raffleMapper.toRaffleResponse(rafflePage);
     }
 
     @Override
     public Page<RaffleResponse> getRafflesByCA(GetRafflesByCARequest request) {
-        Page<Raffle> rafflePage = raffleRepository.findByCollectionIdAndPage(request.getPageable(), request.getCa());
+        Page<Raffle> rafflePage = raffleRepository.findByCaAndPage(request.getPageable(), request.getCa());
+        return raffleMapper.toRaffleResponse(rafflePage);
+    }
+
+    @Override
+    public Page<RaffleResponse> getRafflesByWinner(GetWinnerRafflesRequest request) {
+        Page<Raffle> rafflePage = raffleRepository.findByWinnerAndPage(request.getPageable(), request.getWinner());
         return raffleMapper.toRaffleResponse(rafflePage);
     }
 }

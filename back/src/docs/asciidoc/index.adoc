@@ -26,3 +26,7 @@ operation::myRaffle[snippets='http-request,http-response,response-fields']
 [[CA로-Raffle-조회]]
 === CA로 Raffle 조회
 operation::raffleByCA[snippets='http-request,http-response,response-fields']
+
+[[당첨자-Raffle-조회]]
+=== 당첨자 Raffle 조회
+operation::raffleByWinner[snippets='http-request,http-response,response-fields']
