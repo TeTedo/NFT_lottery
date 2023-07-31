@@ -1,7 +1,8 @@
 package com.undefined.undefined.domain.raffle.service;
 
+import com.undefined.undefined.domain.raffle.dto.request.GetAllRaffleListRequest;
 import com.undefined.undefined.domain.raffle.dto.request.GetMyRaffleListRequest;
-import com.undefined.undefined.domain.raffle.dto.response.MyRaffleResponse;
+import com.undefined.undefined.domain.raffle.dto.response.RaffleResponse;
 import com.undefined.undefined.global.web3.klaytn.dto.ChooseWinnerDto;
 import com.undefined.undefined.global.web3.klaytn.dto.ClaimBalanceDto;
 import com.undefined.undefined.global.web3.klaytn.dto.ClaimNftDto;
@@ -17,5 +18,7 @@ public interface RaffleService {
 
     void claimBalanceByEvent(ClaimBalanceDto dto);
 
-    Page<MyRaffleResponse> getMyRaffle(GetMyRaffleListRequest request);
+    Page<RaffleResponse> getMyRaffle(GetMyRaffleListRequest request);
+
+    Page<RaffleResponse> getAllRaffles(GetAllRaffleListRequest request);
 }

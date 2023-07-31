@@ -1,7 +1,8 @@
 package com.undefined.undefined.domain.raffle.service;
 
+import com.undefined.undefined.domain.raffle.dto.request.GetAllRaffleListRequest;
 import com.undefined.undefined.domain.raffle.dto.request.GetMyRaffleListRequest;
-import com.undefined.undefined.domain.raffle.dto.response.MyRaffleResponse;
+import com.undefined.undefined.domain.raffle.dto.response.RaffleResponse;
 import com.undefined.undefined.domain.raffle.exception.RaffleNotFoundException;
 import com.undefined.undefined.domain.raffle.mapper.RaffleMapper;
 import com.undefined.undefined.domain.raffle.model.Raffle;
@@ -63,10 +64,16 @@ public class RaffleServiceImpl implements  RaffleService{
     }
 
     @Override
-    public Page<MyRaffleResponse> getMyRaffle(GetMyRaffleListRequest request) {
+    public Page<RaffleResponse> getMyRaffle(GetMyRaffleListRequest request) {
         Page<Raffle> response = raffleRepository.findBySellerAndPage( request.getPageable(), request.getAddress());
 
 
-        return raffleMapper.toMyRaffleResponse(response);
+        return raffleMapper.toRaffleResponse(response);
+    }
+
+    @Override
+    public Page<RaffleResponse> getAllRaffles(GetAllRaffleListRequest request) {
+        Page<Raffle> rafflePage = raffleRepository.findAllByPage(request.getPageable());
+        return raffleMapper.toRaffleResponse(rafflePage);
     }
 }
