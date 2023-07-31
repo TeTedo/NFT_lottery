@@ -22,3 +22,7 @@ operation::allRaffles[snippets='http-request,http-response,response-fields']
 [[my-Raffle-조회]]
 === my Raffle 조회
 operation::myRaffle[snippets='http-request,http-response,response-fields']
+
+[[CA로-Raffle-조회]]
+=== CA로 Raffle 조회
+operation::raffleByCA[snippets='http-request,http-response,response-fields']
