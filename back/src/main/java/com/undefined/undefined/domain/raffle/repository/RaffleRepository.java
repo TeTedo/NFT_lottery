@@ -34,4 +34,11 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             FROM Raffle r
             """)
     Page<Raffle> findAllByPage(Pageable pageable);
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.ca = :ca
+            """)
+    Page<Raffle> findByCollectionIdAndPage(Pageable pageable, @Param("ca") String ca);
 }

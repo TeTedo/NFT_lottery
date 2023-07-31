@@ -2,6 +2,7 @@ package com.undefined.undefined.domain.raffle.controller;
 
 import com.undefined.undefined.domain.raffle.dto.request.GetAllRaffleListRequest;
 import com.undefined.undefined.domain.raffle.dto.request.GetMyRaffleListRequest;
+import com.undefined.undefined.domain.raffle.dto.request.GetRafflesByCARequest;
 import com.undefined.undefined.domain.raffle.dto.response.RaffleResponse;
 import com.undefined.undefined.domain.raffle.service.RaffleService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,13 @@ public class RaffleController {
     }
     @GetMapping("/my/{address}")
     public ResponseEntity<Page<RaffleResponse>> getMyRaffle(GetMyRaffleListRequest request) {
-        Page<RaffleResponse> response = raffleService.getMyRaffle(request);
+        Page<RaffleResponse> response = raffleService.getMyRaffles(request);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{ca}")
+    public ResponseEntity<Page<RaffleResponse>> getRaffleByCollection(GetRafflesByCARequest request) {
+        Page<RaffleResponse> response = raffleService.getRafflesByCA(request);
         return ResponseEntity.ok().body(response);
     }
 }
