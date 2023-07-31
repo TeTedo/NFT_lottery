@@ -15,6 +15,10 @@ operation::collection[snippets='http-request,http-response,response-fields']
 [[Raffle-API]]
 == Raffle API
 
+[[All-Raffle-조회]]
+=== All Raffle 조회
+operation::allRaffles[snippets='http-request,http-response,response-fields']
+
 [[my-Raffle-조회]]
 === my Raffle 조회
 operation::myRaffle[snippets='http-request,http-response,response-fields']
