@@ -49,8 +49,8 @@ public class Collection extends BaseTimeEntity {
     @Column(name = "link_website", length = 255)
     private String linkWebsite;
 
-    @Column(name = "link_klayscope", length = 255)
-    private String linkKlayscope;
+    @Column(name = "link_scope", length = 255)
+    private String linkScope;
 
     @Builder
 
@@ -60,7 +60,7 @@ public class Collection extends BaseTimeEntity {
             String openseaSlug, double creatorFee,
             String type, String description,
             String linkTwitter, String linkDiscord,
-            String linkWebsite, String linkKlayscope) {
+            String linkWebsite, String linkScope) {
 
         this.id = id;
         this.contractAddress = contractAddress;
@@ -74,6 +74,6 @@ public class Collection extends BaseTimeEntity {
         this.linkTwitter = linkTwitter;
         this.linkDiscord = linkDiscord;
         this.linkWebsite = linkWebsite;
-        this.linkKlayscope = linkKlayscope;
+        this.linkScope = linkScope;
     }
 }

@@ -12,6 +12,10 @@
 === Collections 조회
 operation::collection[snippets='http-request,response-fields']
 
+[[Collections-등록]]
+=== Collections 등록
+operation::collection[snippets='http-request,request-fields']
+
 [[Raffle-API]]
 == Raffle API
 

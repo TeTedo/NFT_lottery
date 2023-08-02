@@ -1,5 +1,6 @@
 package com.undefined.undefined.domain.collection.service;
 
+import com.undefined.undefined.domain.collection.dto.request.RegisterCollectionRequest;
 import com.undefined.undefined.domain.collection.dto.response.CollectionResponse;
 import com.undefined.undefined.domain.collection.mapper.CollectionMapper;
 import com.undefined.undefined.domain.collection.model.Collection;
@@ -20,5 +21,10 @@ public class CollectionServiceImpl implements CollectionService{
         Page<Collection> collectionPage = collectionRepository.findCollectionByPage(pageable);
 
         return collectionMapper.toResponse(collectionPage);
+    }
+
+    @Override
+    public void registerCollection(RegisterCollectionRequest request) {
+        collectionRepository.save(request.toEntity());
     }
 }
