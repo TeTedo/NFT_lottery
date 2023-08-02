@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.event;
 
+import com.undefined.undefined.global.web3.klaytn.dto.DeListNftDto;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -14,8 +15,6 @@ import java.util.List;
 
 public abstract class DeListNftEvent {
     private final Event event;
-
-    private Address nftCa;
 
     public DeListNftEvent() {
         this.event =  new Event("DeListNft", Arrays.<TypeReference<?>>asList(
@@ -32,10 +31,12 @@ public abstract class DeListNftEvent {
 
         String nftCa = nonIndexedData.get(0).getValue().toString();
 
-        System.out.println(nftCa);
+        DeListNftDto dto = DeListNftDto.builder()
+                .ca(nftCa)
+                .build();
 
-        callBack();
+        callBack(dto);
     }
 
-    public abstract void callBack();
+    public abstract void callBack(DeListNftDto dto);
 }

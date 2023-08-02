@@ -1,5 +1,8 @@
 package com.undefined.undefined.domain.collection.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.undefined.undefined.domain.collection.dto.request.RegisterCollectionRequest;
 import com.undefined.undefined.domain.collection.dto.response.CollectionResponse;
 
 import com.undefined.undefined.domain.collection.service.CollectionService;
@@ -14,12 +17,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 
 
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.test.web.servlet.ResultActions;
@@ -104,5 +109,51 @@ public class CollectionControllerTest {
                                 fieldWithPath("numberOfElements").description("Total number of elements in the result").type("number"),
                                 fieldWithPath("empty").description("Is the result empty").type("boolean"),
                                 fieldWithPath("content").description("List of collection items").type("Array of CollectionResponse"))));
+    }
+
+    @Test
+    @DisplayName("POST /collections")
+    void registerCollection() throws Exception {
+        // given
+        RegisterCollectionRequest request = RegisterCollectionRequest.builder()
+                .contractAddress("contractAddress")
+                .contractName("contractName")
+                .contractOwner("contractOwner")
+                .tokenUri("tokenUri")
+                .openseaSlug("openseSlug")
+                .creatorFee(2.5)
+                .type("Klaytn")
+                .description("description")
+                .linkTwitter("twitter")
+                .linkDiscord("discord")
+                .linkWebsite("website")
+                .linkScope("scope")
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonRequest = objectMapper.writeValueAsString(request);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.post("/collections")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequest));
+
+        // then
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcRestDocumentation.document("registerCollection",
+                        requestFields(
+                                fieldWithPath("contractAddress").type(JsonFieldType.STRING).description("The contract address"),
+                                fieldWithPath("contractName").type(JsonFieldType.STRING).description("The contract name"),
+                                fieldWithPath("contractOwner").type(JsonFieldType.STRING).description("The contract owner"),
+                                fieldWithPath("tokenUri").type(JsonFieldType.STRING).description("The token URI"),
+                                fieldWithPath("openseaSlug").type(JsonFieldType.STRING).description("The OpenSea slug"),
+                                fieldWithPath("creatorFee").type(JsonFieldType.NUMBER).description("The creator fee"),
+                                fieldWithPath("type").type(JsonFieldType.STRING).description("Klaytn"),
+                                fieldWithPath("description").type(JsonFieldType.STRING).description("The description"),
+                                fieldWithPath("linkTwitter").type(JsonFieldType.STRING).description("The Twitter link"),
+                                fieldWithPath("linkDiscord").type(JsonFieldType.STRING).description("The Discord link"),
+                                fieldWithPath("linkWebsite").type(JsonFieldType.STRING).description("The website link"),
+                                fieldWithPath("linkScope").type(JsonFieldType.STRING).description("The scope link"))));
     }
 }

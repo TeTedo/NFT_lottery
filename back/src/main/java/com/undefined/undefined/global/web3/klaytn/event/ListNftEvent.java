@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.event;
 
+import com.undefined.undefined.global.web3.klaytn.dto.ListNftDto;
 import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
@@ -15,12 +16,6 @@ import java.util.List;
 
 public abstract class ListNftEvent {
     private final Event event;
-
-    private Address nftCa;
-
-    private Address creator;
-
-    private Uint8 creatorFeeNumerator;
 
     public ListNftEvent() {
         this.event =  new Event("ListNft", Arrays.<TypeReference<?>>asList(
@@ -39,11 +34,13 @@ public abstract class ListNftEvent {
 
         String nftCa = nonIndexedData.get(0).getValue().toString();
         String creator = nonIndexedData.get(1).getValue().toString();
-        String creatorFeeNumerator = nonIndexedData.get(2).getValue().toString();
 
+        ListNftDto dto = ListNftDto.builder()
+                .ca(nftCa)
+                .build();
 
-        callBack();
+        callBack(dto);
     }
 
-    public abstract void callBack();
+    public abstract void callBack(ListNftDto dto);
 }

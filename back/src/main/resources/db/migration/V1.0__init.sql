@@ -46,12 +46,13 @@ CREATE TABLE IF NOT EXISTS `collections`
     token_uri           varchar(255),
     opensea_slug        varchar(255)    NOT NULL,
     creator_fee         double          NOT NULL,
+    is_active           boolean         NOT NULL    DEFAULT false,
     type                varchar(255)    NOT NULL,
     description         varchar(255)    NOT NULL,
-    link_twitter        varchar(255)    NOT NULL,
-    link_discord        varchar(255)    NOT NULL,
-    link_website        varchar(255)    NOT NULL,
-    link_klayscope      varchar(255)    NOT NULL,
+    link_twitter        varchar(255)    NULL,
+    link_discord        varchar(255)    NULL,
+    link_website        varchar(255)    NULL,
+    link_scope          varchar(255)    NULL,
     created_at          dateTime        NOT NULL    DEFAULT now(),
     updated_at          dateTime        NOT NULL    DEFAULT now()
 );

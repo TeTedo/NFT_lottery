@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 @Table(name = "collections")
@@ -38,6 +40,10 @@ public class Collection extends BaseTimeEntity {
     private String type;  // erc, kip 등 체인 확장성을 고려한 type
 
     @Column(nullable = false)
+    @ColumnDefault("0")
+    private boolean isActive;
+
+    @Column(nullable = false)
     private String description;
 
     @Column(name = "link_twitter", length = 255)
@@ -49,18 +55,18 @@ public class Collection extends BaseTimeEntity {
     @Column(name = "link_website", length = 255)
     private String linkWebsite;
 
-    @Column(name = "link_klayscope", length = 255)
-    private String linkKlayscope;
+    @Column(name = "link_scope", length = 255)
+    private String linkScope;
 
     @Builder
 
     public Collection(
             Long id, String contractAddress, String contractName,
-            String contractOwner, String tokenUri,
+            String contractOwner, String tokenUri, boolean isActive,
             String openseaSlug, double creatorFee,
             String type, String description,
             String linkTwitter, String linkDiscord,
-            String linkWebsite, String linkKlayscope) {
+            String linkWebsite, String linkScope) {
 
         this.id = id;
         this.contractAddress = contractAddress;
@@ -70,10 +76,11 @@ public class Collection extends BaseTimeEntity {
         this.openseaSlug = openseaSlug;
         this.creatorFee = creatorFee;
         this.type = type;
+        this.isActive = isActive;
         this.description = description;
         this.linkTwitter = linkTwitter;
         this.linkDiscord = linkDiscord;
         this.linkWebsite = linkWebsite;
-        this.linkKlayscope = linkKlayscope;
+        this.linkScope = linkScope;
     }
 }
