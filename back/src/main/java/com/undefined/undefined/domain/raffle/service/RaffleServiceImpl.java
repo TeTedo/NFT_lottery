@@ -36,7 +36,7 @@ public class RaffleServiceImpl implements  RaffleService{
     @Transactional
     public void chooseWinnerByEvent(ChooseWinnerDto dto) {
         Raffle raffle = raffleRepository.findById(dto.getRaffleId())
-                        .orElseThrow(()-> new RaffleNotFoundException());
+                        .orElseThrow(RaffleNotFoundException::new);
 
         raffle.chooseWinner(dto.getWinner(), dto.getSettlement());
 
@@ -47,7 +47,7 @@ public class RaffleServiceImpl implements  RaffleService{
     @Transactional
     public void claimNftByEvent(ClaimNftDto dto) {
         Raffle raffle = raffleRepository.findById(dto.getRaffleId())
-                .orElseThrow(()-> new RaffleNotFoundException());
+                .orElseThrow(RaffleNotFoundException::new);
 
         raffle.claimNft();
 
