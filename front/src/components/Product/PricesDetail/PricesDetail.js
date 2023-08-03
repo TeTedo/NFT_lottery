@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Contents, Price, Quantity, From } from "./styles";
 
-function PricesDetail() {
+export function PricesDetail() {
   const items = {
     Price: "1.476WETH",
     Quantity: "1",
