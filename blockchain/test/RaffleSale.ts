@@ -31,7 +31,11 @@ describe("Raffle", () => {
       raffleProxy = (await upgrades.deployProxy(
         raffleFactory,
         [FEE_NUMERATOR, MAX_TICKET_AMOUNT, MIN_TICKET_PRICE],
-        { initializer: "initialize", kind: "transparent", unsafeAllow: ["constructor"] }
+        {
+          initializer: "initialize",
+          kind: "transparent",
+          unsafeAllow: ["constructor"],
+        }
       )) as Undefined;
       await raffleProxy.deployed();
 
@@ -132,9 +136,9 @@ describe("Raffle", () => {
     });
     await buyTx1.wait();
     leftTicketAmount = (await raffleProxy.raffles(raffleId)).leftTickets;
-    const buyTx2 = await raffleProxy
-      .connect(buyer3)
-      .buyTickets(raffleId, leftTicketAmount, { value: ticketPrice.mul(leftTicketAmount) });
+    const buyTx2 = await raffleProxy.connect(buyer1).buyTickets(raffleId, leftTicketAmount, {
+      value: ticketPrice.mul(leftTicketAmount),
+    });
     await buyTx2.wait();
   });
 
@@ -143,9 +147,9 @@ describe("Raffle", () => {
     const randNum = Math.floor(Math.random() * 1_000_000);
 
     const gasEstimated = await raffleProxy.estimateGas.chooseWinner(raffleId, randNum);
-    const chooseTx = await raffleProxy
-      .connect(owner)
-      .chooseWinner(raffleId, randNum, { gasLimit: gasEstimated.mul(15).div(10) }); // gasEstimated * 1.2
+    const chooseTx = await raffleProxy.connect(owner).chooseWinner(raffleId, randNum, {
+      gasLimit: gasEstimated.mul(15).div(10),
+    }); // gasEstimated * 1.2
     const chooseReceipt = await chooseTx.wait();
     const events = chooseReceipt.events;
     let winnerTicketIndex = "";
