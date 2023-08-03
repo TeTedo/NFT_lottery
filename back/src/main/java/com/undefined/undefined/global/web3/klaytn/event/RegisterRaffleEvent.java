@@ -47,7 +47,7 @@ public abstract class RegisterRaffleEvent {
         String nftCa = nonIndexedData.get(2).getValue().toString();
         double ticketPrice = Double.parseDouble(nonIndexedData.get(3).getValue().toString()) / Math.pow(10,18);
         int totalTickets = Integer.parseInt(nonIndexedData.get(4).getValue().toString());
-        LocalDateTime endTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(nonIndexedData.get(4).getValue().toString())),
+        LocalDateTime endTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(nonIndexedData.get(5).getValue().toString())),
                 TimeZone.getDefault().toZoneId());
         String seller = nonIndexedData.get(6).getValue().toString();
 
