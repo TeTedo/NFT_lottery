@@ -109,20 +109,21 @@ describe("Raffle", () => {
   });
 
   it("buy tickets", async () => {
-    // const raffleId = 0; // register raffle과 동시에 진행하지 않으면 따로 입력해야함
-    const buyAmount = BigNumber.from("30");
+    // const raffleId = 0; // register raffle과 한큐에 진행하지 않으면 따로 입력해야함
+    const buyAmount = BigNumber.from("300");
     const ticketPrice = (await raffleProxy.raffles(raffleId)).ticketPrice;
 
     const buyTx = await raffleProxy
       .connect(buyer1)
       .buyTickets(raffleId, buyAmount, { value: ticketPrice.mul(buyAmount) });
-    await buyTx.wait();
-
-    // console.log(await raffleProxy.getRaffleInfo(raffleId));
+    const receipt = await buyTx.wait();
+    receipt.events?.forEach((event) => {
+      console.log(event.args?.raffleId);
+    });
   });
 
   it("buy left overs", async () => {
-    // const raffleId = 0; // register raffle과 동시에 진행하지 않으면 따로 입력해야함
+    // const raffleId = // register raffle과 한큐에 진행하지 않으면 따로 입력해야함
     const ticketPrice = (await raffleProxy.raffles(raffleId)).ticketPrice;
     let leftTicketAmount = (await raffleProxy.raffles(raffleId)).leftTickets;
 
@@ -135,7 +136,6 @@ describe("Raffle", () => {
       .connect(buyer3)
       .buyTickets(raffleId, leftTicketAmount, { value: ticketPrice.mul(leftTicketAmount) });
     await buyTx2.wait();
-    // console.log(await raffleProxy.getRaffleInfo(nftCa, tokenId));
   });
 
   it("choose winner", async () => {
@@ -145,7 +145,7 @@ describe("Raffle", () => {
     const gasEstimated = await raffleProxy.estimateGas.chooseWinner(raffleId, randNum);
     const chooseTx = await raffleProxy
       .connect(owner)
-      .chooseWinner(raffleId, randNum, { gasLimit: gasEstimated.mul(12).div(10) }); // gasEstimated * 1.2
+      .chooseWinner(raffleId, randNum, { gasLimit: gasEstimated.mul(15).div(10) }); // gasEstimated * 1.2
     const chooseReceipt = await chooseTx.wait();
     const events = chooseReceipt.events;
     let winnerTicketIndex = "";
@@ -161,9 +161,7 @@ describe("Raffle", () => {
     expect(winnerTicketOwner).to.equal(winnerAddr);
   }); // max gas used = 303789
 
-  return;
-
-  it("claim nft", async () => {
+  it.skip("claim nft", async () => {
     const nftsLength = await raffleProxy.getClaimableNftsLength(winnerAddr);
     const claimableNfts = [];
     for (let i = 0; i < Number(nftsLength); i++) {
@@ -189,8 +187,36 @@ describe("Raffle", () => {
     console.log("after balance: ", await seller.getBalance());
   });
 
-  // const result2 = await raffleProxy.getClaimableNfts(winner);
-  // console.log(result2);
-  // const balanceOfWinner = await testToken.balanceOf(winner);
-  // console.log(balanceOfWinner);
+  it.skip("claim all nfts", async () => {
+    // put buyer1 or buyer2 or buyer3
+    const signer = buyer2;
+    const signerAddr = await signer.getAddress();
+
+    const before_nftsLength = await raffleProxy.getClaimableNftsLength(signerAddr);
+    const before_claimableNfts = [];
+    for (let i = 0; i < Number(before_nftsLength); i++) {
+      before_claimableNfts.push((await raffleProxy.claimableNft(signerAddr, i)).raffleId);
+    }
+    console.log("before claimable nfts", before_claimableNfts);
+
+    // claim all
+    const claimAllTx = await raffleProxy.connect(signer).claimAllNfts();
+    await claimAllTx.wait();
+
+    const after_nftsLength = await raffleProxy.getClaimableNftsLength(signerAddr);
+    const after_claimableNfts = [];
+    for (let i = 0; i < Number(after_nftsLength); i++) {
+      after_claimableNfts.push((await raffleProxy.claimableNft(signerAddr, i)).raffleId);
+    }
+    console.log("after claimable nfts", after_claimableNfts);
+  });
+
+  it.skip("엔에프티 클레임 리스트 한번 싹 정리하는거", async () => {
+    const signers = [buyer1, buyer2, buyer3];
+
+    for (const signer of signers) {
+      const tx = await raffleProxy.connect(signer).claimAllNfts();
+      await tx.wait();
+    }
+  });
 });
