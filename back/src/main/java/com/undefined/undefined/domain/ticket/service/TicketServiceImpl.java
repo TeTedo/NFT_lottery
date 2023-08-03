@@ -27,7 +27,7 @@ public class TicketServiceImpl implements TicketService{
     @Transactional
     public void saveTicketByEvent(BuyTicketsDto dto) {
         Raffle raffle = raffleRepository.findById(dto.getRaffleId())
-                .orElseThrow(()-> new RaffleNotFoundException()).updateLeftTicket(dto.getAmount());
+                .orElseThrow(RaffleNotFoundException::new).updateLeftTicket(dto.getAmount());
 
         dto.setRaffle(raffle);
 
