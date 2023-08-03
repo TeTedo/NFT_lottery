@@ -165,7 +165,7 @@ describe("Raffle", () => {
     expect(winnerTicketOwner).to.equal(winnerAddr);
   }); // max gas used = 303789
 
-  it.skip("claim nft", async () => {
+  it("claim nft", async () => {
     const nftsLength = await raffleProxy.getClaimableNftsLength(winnerAddr);
     const claimableNfts = [];
     for (let i = 0; i < Number(nftsLength); i++) {
