@@ -12,6 +12,8 @@ import com.undefined.undefined.global.web3.klaytn.dto.RegisterRaffleDto;
 import org.springframework.data.domain.Page;
 
 public interface RaffleService {
+    void chooseWinner();
+
     void saveRaffleByEvent(RegisterRaffleDto dto);
 
     void chooseWinnerByEvent(ChooseWinnerDto dto);
@@ -27,4 +29,5 @@ public interface RaffleService {
     Page<RaffleResponse> getRafflesByCA(GetRafflesByCARequest request);
 
     Page<RaffleResponse> getRafflesByWinner(GetWinnerRafflesRequest request);
+
 }

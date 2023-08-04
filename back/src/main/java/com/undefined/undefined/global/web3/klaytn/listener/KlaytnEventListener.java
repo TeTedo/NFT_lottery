@@ -17,7 +17,7 @@ import java.net.ConnectException;
 public class KlaytnEventListener {
 
 
-    private static final String WEBSOCKET_URI = "wss://public-en-baobab.klaytn.net/ws";
+    private static final String WEBSOCKET_URI = "wss://archive-en.baobab.klaytn.net/ws";
     private static final String CONTRACT_ADDRESS = "0xedE916cA2375F50aEaB50a9cCb92Bb69F8c37438";
 
     private WebSocketService webSocketService;

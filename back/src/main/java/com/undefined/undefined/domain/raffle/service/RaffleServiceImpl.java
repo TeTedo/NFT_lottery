@@ -28,6 +28,12 @@ public class RaffleServiceImpl implements  RaffleService{
     private final RaffleMapper raffleMapper;
 
     @Override
+    public void chooseWinner() {
+        List<Raffle> endRaffles = raffleRepository.findEndRaffle();
+        System.out.println(endRaffles.size());
+    }
+
+    @Override
     public void saveRaffleByEvent(RegisterRaffleDto dto) {
         raffleRepository.save(dto.toRaffle());
     }
