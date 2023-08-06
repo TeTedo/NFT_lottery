@@ -1,4 +1,4 @@
-package com.undefined.undefined.global.web3.klaytn.event;
+package com.undefined.undefined.global.web3.klaytn.event.events;
 
 import com.undefined.undefined.global.web3.klaytn.dto.RegisterRaffleDto;
 import org.web3j.abi.EventEncoder;
@@ -10,11 +10,9 @@ import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Uint128;
 import org.web3j.abi.datatypes.generated.Uint80;
-import org.web3j.abi.datatypes.generated.Uint96;
 import org.web3j.protocol.core.methods.response.Log;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;

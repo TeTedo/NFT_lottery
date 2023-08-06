@@ -1,6 +1,6 @@
-package com.undefined.undefined.global.web3.klaytn.handler;
+package com.undefined.undefined.global.web3.klaytn.event.handler;
 
-import com.undefined.undefined.global.web3.klaytn.event.ClaimAllNftsEvent;
+import com.undefined.undefined.global.web3.klaytn.event.events.ClaimAllNftsEvent;
 import org.springframework.stereotype.Component;
 
 @Component
