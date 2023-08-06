@@ -1,8 +1,7 @@
-package com.undefined.undefined.global.web3.klaytn.event;
+package com.undefined.undefined.global.web3.klaytn.event.events;
 
 import com.undefined.undefined.global.web3.klaytn.dto.BuyTicketsDto;
 import com.undefined.undefined.global.web3.klaytn.mapper.EventTypeMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;

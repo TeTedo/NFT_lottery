@@ -1,8 +1,8 @@
-package com.undefined.undefined.global.web3.klaytn.handler;
+package com.undefined.undefined.global.web3.klaytn.event.handler;
 
 import com.undefined.undefined.domain.collection.service.CollectionService;
 import com.undefined.undefined.global.web3.klaytn.dto.ListNftDto;
-import com.undefined.undefined.global.web3.klaytn.event.ListNftEvent;
+import com.undefined.undefined.global.web3.klaytn.event.events.ListNftEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

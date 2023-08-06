@@ -48,4 +48,12 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             WHERE r.winner = :winner
             """)
     Page<Raffle> findByWinnerAndPage(Pageable pageable, @Param("winner") String winner);
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.endTime <= now()
+            AND r.isEnd = false
+            """)
+    List<Raffle> findEndRaffle();
 }

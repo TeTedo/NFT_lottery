@@ -45,7 +45,6 @@ public class CollectionControllerTest {
 
     @MockBean
     private CollectionService collectionService;
-
     @BeforeEach
     void setUp (
             WebApplicationContext webApplicationContext,

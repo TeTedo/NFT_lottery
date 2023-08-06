@@ -1,7 +1,6 @@
-package com.undefined.undefined.global.web3.klaytn.event;
+package com.undefined.undefined.global.web3.klaytn.event.events;
 
 import com.undefined.undefined.global.web3.klaytn.dto.ListNftDto;
-import org.springframework.stereotype.Component;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
