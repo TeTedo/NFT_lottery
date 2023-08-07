@@ -31,7 +31,6 @@ public abstract class ChooseWinnerEvent {
     }
 
     public void saveData(Log log) {
-        List<Type> indexedData = FunctionReturnDecoder.decode(log.getData(), event.getIndexedParameters());
 
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
@@ -47,6 +46,7 @@ public abstract class ChooseWinnerEvent {
                 .settlement(settlement)
                 .build();
 
+        System.out.println("choose winner!");
         callBack(dto);
     }
 
