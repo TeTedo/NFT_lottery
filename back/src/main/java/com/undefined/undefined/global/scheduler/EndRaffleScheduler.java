@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 @RequiredArgsConstructor
 public class EndRaffleScheduler {
@@ -12,7 +14,7 @@ public class EndRaffleScheduler {
     private final RaffleService raffleService;
 
     @Scheduled(cron = "0 * * * * *")
-    public void chooseWinner() {
+    public void chooseWinner() throws IOException {
         raffleService.chooseWinner();
     }
 }

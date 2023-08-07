@@ -12,6 +12,7 @@ import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Uint128;
 import org.web3j.protocol.core.methods.response.Log;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public abstract class BuyTicketsEvent {
         return EventEncoder.encode(event);
     }
 
-    public void saveData(Log log) {
+    public void saveData(Log log) throws IOException{
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
         long raffleId = EventTypeMapper.toIntegerId(log.getTopics().get(1));
@@ -53,5 +54,5 @@ public abstract class BuyTicketsEvent {
         callBack(dto);
     }
 
-    public abstract void callBack(BuyTicketsDto dto);
+    public abstract void callBack(BuyTicketsDto dto) throws IOException;
 }

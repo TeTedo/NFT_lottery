@@ -11,8 +11,10 @@ import com.undefined.undefined.global.web3.klaytn.dto.ClaimNftDto;
 import com.undefined.undefined.global.web3.klaytn.dto.RegisterRaffleDto;
 import org.springframework.data.domain.Page;
 
+import java.io.IOException;
+
 public interface RaffleService {
-    void chooseWinner();
+    void chooseWinner() throws IOException;
 
     void saveRaffleByEvent(RegisterRaffleDto dto);
 

@@ -87,6 +87,7 @@ public class Raffle extends BaseTimeEntity {
     public Raffle chooseWinner(String address, double settlement) {
         this.winner = address;
         this.settlement = settlement;
+        this.isEnd = true;
         return this;
     }
 

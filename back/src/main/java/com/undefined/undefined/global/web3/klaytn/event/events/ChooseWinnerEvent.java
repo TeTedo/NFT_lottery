@@ -31,7 +31,6 @@ public abstract class ChooseWinnerEvent {
     }
 
     public void saveData(Log log) {
-        List<Type> indexedData = FunctionReturnDecoder.decode(log.getData(), event.getIndexedParameters());
 
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 

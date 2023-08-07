@@ -13,11 +13,13 @@ import com.undefined.undefined.global.web3.klaytn.dto.ChooseWinnerDto;
 import com.undefined.undefined.global.web3.klaytn.dto.ClaimBalanceDto;
 import com.undefined.undefined.global.web3.klaytn.dto.ClaimNftDto;
 import com.undefined.undefined.global.web3.klaytn.dto.RegisterRaffleDto;
+import com.undefined.undefined.global.web3.klaytn.service.KlaytnService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +28,18 @@ import java.util.stream.Collectors;
 public class RaffleServiceImpl implements  RaffleService{
     private final RaffleRepository raffleRepository;
     private final RaffleMapper raffleMapper;
+    private final KlaytnService klaytnService;
 
     @Override
-    public void chooseWinner() {
+    public void chooseWinner() throws IOException {
         List<Raffle> endRaffles = raffleRepository.findEndRaffle();
-        System.out.println(endRaffles.size());
+
+        for(Raffle raffle : endRaffles) {
+            int pick = raffle.getTotalTicket() - raffle.getLeftTicket();
+            int randNum = (int) (Math.random() * pick + 1);
+
+            klaytnService.chooseWinner(raffle.getId(), randNum);
+        }
     }
 
     @Override
@@ -45,7 +54,6 @@ public class RaffleServiceImpl implements  RaffleService{
                         .orElseThrow(RaffleNotFoundException::new);
 
         raffle.chooseWinner(dto.getWinner(), dto.getSettlement());
-
         raffleRepository.save(raffle);
     }
 
