@@ -46,7 +46,6 @@ public abstract class ChooseWinnerEvent {
                 .settlement(settlement)
                 .build();
 
-        System.out.println("choose winner!");
         callBack(dto);
     }
 

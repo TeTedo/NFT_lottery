@@ -9,11 +9,13 @@ import com.undefined.undefined.domain.ticket.mapper.TicketMapper;
 import com.undefined.undefined.domain.ticket.model.Ticket;
 import com.undefined.undefined.domain.ticket.repository.TicketRepository;
 import com.undefined.undefined.global.web3.klaytn.dto.BuyTicketsDto;
+import com.undefined.undefined.global.web3.klaytn.service.KlaytnService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Service
@@ -22,10 +24,11 @@ public class TicketServiceImpl implements TicketService{
     private final TicketRepository ticketRepository;
     private final RaffleRepository raffleRepository;
     private final TicketMapper ticketMapper;
+    private final KlaytnService klaytnService;
 
     @Override
     @Transactional
-    public void saveTicketByEvent(BuyTicketsDto dto) {
+    public void saveTicketByEvent(BuyTicketsDto dto) throws IOException {
         Raffle raffle = raffleRepository.findById(dto.getRaffleId())
                 .orElseThrow(RaffleNotFoundException::new).updateLeftTicket(dto.getAmount());
 
@@ -41,6 +44,13 @@ public class TicketServiceImpl implements TicketService{
             ticketRepository.save(ticket);
         } else {
             ticketRepository.save(dto.toTicket());
+        }
+
+        if(raffle.getLeftTicket() == 0) {
+            int pick = raffle.getTotalTicket();
+            int randNum = (int) (Math.random() * pick + 1);
+
+            klaytnService.chooseWinner(raffle.getId(), randNum);
         }
 
     }
