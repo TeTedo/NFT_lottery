@@ -11,17 +11,10 @@ import java.net.ConnectException;
 @Configuration
 public class Web3jConfig {
 
-    private static final String WEBSOCKET_URI = "wss://archive-en.baobab.klaytn.net/ws";
+
     private static final String HTTP_RPC_URI = "https://public-node-api.klaytnapi.com/v1/baobab";
 
-    @Bean
-    public WebSocketService webSocketService() throws ConnectException {
-        WebSocketService webSocketService = new WebSocketService(WEBSOCKET_URI, false);
 
-        webSocketService.connect();
-
-        return webSocketService;
-    }
 
     @Bean
     public Web3j web3jWebsocket(WebSocketService webSocketService) {
@@ -32,4 +25,6 @@ public class Web3jConfig {
     public Web3j web3jHttpRpc() {
         return Web3j.build(new HttpService(HTTP_RPC_URI));
     }
+
+
 }

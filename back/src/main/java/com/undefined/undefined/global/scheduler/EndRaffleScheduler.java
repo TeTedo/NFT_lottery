@@ -13,6 +13,7 @@ public class EndRaffleScheduler {
 
     private final RaffleService raffleService;
 
+    // TODO error handling
     @Scheduled(cron = "0 * * * * *")
     public void chooseWinner() throws IOException {
         raffleService.chooseWinner();
