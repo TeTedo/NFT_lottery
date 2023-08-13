@@ -45,7 +45,7 @@ public class KlaytnEventListener {
     private void handledEvent(Log log) {
         String eventHash = log.getTopics().get(0);
         latestEventBlock = log.getBlockNumber();
-        blockService.saveLatestBlock(latestEventBlock);
+        blockService.saveLatestBlock(latestEventBlock.add(BigInteger.ONE));
         eventBalancer.eventBalancer(log, eventHash);
     }
 }
