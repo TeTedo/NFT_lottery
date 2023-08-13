@@ -7,6 +7,7 @@ import org.web3j.abi.datatypes.*;
 import org.web3j.abi.datatypes.generated.Uint96;
 import org.web3j.protocol.core.methods.response.Log;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,10 +34,19 @@ public abstract class ClaimAllNftsEvent {
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
         String claimer = nonIndexedData.get(0).getValue().toString();
-        String raffleIds = nonIndexedData.get(1).getValue().toString();
+        DynamicArray<Uint96> raffleIdsArray = (DynamicArray<Uint96>) nonIndexedData.get(1);
+        System.out.println(raffleIdsArray.getValue().toString());
+        List<Uint96> raffleIdsList = raffleIdsArray.getValue();
 
-        System.out.println(claimer);
-        System.out.println(raffleIds);
+        int[] intRaffleIds = new int[raffleIdsList.size()];
+
+        for (int i = 0; i < raffleIdsList.size(); i++) {
+            Uint96 raffleIdValue = raffleIdsList.get(i);
+            BigInteger value = raffleIdValue.getValue();
+            intRaffleIds[i] = value.intValue();
+        }
+
+        System.out.println("Raffle IDs: " + Arrays.toString(intRaffleIds));
 
         callBack();
     }

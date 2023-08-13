@@ -15,21 +15,23 @@ import java.util.function.Consumer;
 
 @Configuration
 @Slf4j
-public class WebSocketConfig extends WebSocketService {
+public class WebSocketConfig {
     private static final String WEBSOCKET_URI = "wss://archive-en.baobab.klaytn.net/ws";
-
-    public WebSocketConfig() {
-        super(WEBSOCKET_URI, false);
-    }
 
     @Bean
     public WebSocketService webSocketService() {
+        WebSocketService webSocketService = new WebSocketService(WEBSOCKET_URI, false);
+        connectWebSocketService(webSocketService);
+        return webSocketService;
+    }
+
+    private void connectWebSocketService(WebSocketService webSocketService) {
         while (true) {
             try {
-                this.connect();
+                webSocketService.connect();
                 break;
-            } catch (ConnectException e) {
-                log.error("2초후 재연결 시도", e);
+            } catch (Exception e) {  // 모든 예외를 처리하도록 변경
+                log.error("2초 후에 재연결 시도", e);
                 try {
                     Thread.sleep(2000); // 2초 후에 재연결 시도
                 } catch (InterruptedException ex) {
@@ -37,6 +39,5 @@ public class WebSocketConfig extends WebSocketService {
                 }
             }
         }
-        return this;
     }
 }
