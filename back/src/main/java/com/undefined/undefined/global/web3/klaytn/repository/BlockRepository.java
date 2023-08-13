@@ -15,6 +15,8 @@ public interface BlockRepository extends JpaRepository<Block, BigInteger> {
     @Query("""
             SELECT b
             FROM Block b
+            ORDER BY b.blockNum DESC
+            LIMIT 1
             """)
     Optional<Block> findLatestBlockNum();
 
