@@ -9,10 +9,7 @@ import com.undefined.undefined.domain.raffle.exception.RaffleNotFoundException;
 import com.undefined.undefined.domain.raffle.mapper.RaffleMapper;
 import com.undefined.undefined.domain.raffle.model.Raffle;
 import com.undefined.undefined.domain.raffle.repository.RaffleRepository;
-import com.undefined.undefined.global.web3.klaytn.dto.ChooseWinnerDto;
-import com.undefined.undefined.global.web3.klaytn.dto.ClaimBalanceDto;
-import com.undefined.undefined.global.web3.klaytn.dto.ClaimNftDto;
-import com.undefined.undefined.global.web3.klaytn.dto.RegisterRaffleDto;
+import com.undefined.undefined.global.web3.klaytn.dto.*;
 import com.undefined.undefined.global.web3.klaytn.service.KlaytnService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +63,18 @@ public class RaffleServiceImpl implements  RaffleService{
         raffle.claimNft();
 
         raffleRepository.save(raffle);
+    }
+
+    @Override
+    public void claimAllNftByEvent(ClaimAllNftsDto dto) {
+        for(Long raffleId : dto.getRaffleIds()) {
+            Raffle raffle = raffleRepository.findById(raffleId)
+                    .orElseThrow(RaffleNotFoundException::new);
+
+            raffle.claimNft();
+
+            raffleRepository.save(raffle);
+        }
     }
 
     @Override
