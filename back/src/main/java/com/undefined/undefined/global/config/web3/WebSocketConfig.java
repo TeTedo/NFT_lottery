@@ -36,6 +36,7 @@ public class WebSocketConfig {
                     Thread.sleep(2000); // 2초 후에 재연결 시도
                 } catch (InterruptedException ex) {
                     log.error("연결 실패", ex);
+                    break;
                 }
             }
         }
