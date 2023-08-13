@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.web3.klaytn.event.events;
 
+import com.undefined.undefined.global.web3.klaytn.dto.ClaimAllNftsDto;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -35,21 +36,24 @@ public abstract class ClaimAllNftsEvent {
 
         String claimer = nonIndexedData.get(0).getValue().toString();
         DynamicArray<Uint96> raffleIdsArray = (DynamicArray<Uint96>) nonIndexedData.get(1);
-        System.out.println(raffleIdsArray.getValue().toString());
+
         List<Uint96> raffleIdsList = raffleIdsArray.getValue();
 
-        int[] intRaffleIds = new int[raffleIdsList.size()];
+        Long[] intRaffleIds = new Long[raffleIdsList.size()];
 
         for (int i = 0; i < raffleIdsList.size(); i++) {
             Uint96 raffleIdValue = raffleIdsList.get(i);
             BigInteger value = raffleIdValue.getValue();
-            intRaffleIds[i] = value.intValue();
+            intRaffleIds[i] = value.longValue();
         }
 
-        System.out.println("Raffle IDs: " + Arrays.toString(intRaffleIds));
+        ClaimAllNftsDto dto = ClaimAllNftsDto.builder()
+                .claimer(claimer)
+                .raffleIds(intRaffleIds)
+                .build();
 
-        callBack();
+        callBack(dto);
     }
 
-    public abstract void callBack();
+    public abstract void callBack(ClaimAllNftsDto dto);
 }
