@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface KlaytnService {
 
-    public void chooseWinner(Long raffleId, int randNum) throws IOException;
+    void chooseWinner(Long raffleId, int randNum) throws IOException;
 }
