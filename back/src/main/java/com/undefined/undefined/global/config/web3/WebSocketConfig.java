@@ -36,7 +36,8 @@ public class WebSocketConfig {
 
         Runnable onClose = () -> {
             log.warn("WebSocket 연결이 종료됨. 재연결 시도...");
-            connectWebSocketService(webSocketService);
+            // 기존 스레드는 close 되면서 종료됨. 별도의 스레드에서 재연결
+            new Thread(() -> connectWebSocketService(webSocketService)).start();
         };
 
         try {
