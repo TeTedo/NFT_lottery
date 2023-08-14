@@ -27,7 +27,7 @@ public class WebSocketConfig {
 
     private void connectWebSocketService(WebSocketService webSocketService) {
         Consumer<String> onMessage = message -> {
-            // 메시지를 받을 때 수행할 동작을 여기에 작성합니다.
+            System.out.println(message);
         };
 
         Consumer<Throwable> onError = throwable -> {
