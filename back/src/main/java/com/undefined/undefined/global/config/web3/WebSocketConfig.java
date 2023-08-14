@@ -26,19 +26,23 @@ public class WebSocketConfig {
     }
 
     private void connectWebSocketService(WebSocketService webSocketService) {
-        while (true) {
-            try {
-                webSocketService.connect();
-                break;
-            } catch (Exception e) {  // 모든 예외를 처리하도록 변경
-                log.error("2초 후에 재연결 시도", e);
-                try {
-                    Thread.sleep(2000); // 2초 후에 재연결 시도
-                } catch (InterruptedException ex) {
-                    log.error("연결 실패", ex);
-                    break;
-                }
-            }
+        Consumer<String> onMessage = message -> {
+            // 메시지를 받을 때 수행할 동작을 여기에 작성합니다.
+        };
+
+        Consumer<Throwable> onError = throwable -> {
+            log.error("WebSocket 오류 발생: ", throwable);
+        };
+
+        Runnable onClose = () -> {
+            log.warn("WebSocket 연결이 종료됨. 재연결 시도...");
+            connectWebSocketService(webSocketService);
+        };
+
+        try {
+            webSocketService.connect(onMessage, onError, onClose);
+        } catch (Exception e) {
+            log.error("WebSocket 연결 중 오류 발생", e);
         }
     }
 }
