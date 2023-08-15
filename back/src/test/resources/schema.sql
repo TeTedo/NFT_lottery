@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS `collections`;
 DROP TABLE IF EXISTS `tickets`;
 DROP TABLE IF EXISTS `raffles`;
+DROP TABLE IF EXISTS `blocks`;
 
 CREATE TABLE IF NOT EXISTS `raffles`
 (
@@ -46,12 +47,18 @@ CREATE TABLE IF NOT EXISTS `collections`
     token_uri           varchar(255),
     opensea_slug        varchar(255)    NOT NULL,
     creator_fee         double          NOT NULL,
+    is_active           boolean         NOT NULL    DEFAULT false,
     type                varchar(255)    NOT NULL,
     description         varchar(255)    NOT NULL,
-    link_twitter        varchar(255)    NOT NULL,
-    link_discord        varchar(255)    NOT NULL,
-    link_website        varchar(255)    NOT NULL,
-    link_klayscope      varchar(255)    NOT NULL,
+    link_twitter        varchar(255)    NULL,
+    link_discord        varchar(255)    NULL,
+    link_website        varchar(255)    NULL,
+    link_scope          varchar(255)    NULL,
     created_at          dateTime        NOT NULL    DEFAULT now(),
     updated_at          dateTime        NOT NULL    DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS `blocks`
+(
+    block_num      decimal(38,0)      PRIMARY KEY
 );
