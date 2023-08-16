@@ -68,6 +68,6 @@ public class RegisterCollectionRequest {
         if(this == obj) return true;
         if (!(obj instanceof RegisterCollectionRequest)) return false;
         RegisterCollectionRequest that = (RegisterCollectionRequest) obj;
-        return Objects.equals(contractAddress + type, that.contractAddress + that.type);
+        return Objects.equals(contractAddress, that.contractAddress) && Objects.equals(type, that.type);
     }
 }
