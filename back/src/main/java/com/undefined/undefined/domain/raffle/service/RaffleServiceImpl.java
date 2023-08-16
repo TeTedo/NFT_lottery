@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,12 +32,15 @@ public class RaffleServiceImpl implements  RaffleService{
     public void chooseWinner() throws IOException {
         List<Raffle> endRaffles = raffleRepository.findEndRaffle();
 
+        List<MultiChooseWinnerDto> dto = new ArrayList<>();
         for(Raffle raffle : endRaffles) {
             int pick = raffle.getTotalTicket() - raffle.getLeftTicket();
             int randNum = (int) (Math.random() * pick + 1);
 
-            klaytnService.chooseWinner(raffle.getId(), randNum);
+            dto.add(new MultiChooseWinnerDto(raffle.getId(), randNum));
         }
+
+        klaytnService.chooseWinner(dto);
     }
 
     @Override
