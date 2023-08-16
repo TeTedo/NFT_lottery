@@ -60,7 +60,7 @@ public class RegisterCollectionRequest {
 
     @Override
     public int hashCode() {
-        return Objects.hash(contractAddress, contractName);
+        return Objects.hash(contractAddress, type);
     }
 
     @Override
@@ -68,6 +68,6 @@ public class RegisterCollectionRequest {
         if(this == obj) return true;
         if (!(obj instanceof RegisterCollectionRequest)) return false;
         RegisterCollectionRequest that = (RegisterCollectionRequest) obj;
-        return Objects.equals(contractAddress, that.contractAddress);
+        return Objects.equals(contractAddress, that.contractAddress) && Objects.equals(type, that.type);
     }
 }
