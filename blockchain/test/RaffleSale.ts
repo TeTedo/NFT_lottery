@@ -1,6 +1,6 @@
 import { BigNumber, Contract, Event, Signer } from "ethers";
 import { ethers, network, upgrades } from "hardhat";
-import { expect } from "chai";
+import { expect, assert } from "chai";
 import {
   Undefined,
   TestToken,
@@ -30,7 +30,7 @@ describe("Raffle", () => {
       const raffleFactory = await ethers.getContractFactory("Undefined", owner);
       raffleProxy = (await upgrades.deployProxy(
         raffleFactory,
-        [FEE_NUMERATOR, MAX_TICKET_AMOUNT, MIN_TICKET_PRICE],
+        [FEE_NUMERATOR, MAX_TICKET_AMOUNT, MIN_TICKET_PRICE, await owner.getAddress()],
         {
           initializer: "initialize",
           kind: "transparent",
@@ -68,6 +68,8 @@ describe("Raffle", () => {
       const listTx = await raffleProxy
         .connect(owner)
         ["listNft(address,address,uint8)"](nftCa, await owner.getAddress(), 100);
+      await listTx.wait();
+      // const listTx = await raffleProxy.connect(owner)["listNft(address)"](nftCa);
       await listTx.wait();
 
       const isListed = await raffleProxy.isListed(nftCa);
@@ -131,12 +133,12 @@ describe("Raffle", () => {
     const ticketPrice = (await raffleProxy.raffles(raffleId)).ticketPrice;
     let leftTicketAmount = (await raffleProxy.raffles(raffleId)).leftTickets;
 
-    const buyTx1 = await raffleProxy.connect(buyer2).buyTickets(raffleId, leftTicketAmount.div(2), {
-      value: ticketPrice.mul(leftTicketAmount.div(2)),
+    const buyTx1 = await raffleProxy.connect(buyer2).buyTickets(raffleId, leftTicketAmount / 2, {
+      value: ticketPrice.mul(leftTicketAmount / 2),
     });
     await buyTx1.wait();
     leftTicketAmount = (await raffleProxy.raffles(raffleId)).leftTickets;
-    const buyTx2 = await raffleProxy.connect(buyer1).buyTickets(raffleId, leftTicketAmount, {
+    const buyTx2 = await raffleProxy.connect(buyer3).buyTickets(raffleId, leftTicketAmount, {
       value: ticketPrice.mul(leftTicketAmount),
     });
     await buyTx2.wait();
@@ -171,7 +173,6 @@ describe("Raffle", () => {
     for (let i = 0; i < Number(nftsLength); i++) {
       claimableNfts.push(await raffleProxy.claimableNft(winnerAddr, i));
     }
-    console.log("claimable nfts", claimableNfts);
 
     const winnerSigner = await ethers.getSigner(winnerAddr);
 

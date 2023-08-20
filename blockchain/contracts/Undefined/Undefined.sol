@@ -3,10 +3,28 @@
 pragma solidity 0.8.18;
 
 import "@openzeppelin/contracts/interfaces/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "./Interface/IUndefined.sol";
 import "./UndefinedConfig.sol";
 
-contract Undefined is IUndefined, UndefinedConfig {
+contract Undefined is IUndefined, UndefinedConfig, IERC721Receiver {
+     struct RaffleInfo {
+        uint96 raffleId;
+        uint144 ticketPrice;
+        uint16 totalTickets;
+        uint16 leftTickets;
+        address nftCa;
+        uint tokenId; 
+        uint endTime;
+        address seller;
+        address winner;
+    } 
+    struct NftInfo {
+        uint96 raffleId;
+        address nftCa;
+        uint tokenId;
+    }
+
     RaffleInfo[] public raffles;
     mapping(uint => mapping(uint => address)) public buyer; // raffleId => ticketIndex => buyer
     mapping(address => NftInfo[]) public claimableNft;
@@ -22,12 +40,14 @@ contract Undefined is IUndefined, UndefinedConfig {
     function initialize(
         uint16 feeNumerator_,
         uint16 maxTicketAmount_,
-        uint224 minTicketPrice_
+        uint96 minTicketPrice_,
+        address feeTo_
     ) external initializer {
         __UndefinedConfig_init(
             feeNumerator_,
             maxTicketAmount_,
-            minTicketPrice_
+            minTicketPrice_,
+            feeTo_
         );
         __Ownable_init();
         door = UN_LOCKED;
@@ -48,12 +68,12 @@ contract Undefined is IUndefined, UndefinedConfig {
     function registerRaffle(
         address nftCa,
         uint tokenId,
-        uint80 totalTickets,
-        uint120 ticketPrice,
-        uint miunte
+        uint16 totalTickets,
+        uint144 ticketPrice,
+        uint minute
+        // uint day
     )
         external
-        // uint day
         onlyListed(nftCa)
     {
         require(ticketPrice >= minTicketPrice, "too low price");
@@ -61,7 +81,7 @@ contract Undefined is IUndefined, UndefinedConfig {
             totalTickets > 0 && totalTickets <= maxTicketAmount,
             "unproper ticket amount"
         );
-        require(miunte > 0, "day must more than zero");
+        require(minute > 0, "day must more than zero");
         // require(day > 0, "day must more than zero");
         IERC721(nftCa).transferFrom(msg.sender, address(this), tokenId);
         uint96 raffleId = uint96(raffles.length);
@@ -70,19 +90,27 @@ contract Undefined is IUndefined, UndefinedConfig {
             raffleId: raffleId, 
             ticketPrice: ticketPrice,
             // block.timestamp + day * 1 days,
-            endTime: block.timestamp + miunte * 1 minutes,
+            endTime: block.timestamp + minute * 1 minutes,
             totalTickets: totalTickets,
             nftCa: nftCa,
             leftTickets: totalTickets,
             seller: msg.sender,
             winner: address(0)
         }));
-        emit RegisterRaffle(raffleId, tokenId, nftCa, ticketPrice, totalTickets, block.timestamp + miunte * 1 minutes, msg.sender);
+        emit RegisterRaffle(
+            raffleId, 
+            tokenId, 
+            nftCa, 
+            ticketPrice, 
+            totalTickets, 
+            block.timestamp + minute * 1 minutes, 
+            msg.sender
+            );
     }
 
     function buyTickets(
         uint96 raffleId,
-        uint80 amount
+        uint16 amount
     ) external payable onlyRegistered(raffleId) {
         RaffleInfo storage raffleInfo = raffles[raffleId];
         require(
@@ -90,7 +118,7 @@ contract Undefined is IUndefined, UndefinedConfig {
             "invalid amount"
         );
         require(amount * raffleInfo.ticketPrice == msg.value, "improper money");
-        require(raffleInfo.endTime > block.timestamp, "raffle times up");
+        require(raffleInfo.endTime >= block.timestamp, "raffle times up");
         uint soldTicketsAmount;
         uint toIndex;
         unchecked {
@@ -119,7 +147,7 @@ contract Undefined is IUndefined, UndefinedConfig {
 
     function chooseWinner(
         uint96 raffleId,
-        uint randNum
+        uint salt
     ) external onlyOwner onlyRegistered(raffleId) lock {
         RaffleInfo storage raffleInfo = raffles[raffleId];
         uint80 soldTicketsAmount;
@@ -131,47 +159,54 @@ contract Undefined is IUndefined, UndefinedConfig {
         require(soldTicketsAmount > 0, "failed raffle");
         require(raffleInfo.winner == address(0), "winner already chosen");
         require(
-            raffleInfo.endTime < block.timestamp || raffleInfo.leftTickets <= 0,
+            raffleInfo.endTime <= block.timestamp || raffleInfo.leftTickets <= 0,
             "not ended or not sold out"
         );
 
         // choose winner
         uint winnerTicketIndex = uint(
             keccak256(
-                abi.encodePacked(block.prevrandao, block.timestamp, randNum)
+                abi.encodePacked(block.prevrandao, block.timestamp, salt)
             )
         ) % soldTicketsAmount;
         address winner = getTicketOwnerByIndex(raffleId, winnerTicketIndex);
         raffleInfo.winner = winner;
 
-        // settlement calculation
+        // fee calculation
         uint wholeSales = soldTicketsAmount * raffleInfo.ticketPrice;
         uint fee = (wholeSales * feeNumerator) / 1000;
-        CreatorInfo memory creatorInfo = creatorInfo[raffleInfo.nftCa];
-        uint creatorFee = (wholeSales * creatorInfo.creatorFeeNumerator) / 1000;
+        feeBox += uint240(fee); // fee cannot over uint240 max
         uint settlement;
         unchecked {
-            settlement = wholeSales - fee - creatorFee;
-        } // fee(max 30% of wholeSales), creatorFee(max 10% of wholeSales)
+            settlement = wholeSales - fee;
+        } // fee(max 30% of wholeSales)
 
-        claimableNft[winner].push(
-            NftInfo(raffleId, raffleInfo.nftCa, raffleInfo.tokenId)
-        );
-        claimableBalance[raffleInfo.seller] = settlement;
-        feeBox += fee;
-        if (creatorFee > 0) {
-            // If creatorFee > 0, creator is not zero address.
+        CreatorInfo storage creatorInfo = creatorInfo[raffleInfo.nftCa]; // not use memory for gas saving
+        uint creatorFeeNumerator = creatorInfo.creatorFeeNumerator;
+        if(creatorFeeNumerator > 0){
+        uint creatorFee = (wholeSales * creatorFeeNumerator) / 1000;
+            unchecked {
+                settlement -= creatorFee;
+            } // creatorFee(max 10% of wholeSales)
             (bool success, ) = creatorInfo.creator.call{value: creatorFee}("");
             require(success, "failed to transfer creatorFee");
         }
+
+        // settlement
+        claimableBalance[raffleInfo.seller] = settlement;
+        claimableNft[winner].push(
+            NftInfo(raffleId, raffleInfo.nftCa, raffleInfo.tokenId)
+        );
         emit ChooseWinner(raffleId, winner, winnerTicketIndex, settlement);
     }
 
     function claimAllNfts() external {
-        NftInfo[] memory nftInfoList = claimableNft[msg.sender];
-        delete claimableNft[msg.sender];
-        uint96[] memory raffleIds = new uint96[](nftInfoList.length);
-        for (uint i = 0; i < nftInfoList.length; i++) {
+        NftInfo[] storage nftInfoList = claimableNft[msg.sender]; // not use memory for gas saving
+        uint length = nftInfoList.length; // for gas saving
+        uint[] memory raffleIds = new uint[](length);
+        require(length > 0, "no claimable nfts");
+        // no need for check-effects-interaction pattern
+        for (uint i = 0; i < length; i++) {
             IERC721(nftInfoList[i].nftCa).safeTransferFrom(
                 address(this),
                 msg.sender,
@@ -179,20 +214,23 @@ contract Undefined is IUndefined, UndefinedConfig {
             );
             raffleIds[i] = nftInfoList[i].raffleId;
         }
+        delete claimableNft[msg.sender]; 
         emit ClaimAllNfts(msg.sender, raffleIds);
     }
 
     function claimNftByIndex(uint index) external {
         NftInfo[] storage nfts = claimableNft[msg.sender];
-        require(nfts.length > 0, "nothing to claim");
-        NftInfo memory claimNftInfo = nfts[index];
-        nfts[index] = nfts[nfts.length - 1];
-        nfts.pop();
+        uint length = nfts.length; // for gas saving
+        // no need for check-effects-interaction pattern
+        require(index < length, "unclaimable index");
+        NftInfo storage claimNftInfo = nfts[index];
         IERC721(claimNftInfo.nftCa).safeTransferFrom(
             address(this),
             msg.sender,
             claimNftInfo.tokenId
         );
+        nfts[index] = nfts[length - 1];
+        nfts.pop();
         emit ClaimNft(msg.sender, claimNftInfo.raffleId);
     }
 
@@ -225,12 +263,11 @@ contract Undefined is IUndefined, UndefinedConfig {
         emit ClaimBalance(msg.sender, amount, balance - amount);
     }
 
-    function withdrawFee(address to, uint amount) external onlyOwner lock {
-        require(to != address(0), "zero address");
+    function withdrawFee(uint amount) external onlyOwner lock {
         require(amount <= feeBox, "cannot withdraw more than feeBox");
-        (bool success, ) = to.call{value: amount}("");
+        (bool success, ) = feeTo.call{value: amount}("");
         require(success, "transfer failed");
-        emit WithdrawFee(to, amount);
+        emit WithdrawFee(feeTo, amount);
     }
 
     function getTicketOwnerByIndex(
@@ -238,7 +275,7 @@ contract Undefined is IUndefined, UndefinedConfig {
         uint index
     ) public view returns (address) {
         uint soldTicketsAmount = raffles[raffleId].totalTickets -
-            raffles[raffleId].leftTickets; // more gas efficient way
+            raffles[raffleId].leftTickets;
         require(index < soldTicketsAmount, "unsold index");
         for (uint i = index; i < soldTicketsAmount; i++) {
             address owner = buyer[raffleId][i];
@@ -251,5 +288,14 @@ contract Undefined is IUndefined, UndefinedConfig {
         address owner
     ) external view returns (uint length) {
         length = claimableNft[owner].length;
+    }
+
+    function onERC721Received(
+        address operator,
+        address from,
+        uint256 tokenId,
+        bytes calldata data
+    ) external pure returns (bytes4){
+        return IERC721Receiver.onERC721Received.selector;
     }
 }

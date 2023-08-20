@@ -4,8 +4,8 @@ import { proxies } from "../../.openzeppelin/unknown-1001.json"; // baobab
 
 async function main() {
   const signer = (await ethers.getSigners())[0];
-  const newImplements = await ethers.getContractFactory("Undefined", signer);
-  const upgrade = await upgrades.upgradeProxy(proxies[0], newImplements, {
+  const newImplement = await ethers.getContractFactory("Undefined", signer);
+  const upgrade = await upgrades.upgradeProxy(proxies[0], newImplement, {
     unsafeAllow: ["constructor"],
   });
   const deployed = await upgrade.deployed();
@@ -15,7 +15,7 @@ async function main() {
 
   console.log("upgarade successfully done");
   console.log(
-    `upgraded at ${network.name} network, Proxy_CA: ${deployed.address}, use ${gasUsed} gas`
+    `upgraded at ${network.name} network, Proxy_CA: ${deployed.address}, used ${gasUsed} gas`
   );
 }
 
