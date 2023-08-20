@@ -5,7 +5,7 @@ pragma solidity 0.8.18;
 interface IUndefinedConfig {
     event SetMaxTicketAmount(uint amount);
     event SetMinTicketPrice(uint price);
-    event SetFeeNumerator(uint commission);
+    event SetFeeNumerator(uint feeNumerator);
     event ListNft(address nftCa, address creator, uint creatorFeeNumerator);
     event DeListNft(address nftCa);
     event SetCreatorInfo(address creator, uint creatorFeeNumerator);
@@ -18,7 +18,7 @@ interface IUndefinedConfig {
     function feeBox() external view returns (uint240);
     function feeTo() external view returns (address);
 
-    function setFeeNumerator(uint16 _feeNumerator) external;
+    function setFeeNumerator(uint16 feeNumerator) external;
     function setMaxTicketAmount(uint16 amount) external;
     function setMinTicketPrice(uint96 price) external;
     function listNft(address nftCa) external;
