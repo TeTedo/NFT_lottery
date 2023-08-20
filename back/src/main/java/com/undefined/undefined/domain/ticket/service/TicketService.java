@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import java.io.IOException;
 
 public interface TicketService {
-    void saveTicketByEvent(BuyTicketsDto dto) throws IOException;
+    void saveTicketByEvent(BuyTicketsDto dto);
 
     Page<TicketResponse> getMyTickets(GetMyTicketsRequest request);
 }

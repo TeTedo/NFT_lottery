@@ -28,7 +28,7 @@ public class TicketServiceImpl implements TicketService{
 
     @Override
     @Transactional
-    public void saveTicketByEvent(BuyTicketsDto dto) throws IOException {
+    public void saveTicketByEvent(BuyTicketsDto dto) {
         Raffle raffle = raffleRepository.findById(dto.getRaffleId())
                 .orElseThrow(RaffleNotFoundException::new).updateLeftTicket(dto.getAmount());
 
