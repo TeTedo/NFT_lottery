@@ -4,14 +4,14 @@ import { Undefined } from "../../typechain-types/index";
 async function main() {
   const MAX_TICKET_AMOUNT = 1_000;
   const MIN_TICKET_PRICE = ethers.utils.parseEther("0.0001");
-  const COMMISSION = 100; // 0.1% 단위
-  const COMMISSON_VAULt = "";
+  const FEE_NUMERATOR = 100; // 0.1% 단위
+  const FEE_TO = "";
 
   const signer = (await ethers.getSigners())[0];
   const contractFactory = await ethers.getContractFactory("Undefined", signer);
   const raffleProxy = (await upgrades.deployProxy(
     contractFactory,
-    [COMMISSION, MAX_TICKET_AMOUNT, MIN_TICKET_PRICE],
+    [FEE_NUMERATOR, MAX_TICKET_AMOUNT, MIN_TICKET_PRICE, await signer.getAddress()],
     {
       initializer: "initialize",
       unsafeAllow: ["constructor"],
