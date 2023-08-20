@@ -34,8 +34,6 @@ public class TicketServiceImpl implements TicketService{
 
         dto.setRaffle(raffle);
 
-        raffleRepository.save(raffle);
-
         Optional<Ticket> existedTicket =  ticketRepository.findByRaffleIdAndOwner(dto.getRaffleId(), dto.getBuyer());
 
         if(existedTicket.isPresent()) {
@@ -47,12 +45,10 @@ public class TicketServiceImpl implements TicketService{
         }
 
         if(raffle.getLeftTicket() == 0) {
-            int pick = raffle.getTotalTicket();
-            int randNum = (int) (Math.random() * pick + 1);
-
-            klaytnService.chooseWinner(raffle.getId(), randNum);
+            raffle.endTimeRaffle();
         }
 
+        raffleRepository.save(raffle);
     }
 
     @Override

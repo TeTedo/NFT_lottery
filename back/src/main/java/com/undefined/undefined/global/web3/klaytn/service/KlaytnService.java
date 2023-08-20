@@ -7,8 +7,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface KlaytnService {
-
-    void chooseWinner(Long raffleId, int randNum) throws IOException;
-
     void chooseWinner(List<MultiChooseWinnerDto> dto) throws IOException;
 }

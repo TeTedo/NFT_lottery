@@ -100,4 +100,8 @@ public class Raffle extends BaseTimeEntity {
         this.isPaid = true;
         return this;
     }
+
+    public void endTimeRaffle() {
+        this.endTime = LocalDateTime.now();
+    }
 }
