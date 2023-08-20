@@ -28,13 +28,11 @@ public class TicketServiceImpl implements TicketService{
 
     @Override
     @Transactional
-    public void saveTicketByEvent(BuyTicketsDto dto) throws IOException {
+    public void saveTicketByEvent(BuyTicketsDto dto) {
         Raffle raffle = raffleRepository.findById(dto.getRaffleId())
                 .orElseThrow(RaffleNotFoundException::new).updateLeftTicket(dto.getAmount());
 
         dto.setRaffle(raffle);
-
-        raffleRepository.save(raffle);
 
         Optional<Ticket> existedTicket =  ticketRepository.findByRaffleIdAndOwner(dto.getRaffleId(), dto.getBuyer());
 
@@ -47,12 +45,10 @@ public class TicketServiceImpl implements TicketService{
         }
 
         if(raffle.getLeftTicket() == 0) {
-            int pick = raffle.getTotalTicket();
-            int randNum = (int) (Math.random() * pick + 1);
-
-            klaytnService.chooseWinner(raffle.getId(), randNum);
+            raffle.endTimeRaffle();
         }
 
+        raffleRepository.save(raffle);
     }
 
     @Override

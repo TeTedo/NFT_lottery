@@ -45,16 +45,6 @@ public class KlaytnServiceImpl implements KlaytnService{
     private static final String CONTRACT_ADDRESS = "0xedE916cA2375F50aEaB50a9cCb92Bb69F8c37438";
 
     @Override
-    synchronized public void chooseWinner(Long _raffleId, int _randNum) throws IOException {
-
-        BigInteger raffleId = BigInteger.valueOf(_raffleId);
-        BigInteger randNum = BigInteger.valueOf(_randNum);
-        BigInteger nonce = getNonce();
-
-        sendChooseWinerTransaction(raffleId, randNum, nonce);
-    }
-
-    @Override
     public void chooseWinner(List<MultiChooseWinnerDto> dto) throws IOException {
 
         BigInteger nonce = getNonce();
