@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
 import { Contents, NFT } from "./styles";
+import { useNavigation } from "hooks/useNavigation";
 
 export default function ProductRecommendationItem() {
+  const { goToDetail } = useNavigation();
   return (
     <Contents.Container>
       <Contents.Title>인기 / 추천</Contents.Title>
@@ -32,7 +34,7 @@ export default function ProductRecommendationItem() {
               <NFT.Box.Time>147일 17시간</NFT.Box.Time>
               <NFT.Box.Text>남음</NFT.Box.Text>
             </Box>
-            <NFT.Box.Button>BUY</NFT.Box.Button>
+            <NFT.Box.Button onClick={() => goToDetail()}>BUY</NFT.Box.Button>
           </NFT.Box.Container>
         </NFT.Contents>
         <NFT.Img />
