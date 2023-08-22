@@ -23,6 +23,7 @@ const Contents = {
       background: #fff3;
     }
   `,
+
 };
 
 export { Contents };

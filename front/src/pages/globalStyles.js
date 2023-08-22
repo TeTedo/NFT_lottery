@@ -8,5 +8,6 @@ export const background = {
 export const colors = {
   white: "#fff",
   grey: "#49504d",
+  dark_grey: "#727576",
   purple: "#7900e9",
 };
