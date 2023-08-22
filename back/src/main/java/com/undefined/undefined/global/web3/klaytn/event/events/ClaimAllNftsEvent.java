@@ -1,6 +1,7 @@
 package com.undefined.undefined.global.web3.klaytn.event.events;
 
 import com.undefined.undefined.global.web3.klaytn.dto.ClaimAllNftsDto;
+import com.undefined.undefined.global.web3.klaytn.mapper.EventTypeMapper;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -15,14 +16,10 @@ import java.util.List;
 public abstract class ClaimAllNftsEvent {
     private final Event event;
 
-    private Address claimer;
-
-    private DynamicArray<Uint96> raffleIds;
-
     public ClaimAllNftsEvent() {
         this.event =  new Event("ClaimAllNfts", Arrays.<TypeReference<?>>asList(
-                new TypeReference<Address>() {},
-                new TypeReference<DynamicArray<Uint96>>() {})
+                new TypeReference<Address>(true) {},
+                new TypeReference<DynamicArray<Uint>>() {})
         );
     }
 
@@ -34,15 +31,15 @@ public abstract class ClaimAllNftsEvent {
 
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
-        String claimer = nonIndexedData.get(0).getValue().toString();
-        DynamicArray<Uint96> raffleIdsArray = (DynamicArray<Uint96>) nonIndexedData.get(1);
+        String claimer = EventTypeMapper.toAddress(log.getTopics().get(1));
+        DynamicArray<Uint> raffleIdsArray = (DynamicArray<Uint>) nonIndexedData.get(1);
 
-        List<Uint96> raffleIdsList = raffleIdsArray.getValue();
+        List<Uint> raffleIdsList = raffleIdsArray.getValue();
 
         Long[] intRaffleIds = new Long[raffleIdsList.size()];
 
         for (int i = 0; i < raffleIdsList.size(); i++) {
-            Uint96 raffleIdValue = raffleIdsList.get(i);
+            Uint raffleIdValue = raffleIdsList.get(i);
             BigInteger value = raffleIdValue.getValue();
             intRaffleIds[i] = value.longValue();
         }

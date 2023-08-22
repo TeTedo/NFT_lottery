@@ -1,12 +1,14 @@
 package com.undefined.undefined.global.web3.klaytn.event.events;
 
 import com.undefined.undefined.global.web3.klaytn.dto.ClaimNftDto;
+import com.undefined.undefined.global.web3.klaytn.mapper.EventTypeMapper;
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Event;
 import org.web3j.abi.datatypes.Type;
+import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Uint96;
 import org.web3j.protocol.core.methods.response.Log;
 
@@ -22,8 +24,8 @@ public abstract class ClaimNftEvent {
 
     public ClaimNftEvent() {
         this.event =  new Event("ClaimNft", Arrays.asList(
-                new TypeReference<Address>() {},
-                new TypeReference<Uint96>() {})
+                new TypeReference<Address>(true) {},
+                new TypeReference<Uint>(true) {})
         );
     }
 
@@ -32,10 +34,9 @@ public abstract class ClaimNftEvent {
     }
 
     public void saveData(Log log) {
-        List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
-        String claimer = nonIndexedData.get(0).getValue().toString();
-        Long raffleId = Long.parseLong(nonIndexedData.get(1).getValue().toString());
+        String claimer = EventTypeMapper.toAddress(log.getTopics().get(1));
+        Long raffleId = EventTypeMapper.toLongId(log.getTopics().get(2));
 
         ClaimNftDto dto = ClaimNftDto.builder()
                 .claimer(claimer)
