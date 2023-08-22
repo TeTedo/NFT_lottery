@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface KlaytnService {
     void chooseWinner(List<MultiChooseWinnerDto> dto) throws IOException;
+
+    void getBlockNumber();
 }

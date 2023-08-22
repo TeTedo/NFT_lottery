@@ -14,6 +14,7 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Response;
+import org.web3j.protocol.core.methods.response.EthBlockNumber;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.tx.FastRawTransactionManager;
@@ -108,5 +109,15 @@ public class KlaytnServiceImpl implements KlaytnService{
 
         BigInteger nonce = ethGetTransactionCount.getTransactionCount();
         return nonce;
+    }
+
+    @Override
+    public void getBlockNumber() {
+        try{
+            EthBlockNumber blockNumber = web3jHttpRpc.ethBlockNumber().send();
+            System.out.println("blockNumber : " + blockNumber);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
