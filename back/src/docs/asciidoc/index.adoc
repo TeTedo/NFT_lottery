@@ -1,0 +1,43 @@
+= Undefined REST Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:sectlinks:
+
+[[Collection-API]]
+== Collection API
+
+[[Collections-조회]]
+=== Collections 조회
+operation::collection[snippets='http-request,response-fields']
+
+[[Collections-등록]]
+=== Collections 등록
+operation::collection[snippets='http-request,request-fields']
+
+[[Raffle-API]]
+== Raffle API
+
+[[All-Raffle-조회]]
+=== All Raffle 조회
+operation::allRaffles[snippets='http-request,response-fields']
+
+[[my-Raffle-조회]]
+=== my Raffle 조회
+operation::myRaffle[snippets='http-request,response-fields']
+
+[[CA로-Raffle-조회]]
+=== CA로 Raffle 조회
+operation::raffleByCA[snippets='http-request,response-fields']
+
+[[당첨자-Raffle-조회]]
+=== 당첨자 Raffle 조회
+operation::raffleByWinner[snippets='http-request,response-fields']
+
+[[Ticket-API]]
+== Ticket API
+
+[[My-Ticket-조회]]
+=== My Ticket 조회
+operation::myTickets[snippets='http-request,response-fields']

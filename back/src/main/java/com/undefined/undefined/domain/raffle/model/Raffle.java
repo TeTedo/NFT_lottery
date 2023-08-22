@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 public class Raffle extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 66, nullable = false)
@@ -28,10 +27,19 @@ public class Raffle extends BaseTimeEntity {
     @Column(name = "token_uri", length = 255, nullable = true)
     private String tokenUri;
 
+    @Column(name = "total_ticket", nullable = false)
+    private int totalTicket;
+
+    @Column(name = "left_ticket", nullable = false)
+    private int leftTicket;
+
+    @Column(name = "ticket_price", nullable = false)
+    private double ticketPrice;
+
     @Column(length = 66, nullable = false)
     private String seller;
 
-    @Column(length = 66, nullable = false)
+    @Column(length = 66)
     private String winner;
 
     @Column(name = "end_time", nullable = false)
@@ -45,21 +53,55 @@ public class Raffle extends BaseTimeEntity {
     @Column(name = "is_paid", nullable = false)
     private boolean isPaid;
 
+    @ColumnDefault("0")
+    @Column(name = "is_claim_nft", nullable = false)
+    private boolean isClaimNft;
+
+    @Column
+    private double settlement;
+
     @Builder
-
-    public Raffle(
-            Long id, String ca, int tokenId, String tokenUri,
-            String seller, String winner, LocalDateTime endTime,
-            boolean isEnd, boolean isPaid) {
-
+    public Raffle(Long id, String ca, int tokenId, String tokenUri, int totalTicket, double ticketPrice, String seller, String winner, LocalDateTime endTime, boolean isEnd, boolean isPaid,
+                  int leftTicket, double settlement, boolean isClaimNft) {
         this.id = id;
         this.ca = ca;
         this.tokenId = tokenId;
         this.tokenUri = tokenUri;
+        this.totalTicket = totalTicket;
+        this.ticketPrice = ticketPrice;
         this.seller = seller;
         this.winner = winner;
         this.endTime = endTime;
         this.isEnd = isEnd;
         this.isPaid = isPaid;
+        this.isClaimNft = isClaimNft;
+        this.leftTicket = leftTicket;
+        this.settlement = settlement;
+    }
+
+    public Raffle updateLeftTicket(int boughtTicket) {
+        this.leftTicket -= boughtTicket;
+        return this;
+    }
+
+    public Raffle chooseWinner(String address, double settlement) {
+        this.winner = address;
+        this.settlement = settlement;
+        this.isEnd = true;
+        return this;
+    }
+
+    public Raffle claimNft() {
+        this.isClaimNft = true;
+        return this;
+    }
+
+    public Raffle claimBalance() {
+        this.isPaid = true;
+        return this;
+    }
+
+    public void endTimeRaffle() {
+        this.endTime = LocalDateTime.now();
     }
 }

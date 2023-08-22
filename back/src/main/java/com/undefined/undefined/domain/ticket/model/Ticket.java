@@ -17,29 +17,31 @@ public class Ticket extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "raffle_id", nullable = false)
     private Raffle raffle;
-
-    @Column(nullable = false)
-    private double price;
 
     @Column(length = 66, nullable = false)
     private String owner;
 
-    @Column(name = "token_uri", length = 255, nullable = false)
+    @Column(name = "token_uri", length = 255)
     private String tokenUri;
 
+    @Column(nullable = false)
+    private int amount;
+
     @Builder
-
     public Ticket(
-            Long id, Raffle raffle, double price,
-            String owner, String tokenUri) {
-
+            Long id, Raffle raffle, String owner, String tokenUri, int amount) {
         this.id = id;
         this.raffle = raffle;
-        this.price = price;
         this.owner = owner;
         this.tokenUri = tokenUri;
+        this.amount = amount;
+    }
+
+    public Ticket updateAmount(int boughtTicket) {
+        this.amount += boughtTicket;
+        return this;
     }
 }
