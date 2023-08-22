@@ -6,7 +6,7 @@ public class EventTypeMapper {
         return "0x" + address.substring(26);
     }
 
-    public static Long toIntegerId(String hexData) {
+    public static Long toLongId(String hexData) {
         return Long.parseLong(hexData.substring(2),16);
     }
 

@@ -20,7 +20,7 @@ import java.math.BigInteger;
 @RequiredArgsConstructor
 public class KlaytnEventListener {
 
-    private static final String CONTRACT_ADDRESS = "0xedE916cA2375F50aEaB50a9cCb92Bb69F8c37438";
+    private static final String CONTRACT_ADDRESS = "0x04e244d3835871Cb3F7e2040ECEe33E85Da5C2DD";
 
     private static BigInteger latestEventBlock;
 

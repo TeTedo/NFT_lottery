@@ -26,7 +26,7 @@ public abstract class BuyTicketsEvent {
                 new TypeReference<Address>(true) {},
                 new TypeReference<Uint>() {},
                 new TypeReference<Uint>() {},
-                new TypeReference<Uint128>() {})
+                new TypeReference<Uint>() {})
         );
     }
 
@@ -37,7 +37,7 @@ public abstract class BuyTicketsEvent {
     public void saveData(Log log) throws IOException{
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
-        long raffleId = EventTypeMapper.toIntegerId(log.getTopics().get(1));
+        long raffleId = EventTypeMapper.toLongId(log.getTopics().get(1));
         String buyer = EventTypeMapper.toAddress(log.getTopics().get(2));
         int fromIndex = Integer.parseInt(nonIndexedData.get(0).getValue().toString());
         int toIndex = Integer.parseInt(nonIndexedData.get(1).getValue().toString());

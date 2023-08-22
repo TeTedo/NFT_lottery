@@ -19,7 +19,7 @@ public abstract class ChooseWinnerEvent {
 
     public ChooseWinnerEvent() {
         this.event =  new Event("ChooseWinner", Arrays.<TypeReference<?>>asList(
-                new TypeReference<Uint>() {},
+                new TypeReference<Uint>(true) {},
                 new TypeReference<Address>(true) {},
                 new TypeReference<Uint>() {},
                 new TypeReference<Uint>() {})
@@ -34,10 +34,10 @@ public abstract class ChooseWinnerEvent {
 
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
-        Long raffleId = Long.parseLong(nonIndexedData.get(0).getValue().toString());
-        String winner = EventTypeMapper.toAddress(log.getTopics().get(1));
-        int winnerTicketIndex = Integer.parseInt(nonIndexedData.get(1).getValue().toString());
-        double settlement = Double.parseDouble(nonIndexedData.get(2).getValue().toString()) / Math.pow(10,18);
+        Long raffleId = EventTypeMapper.toLongId(log.getTopics().get(1));
+        String winner = EventTypeMapper.toAddress(log.getTopics().get(2));
+        int winnerTicketIndex = Integer.parseInt(nonIndexedData.get(0).getValue().toString());
+        double settlement = Double.parseDouble(nonIndexedData.get(1).getValue().toString()) / Math.pow(10,18);
 
         ChooseWinnerDto dto = ChooseWinnerDto.builder()
                 .raffleId(raffleId)
