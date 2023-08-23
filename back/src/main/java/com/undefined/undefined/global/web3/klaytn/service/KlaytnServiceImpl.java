@@ -112,12 +112,14 @@ public class KlaytnServiceImpl implements KlaytnService{
     }
 
     @Override
-    public void getBlockNumber() {
+    public BigInteger getBlockNumber() {
         try{
             EthBlockNumber blockNumber = web3jHttpRpc.ethBlockNumber().send();
-            System.out.println("blockNumber : " + blockNumber);
+            System.out.println("blockNumber : " + blockNumber.getBlockNumber().longValue());
+            return blockNumber.getBlockNumber();
         }catch (IOException e) {
             e.printStackTrace();
+            return BigInteger.ZERO;
         }
     }
 }

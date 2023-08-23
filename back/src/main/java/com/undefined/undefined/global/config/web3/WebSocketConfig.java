@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @Configuration
 @Slf4j
 public class WebSocketConfig {
-    private static final String WEBSOCKET_URI = "wss://api.baobab.klaytn.net:8652";
+    private static final String WEBSOCKET_URI = "wss://klaytn-baobab.blockpi.network/v1/ws/e09f7347df5f3108682727dd2c4ea4a76cefbbd8";
 
     @Bean
     public WebSocketService webSocketService() {
