@@ -19,6 +19,8 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             SELECT r
             FROM Raffle r
             WHERE r.seller = :seller
+            AND r.isPaid = false
+            AND r.isEnd = true
             """)
     List<Raffle> findAllBySeller(@Param("seller") String seller);
 
