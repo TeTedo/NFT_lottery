@@ -8,6 +8,7 @@ import com.undefined.undefined.global.web3.klaytn.service.KlaytnServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.web3j.protocol.Web3j;
@@ -20,6 +21,7 @@ import java.math.BigInteger;
 
 @Component
 @RequiredArgsConstructor
+@Profile("!test")
 public class KlaytnEventListener {
 
     private static final String CONTRACT_ADDRESS = "0x04e244d3835871Cb3F7e2040ECEe33E85Da5C2DD";
