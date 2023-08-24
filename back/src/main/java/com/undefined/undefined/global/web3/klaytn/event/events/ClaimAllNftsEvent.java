@@ -33,7 +33,6 @@ public abstract class ClaimAllNftsEvent {
 
         String claimer = EventTypeMapper.toAddress(log.getTopics().get(1));
 
-        @SuppressWarnings("unchecked")
         DynamicArray<Uint> raffleIdsArray = (DynamicArray<Uint>) nonIndexedData.get(1);
 
         List<Uint> raffleIdsList = raffleIdsArray.getValue();
