@@ -1,5 +1,6 @@
 package com.undefined.undefined.domain.raffle.dto.response;
 
+import com.undefined.undefined.domain.raffle.model.Raffle;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -40,5 +41,23 @@ public class RaffleResponse {
         this.isClaimNft = isClaimNft;
         this.settlement = settlement;
         this.createdAt = createdAt;
+    }
+
+    public static RaffleResponse of(Raffle raffle){
+        return RaffleResponse.builder()
+                .id(raffle.getId())
+                .ca(raffle.getCa())
+                .tokenId(raffle.getTokenId())
+                .tokenUri(raffle.getTokenUri())
+                .totalTicket(raffle.getTotalTicket())
+                .leftTicket(raffle.getLeftTicket())
+                .ticketPrice(raffle.getTicketPrice())
+                .endTime(raffle.getEndTime())
+                .isEnd(raffle.isEnd())
+                .isPaid(raffle.isPaid())
+                .isClaimNft(raffle.isClaimNft())
+                .settlement(raffle.getSettlement())
+                .createdAt(raffle.getCreatedAt())
+                .build();
     }
 }

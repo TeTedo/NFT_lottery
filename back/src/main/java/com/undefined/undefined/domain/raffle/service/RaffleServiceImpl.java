@@ -116,4 +116,12 @@ public class RaffleServiceImpl implements  RaffleService{
         Page<Raffle> rafflePage = raffleRepository.findByWinnerAndPage(request.getPageable(), request.getWinner());
         return raffleMapper.toRaffleResponse(rafflePage);
     }
+
+    @Override
+    public List<RaffleResponse> getDeadLineRaffles() {
+        return raffleRepository.findDeadlineRaffles()
+                .stream()
+                .map(RaffleResponse::of)
+                .toList();
+    }
 }

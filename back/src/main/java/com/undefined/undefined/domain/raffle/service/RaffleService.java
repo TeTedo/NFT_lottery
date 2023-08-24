@@ -9,6 +9,7 @@ import com.undefined.undefined.global.web3.klaytn.dto.*;
 import org.springframework.data.domain.Page;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface RaffleService {
     void chooseWinner() throws IOException;
@@ -31,4 +32,5 @@ public interface RaffleService {
 
     Page<RaffleResponse> getRafflesByWinner(GetWinnerRafflesRequest request);
 
+    List<RaffleResponse> getDeadLineRaffles();
 }
