@@ -58,4 +58,13 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             AND r.isEnd = false
             """)
     List<Raffle> findEndRaffle();
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.endTime > now()
+            ORDER BY r.endTime DESC
+            LIMIT 10
+            """)
+    List<Raffle> findDeadlineRaffles();
 }

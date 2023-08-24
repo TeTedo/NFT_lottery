@@ -32,6 +32,7 @@ public abstract class ClaimAllNftsEvent {
         List<Type> nonIndexedData = FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
 
         String claimer = EventTypeMapper.toAddress(log.getTopics().get(1));
+
         DynamicArray<Uint> raffleIdsArray = (DynamicArray<Uint>) nonIndexedData.get(1);
 
         List<Uint> raffleIdsList = raffleIdsArray.getValue();

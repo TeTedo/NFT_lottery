@@ -35,6 +35,10 @@ operation::raffleByCA[snippets='http-request,response-fields']
 === 당첨자 Raffle 조회
 operation::raffleByWinner[snippets='http-request,response-fields']
 
+[[마감임박-Raffle-조회]]
+=== 마감임박 Raffle 조회
+operation::getDeadlineRaffles[snippets='http-request,response-fields']
+
 [[Ticket-API]]
 == Ticket API
 

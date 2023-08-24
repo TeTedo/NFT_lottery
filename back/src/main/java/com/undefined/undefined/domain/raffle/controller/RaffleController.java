@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/raffles")
@@ -39,6 +41,12 @@ public class RaffleController {
     @GetMapping("/winner/{winner}")
     public ResponseEntity<Page<RaffleResponse>> getRafflesByWinner(GetWinnerRafflesRequest request){
         Page<RaffleResponse> response = raffleService.getRafflesByWinner(request);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/deadline")
+    public ResponseEntity<List<RaffleResponse>> getDeadlineRaffles(){
+        List<RaffleResponse> response = raffleService.getDeadLineRaffles();
         return ResponseEntity.ok().body(response);
     }
 }
