@@ -128,7 +128,10 @@ public class RaffleServiceImpl implements  RaffleService{
 
     @Override
     public RaffleResponse getPopularRaffle() {
-        Optional<Raffle> popularRaffle = raffleRepository.findPopularRaffle();
-        return RaffleResponse.of(popularRaffle.get());
+        List<Raffle> popularRaffle = raffleRepository.findPopularRaffle();
+
+        if(popularRaffle.size() == 0) return null;
+
+        return RaffleResponse.of(popularRaffle.get(0));
     }
 }

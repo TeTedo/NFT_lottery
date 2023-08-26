@@ -375,4 +375,54 @@ public class RaffleControllerTest {
                                 fieldWithPath("[].paid").description("Indicates whether the payment is made."))));
 
     }
+
+    @Test
+    @DisplayName("GET /raffles/popular")
+    void getPopularRaffle() throws Exception{
+        // given
+        RaffleResponse response = RaffleResponse.builder()
+                .id(1L)
+                .ca("test")
+                .tokenId(1)
+                .tokenUri("test")
+                .totalTicket(1)
+                .leftTicket(1)
+                .ticketPrice(1)
+                .endTime(LocalDateTime.now())
+                .isEnd(false)
+                .isPaid(false)
+                .isClaimNft(false)
+                .settlement(1)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+
+        Mockito.when(raffleService.getPopularRaffle())
+                .thenReturn(response);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/raffles/popular"));
+
+        // then
+        Mockito.verify(raffleService).getPopularRaffle();
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcRestDocumentation.document("getPopularRaffle",
+                        responseFields(
+                                fieldWithPath("id").description("The ID of the item."),
+                                fieldWithPath("ca").description("The CA value."),
+                                fieldWithPath("tokenId").description("The token ID."),
+                                fieldWithPath("tokenUri").description("The URI of the token."),
+                                fieldWithPath("totalTicket").description("The total number of tickets."),
+                                fieldWithPath("leftTicket").description("The number of left tickets."),
+                                fieldWithPath("ticketPrice").description("The price of a ticket."),
+                                fieldWithPath("endTime").description("The end time."),
+                                fieldWithPath("settlement").description("The settlement value."),
+                                fieldWithPath("createdAt").description("The creation timestamp."),
+                                fieldWithPath("claimNft").description("Indicates whether NFT is claimed."),
+                                fieldWithPath("end").description("Indicates whether the process is ended."),
+                                fieldWithPath("paid").description("Indicates whether the payment is made."))));
+
+    }
 }
