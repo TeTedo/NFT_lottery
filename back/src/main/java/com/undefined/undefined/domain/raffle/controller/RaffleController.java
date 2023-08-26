@@ -49,4 +49,11 @@ public class RaffleController {
         List<RaffleResponse> response = raffleService.getDeadLineRaffles();
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/popular")
+    public ResponseEntity<RaffleResponse> getPopularRaffle(){
+        RaffleResponse response = raffleService.getPopularRaffle();
+        return ResponseEntity.ok().body(response);
+
+    }
 }
