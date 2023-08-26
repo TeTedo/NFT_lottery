@@ -76,8 +76,8 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
                     FROM Raffle a
                     WHERE a.leftTicket != 0
                     AND a.endTime > now()
-                    LIMIT 1
                     )
+            LIMIT 1
             """)
     Optional<Raffle> findPopularRaffle();
 }
