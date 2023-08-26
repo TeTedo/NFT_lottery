@@ -67,4 +67,16 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             LIMIT 10
             """)
     List<Raffle> findDeadlineRaffles();
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.leftTicket = ( 
+                    SELECT MIN(a.leftTicket) 
+                    FROM Raffle a
+                    WHERE a.leftTicket != 0
+                    AND a.endTime > now()
+                    )
+            """)
+    Optional<Raffle> findPopularRaffle();
 }

@@ -33,4 +33,6 @@ public interface RaffleService {
     Page<RaffleResponse> getRafflesByWinner(GetWinnerRafflesRequest request);
 
     List<RaffleResponse> getDeadLineRaffles();
+
+    RaffleResponse getPopularRaffle();
 }
