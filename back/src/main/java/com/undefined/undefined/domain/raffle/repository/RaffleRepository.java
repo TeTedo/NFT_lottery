@@ -74,7 +74,7 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             WHERE r.leftTicket = ( 
                     SELECT MIN(a.leftTicket) 
                     FROM Raffle a
-                    WHERE a.leftTicket != 0
+                    WHERE a.leftTicket > 0
                     AND a.endTime > now()
                     )
             LIMIT 1
