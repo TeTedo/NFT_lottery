@@ -46,7 +46,7 @@ public class KlaytnServiceImpl implements KlaytnService{
     @Value("${wallet.public-key}")
     private String PUBLIC_KEY;
 
-    @Value("${uri.websocket-uri}")
+    @Value("${uri.contract-address}")
     private String CONTRACT_ADDRESS;
 
     @Override
@@ -99,6 +99,8 @@ public class KlaytnServiceImpl implements KlaytnService{
             if(transactionReceipt.hasError()) {
                 Response.Error error = transactionReceipt.getError();
                 log.error(error.getMessage());
+            }else {
+                log.info("choose winner success - txHash :  " + transactionReceipt.getTransactionHash());
             }
         }catch (Exception e){
             e.printStackTrace();
