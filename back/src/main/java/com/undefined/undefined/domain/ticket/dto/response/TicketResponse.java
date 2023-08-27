@@ -1,6 +1,7 @@
 package com.undefined.undefined.domain.ticket.dto.response;
 
 import com.undefined.undefined.domain.raffle.model.Raffle;
+import com.undefined.undefined.domain.ticket.model.Ticket;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,5 +20,15 @@ public class TicketResponse {
         this.owner = owner;
         this.tokenUri = tokenUri;
         this.amount = amount;
+    }
+
+    public static TicketResponse of(Ticket ticket) {
+        return TicketResponse.builder()
+                .id(ticket.getId())
+                .raffle(ticket.getRaffle())
+                .owner(ticket.getOwner())
+                .tokenUri(ticket.getTokenUri())
+                .amount(ticket.getAmount())
+                .build();
     }
 }

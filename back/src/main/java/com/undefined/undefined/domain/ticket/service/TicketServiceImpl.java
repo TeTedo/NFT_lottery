@@ -16,18 +16,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TicketServiceImpl implements TicketService{
     private final TicketRepository ticketRepository;
     private final RaffleRepository raffleRepository;
     private final TicketMapper ticketMapper;
-    private final KlaytnService klaytnService;
 
     @Override
-    @Transactional
     public void saveTicketByEvent(BuyTicketsDto dto) {
         Raffle raffle = raffleRepository.findById(dto.getRaffleId())
                 .orElseThrow(RaffleNotFoundException::new).updateLeftTicket(dto.getAmount());
@@ -55,5 +55,11 @@ public class TicketServiceImpl implements TicketService{
     public Page<TicketResponse> getMyTickets(GetMyTicketsRequest request) {
         Page<Ticket> ticketPage = ticketRepository.findMyTicket(request.getPageable(), request.getWallet());
         return ticketMapper.toTicketResponse(ticketPage);
+    }
+
+    @Override
+    public List<TicketResponse> getTicketInfoByRaffleId(Long raffleId) {
+        List<Ticket> ticketList = ticketRepository.getTicketInfoByRaffleId(raffleId);
+        return ticketList.stream().map(TicketResponse::of).toList();
     }
 }

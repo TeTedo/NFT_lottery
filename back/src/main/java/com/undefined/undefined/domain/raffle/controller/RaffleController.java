@@ -6,6 +6,7 @@ import com.undefined.undefined.domain.raffle.dto.request.GetRafflesByCARequest;
 import com.undefined.undefined.domain.raffle.dto.request.GetWinnerRafflesRequest;
 import com.undefined.undefined.domain.raffle.dto.response.RaffleResponse;
 import com.undefined.undefined.domain.raffle.service.RaffleService;
+import com.undefined.undefined.domain.ticket.dto.response.TicketResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,5 @@ public class RaffleController {
     public ResponseEntity<RaffleResponse> getPopularRaffle(){
         RaffleResponse response = raffleService.getPopularRaffle();
         return ResponseEntity.ok().body(response);
-
     }
 }
