@@ -1,5 +1,7 @@
 package com.undefined.undefined.domain.ticket.service;
 
+import com.undefined.undefined.domain.collection.model.Collection;
+import com.undefined.undefined.domain.collection.repository.CollectionRepository;
 import com.undefined.undefined.domain.raffle.exception.RaffleNotFoundException;
 import com.undefined.undefined.domain.raffle.model.Raffle;
 import com.undefined.undefined.domain.raffle.repository.RaffleRepository;
@@ -26,6 +28,7 @@ public class TicketServiceImpl implements TicketService{
     private final TicketRepository ticketRepository;
     private final RaffleRepository raffleRepository;
     private final TicketMapper ticketMapper;
+    private final CollectionRepository collectionRepository;
 
     @Override
     public void saveTicketByEvent(BuyTicketsDto dto) {
@@ -54,7 +57,11 @@ public class TicketServiceImpl implements TicketService{
     @Override
     public Page<TicketResponse> getMyTickets(GetMyTicketsRequest request) {
         Page<Ticket> ticketPage = ticketRepository.findMyTicket(request.getPageable(), request.getWallet());
-        return ticketMapper.toTicketResponse(ticketPage);
+        return ticketPage.map(ticket -> {
+            Optional<Collection> collection = collectionRepository.findByContractAddress(ticket.getRaffle().getCa());
+            if(collection.isEmpty()) return ticketMapper.toTicketResponse(ticket,"");
+            return ticketMapper.toTicketResponse(ticket, collection.get().getContractName());
+        });
     }
 
     @Override

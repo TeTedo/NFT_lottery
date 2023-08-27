@@ -12,14 +12,16 @@ public class TicketResponse {
     private String owner;
     private String tokenUri;
     private int amount;
+    private String contractName;
 
     @Builder
-    public TicketResponse(Long id, Raffle raffle, String owner, String tokenUri, int amount) {
+    public TicketResponse(Long id, Raffle raffle, String owner, String tokenUri, int amount, String contractName) {
         this.id = id;
         this.raffle = raffle;
         this.owner = owner;
         this.tokenUri = tokenUri;
         this.amount = amount;
+        this.contractName = contractName;
     }
 
     public static TicketResponse of(Ticket ticket) {
