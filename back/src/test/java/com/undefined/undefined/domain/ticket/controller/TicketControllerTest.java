@@ -63,7 +63,7 @@ public class TicketControllerTest {
                 .build();
 
         List<TicketResponse> dummyCollectionList = Arrays.asList(
-                TicketResponse.builder().raffle(Raffle.builder().build()).tokenUri("temp1").owner("name1").amount(100).build()
+                TicketResponse.builder().raffle(Raffle.builder().build()).tokenUri("temp1").owner("name1").amount(100).contractName("temp").build()
         );
 
         Page<TicketResponse> response = new PageImpl<>(dummyCollectionList, pageable, size);
@@ -103,6 +103,7 @@ public class TicketControllerTest {
                             fieldWithPath("content[].owner").description("Owner of the raffle").type("string"),
                             fieldWithPath("content[].tokenUri").description("Temporary URI").type("string"),
                             fieldWithPath("content[].amount").description("Amount").type("number"),
+                            fieldWithPath("content[].contractName").description("contractName").type("String"),
                             fieldWithPath("totalElements").description("Total number of elements").type("number"),
                             fieldWithPath("totalPages").description("Total number of pages").type("number"),
                             fieldWithPath("pageable").description("Pagination information"),
@@ -167,6 +168,7 @@ public class TicketControllerTest {
                                 fieldWithPath("[].raffle.end").description("Indicates if the raffle ended."),
                                 fieldWithPath("[].owner").description("The owner of the object."),
                                 fieldWithPath("[].tokenUri").description("The token URI of the object."),
-                                fieldWithPath("[].amount").description("The amount for the object."))));
+                                fieldWithPath("[].amount").description("The amount for the object."),
+                                fieldWithPath("[].contractName").description("Empty."))));
     }
 }

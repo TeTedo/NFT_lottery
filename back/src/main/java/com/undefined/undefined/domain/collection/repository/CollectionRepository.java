@@ -8,6 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface CollectionRepository extends JpaRepository<Collection, Long> {
 
@@ -32,4 +35,6 @@ public interface CollectionRepository extends JpaRepository<Collection, Long> {
             AND c.type = :type
             """)
     boolean deListNft(@Param("ca") String ca, @Param("type") String type);
+
+    Optional<Collection> findByContractAddress(String ca);
 }
