@@ -14,6 +14,7 @@ import java.util.Optional;
 public class BlockServiceImpl implements BlockService{
 
     private final BlockRepository blockRepository;
+    private final KlaytnService klaytnService;
 
     @Override
     @Transactional
@@ -25,7 +26,7 @@ public class BlockServiceImpl implements BlockService{
     public BigInteger getLatestBlock(){
         Optional<Block> latestBlock = blockRepository.findLatestBlockNum();
 
-        if(latestBlock.isEmpty()) return BigInteger.ZERO;
+        if(latestBlock.isEmpty()) return klaytnService.getBlockNumber();
 
         return latestBlock.get().getBlockNum();
     }
