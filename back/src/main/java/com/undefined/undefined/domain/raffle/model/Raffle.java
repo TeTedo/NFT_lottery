@@ -111,5 +111,6 @@ public class Raffle extends BaseTimeEntity {
 
     public void failedRaffle(){
         this.isFailed = true;
+        this.isEnd = true;
     }
 }
