@@ -35,6 +35,14 @@ public class RaffleServiceImpl implements  RaffleService{
 
         List<MultiChooseWinnerDto> dto = new ArrayList<>();
         for(Raffle raffle : endRaffles) {
+
+            if(raffle.getLeftTicket() == raffle.getTotalTicket()) {
+                raffle.failedRaffle();
+                raffle.endTimeRaffle();
+                raffleRepository.save(raffle);
+                continue;
+            }
+
             int pick = raffle.getTotalTicket() - raffle.getLeftTicket();
             int randNum = (int) (Math.random() * pick + 1);
 
