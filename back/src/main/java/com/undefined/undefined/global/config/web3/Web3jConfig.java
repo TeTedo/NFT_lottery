@@ -1,5 +1,6 @@
 package com.undefined.undefined.global.config.web3;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.web3j.protocol.Web3j;
@@ -11,8 +12,8 @@ import java.net.ConnectException;
 @Configuration
 public class Web3jConfig {
 
-
-    private static final String HTTP_RPC_URI = "https://public-node-api.klaytnapi.com/v1/baobab";
+    @Value("${uri.http-rpc-uri}")
+    private String HTTP_RPC_URI;
 
 
 

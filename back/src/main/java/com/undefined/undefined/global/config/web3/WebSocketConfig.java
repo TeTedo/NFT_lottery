@@ -23,7 +23,6 @@ public class WebSocketConfig {
 
     @Bean
     public WebSocketService webSocketService() {
-        System.out.println(WEBSOCKET_URI);
         WebSocketService webSocketService = new WebSocketService(WEBSOCKET_URI, false);
         connectWebSocketService(webSocketService);
         return webSocketService;

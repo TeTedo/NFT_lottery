@@ -30,6 +30,7 @@ spring:
 uri:
   contract-address: ${CONTRACT_ADDRESS}
   websocket-uri: ${WEBSOCKET_URI}
+  http-rpc-uri: ${HTTP_RPC_URI}
 
 # wallet
 
