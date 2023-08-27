@@ -4,6 +4,7 @@ import com.undefined.undefined.global.web3.klaytn.dto.MultiChooseWinnerDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.datatypes.Function;
@@ -39,11 +40,14 @@ public class KlaytnServiceImpl implements KlaytnService{
     private final long TX_END_CHECK_DURATION = 3000;
     private final int TX_END_CHECK_RETRY = 3;
 
-    private static final String PRIVATE_KEY = "0x18ed116c9d0626c9885c3312dd1f11cbf5ef779a2f5c234c0d3a10c535e62080";
+    @Value("${wallet.private-key}")
+    private String PRIVATE_KEY;
 
-    private static final String PUBLIC_KEY = "0xE68f534de32713472295b96bA39005Fc921681Df";
+    @Value("${wallet.public-key}")
+    private String PUBLIC_KEY;
 
-    private static final String CONTRACT_ADDRESS = "0xedE916cA2375F50aEaB50a9cCb92Bb69F8c37438";
+    @Value("${uri.websocket-uri}")
+    private String CONTRACT_ADDRESS;
 
     @Override
     public void chooseWinner(List<MultiChooseWinnerDto> dto) throws IOException {

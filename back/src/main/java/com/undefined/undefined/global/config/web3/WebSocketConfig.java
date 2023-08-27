@@ -1,6 +1,7 @@
 package com.undefined.undefined.global.config.web3;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,10 +17,13 @@ import java.util.function.Consumer;
 @Configuration
 @Slf4j
 public class WebSocketConfig {
-    private static final String WEBSOCKET_URI = "wss://klaytn-baobab.blockpi.network/v1/ws/e09f7347df5f3108682727dd2c4ea4a76cefbbd8";
+
+    @Value("${uri.websocket-uri}")
+    private String WEBSOCKET_URI;
 
     @Bean
     public WebSocketService webSocketService() {
+        System.out.println(WEBSOCKET_URI);
         WebSocketService webSocketService = new WebSocketService(WEBSOCKET_URI, false);
         connectWebSocketService(webSocketService);
         return webSocketService;
