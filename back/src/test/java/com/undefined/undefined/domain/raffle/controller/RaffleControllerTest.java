@@ -64,7 +64,7 @@ public class RaffleControllerTest {
                 .build();
 
         List<RaffleResponse> dummy = Arrays.asList(
-                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).settlement(10).createdAt(LocalDateTime.now()).build()
+                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).isFailed(false).settlement(10).createdAt(LocalDateTime.now()).build()
         );
 
         Page<RaffleResponse> response = new PageImpl<>(dummy, pageable, size);
@@ -95,6 +95,7 @@ public class RaffleControllerTest {
                                 fieldWithPath("content[].createdAt").description("Creation time of the raffle").type("string"),
                                 fieldWithPath("content[].end").description("Is the raffle ended").type("boolean"),
                                 fieldWithPath("content[].paid").description("Is the raffle paid").type("boolean"),
+                                fieldWithPath("content[].failed").description("Is the raffle failed").type("boolean"),
                                 fieldWithPath("content[].claimNft").description("Is the nft claimed").type("boolean"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
@@ -131,7 +132,7 @@ public class RaffleControllerTest {
                 .build();
 
         List<RaffleResponse> dummy = Arrays.asList(
-                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).settlement(10).createdAt(LocalDateTime.now()).build()
+                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).isFailed(false).settlement(10).createdAt(LocalDateTime.now()).build()
         );
 
         Page<RaffleResponse> response = new PageImpl<>(dummy, pageable, size);
@@ -162,6 +163,7 @@ public class RaffleControllerTest {
                                 fieldWithPath("content[].createdAt").description("Creation time of the raffle").type("string"),
                                 fieldWithPath("content[].end").description("Is the raffle ended").type("boolean"),
                                 fieldWithPath("content[].paid").description("Is the raffle paid").type("boolean"),
+                                fieldWithPath("content[].failed").description("Is the raffle failed").type("boolean"),
                                 fieldWithPath("content[].claimNft").description("Is the nft claimed").type("boolean"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
@@ -200,7 +202,7 @@ public class RaffleControllerTest {
                 .build();
 
         List<RaffleResponse> dummy = Arrays.asList(
-                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).settlement(10).createdAt(LocalDateTime.now()).build()
+                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).isFailed(false).settlement(10).createdAt(LocalDateTime.now()).build()
         );
 
         Page<RaffleResponse> response = new PageImpl<>(dummy, pageable, size);
@@ -231,6 +233,7 @@ public class RaffleControllerTest {
                                 fieldWithPath("content[].createdAt").description("Creation time of the raffle").type("string"),
                                 fieldWithPath("content[].end").description("Is the raffle ended").type("boolean"),
                                 fieldWithPath("content[].paid").description("Is the raffle paid").type("boolean"),
+                                fieldWithPath("content[].failed").description("Is the raffle failed").type("boolean"),
                                 fieldWithPath("content[].claimNft").description("Is the nft claimed").type("boolean"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
@@ -269,7 +272,7 @@ public class RaffleControllerTest {
                 .build();
 
         List<RaffleResponse> dummy = Arrays.asList(
-                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).settlement(10).createdAt(LocalDateTime.now()).build()
+                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).isFailed(false).settlement(10).createdAt(LocalDateTime.now()).build()
         );
 
         Page<RaffleResponse> response = new PageImpl<>(dummy, pageable, size);
@@ -300,6 +303,7 @@ public class RaffleControllerTest {
                                 fieldWithPath("content[].createdAt").description("Creation time of the raffle").type("string"),
                                 fieldWithPath("content[].end").description("Is the raffle ended").type("boolean"),
                                 fieldWithPath("content[].paid").description("Is the raffle paid").type("boolean"),
+                                fieldWithPath("content[].failed").description("Is the raffle failed").type("boolean"),
                                 fieldWithPath("content[].claimNft").description("Is the nft claimed").type("boolean"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
@@ -341,6 +345,7 @@ public class RaffleControllerTest {
                 .isEnd(false)
                 .isPaid(false)
                 .isClaimNft(false)
+                .isFailed(false)
                 .settlement(1)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -372,7 +377,8 @@ public class RaffleControllerTest {
                                 fieldWithPath("[].createdAt").description("The creation timestamp."),
                                 fieldWithPath("[].claimNft").description("Indicates whether NFT is claimed."),
                                 fieldWithPath("[].end").description("Indicates whether the process is ended."),
-                                fieldWithPath("[].paid").description("Indicates whether the payment is made."))));
+                                fieldWithPath("[].paid").description("Indicates whether the payment is made."),
+                                fieldWithPath("[].failed").description("Indicates whether the raffle is made."))));
 
     }
 
@@ -392,6 +398,7 @@ public class RaffleControllerTest {
                 .isEnd(false)
                 .isPaid(false)
                 .isClaimNft(false)
+                .isFailed(false)
                 .settlement(1)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -422,7 +429,8 @@ public class RaffleControllerTest {
                                 fieldWithPath("createdAt").description("The creation timestamp."),
                                 fieldWithPath("claimNft").description("Indicates whether NFT is claimed."),
                                 fieldWithPath("end").description("Indicates whether the process is ended."),
-                                fieldWithPath("paid").description("Indicates whether the payment is made."))));
+                                fieldWithPath("paid").description("Indicates whether the payment is made."),
+                                fieldWithPath("failed").description("Indicates whether the raffle is made."))));
 
     }
 }

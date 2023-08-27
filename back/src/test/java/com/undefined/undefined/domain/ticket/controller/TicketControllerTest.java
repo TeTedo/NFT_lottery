@@ -98,6 +98,7 @@ public class TicketControllerTest {
                             fieldWithPath("content[].raffle.settlement").description("Settlement amount").type("number"),
                             fieldWithPath("content[].raffle.end").description("Is the raffle ended").type("boolean"),
                             fieldWithPath("content[].raffle.paid").description("Is the raffle paid").type("boolean"),
+                            fieldWithPath("content[].raffle.failed").description("Is the raffle failed").type("boolean"),
                             fieldWithPath("content[].raffle.claimNft").description("Is the NFT claimed").type("boolean"),
                             fieldWithPath("content[].owner").description("Owner of the raffle").type("string"),
                             fieldWithPath("content[].tokenUri").description("Temporary URI").type("string"),
