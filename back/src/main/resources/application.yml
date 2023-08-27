@@ -24,3 +24,16 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+# uri
+
+uri:
+  contract-address: ${CONTRACT_ADDRESS}
+  websocket-uri: ${WEBSOCKET_URI}
+  http-rpc-uri: ${HTTP_RPC_URI}
+
+# wallet
+
+wallet:
+  private-key: ${PRIVATE_KEY}
+  public-key: ${PUBLIC_KEY}
