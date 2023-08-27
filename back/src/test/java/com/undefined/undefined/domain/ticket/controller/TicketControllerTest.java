@@ -73,7 +73,7 @@ public class TicketControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/tickets/{walletAddress}?size=10&page=0","address"));
+                MockMvcRequestBuilders.get("/tickets/{walletAddress}?size=10&page=0",wallet));
 
         // then
         Mockito.verify(ticketService).getMyTickets(request);
@@ -139,7 +139,7 @@ public class TicketControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/tickets/detail/{raffleId}",1L));
+                MockMvcRequestBuilders.get("/tickets/detail/{raffleId}",raffleId));
 
         // then
         Mockito.verify(ticketService).getTicketInfoByRaffleId(raffleId);
