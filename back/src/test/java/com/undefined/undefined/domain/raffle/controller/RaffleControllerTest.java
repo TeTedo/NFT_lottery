@@ -74,7 +74,7 @@ public class RaffleControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/raffles/my/tempAddress?size=10&page=0"));
+                MockMvcRequestBuilders.get("/raffles/my/{wallet-address}?size=10&page=0",address));
 
         // then
         Mockito.verify(raffleService).getMyRaffles(request);
@@ -212,7 +212,7 @@ public class RaffleControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/raffles/tempContractAddress?size=10&page=0"));
+                MockMvcRequestBuilders.get("/raffles/{contract-address}?size=10&page=0",ca));
 
         // then
         Mockito.verify(raffleService).getRafflesByCA(request);
@@ -282,7 +282,7 @@ public class RaffleControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/raffles/winner/tempContractAddress?size=10&page=0"));
+                MockMvcRequestBuilders.get("/raffles/winner/{contract-address}?size=10&page=0",winner));
 
         // then
         Mockito.verify(raffleService).getRafflesByWinner(request);
