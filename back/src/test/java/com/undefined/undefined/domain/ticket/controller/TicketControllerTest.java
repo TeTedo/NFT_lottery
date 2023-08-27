@@ -63,7 +63,7 @@ public class TicketControllerTest {
                 .build();
 
         List<TicketResponse> dummyCollectionList = Arrays.asList(
-                TicketResponse.builder().id(1L).raffle(Raffle.builder().build()).tokenUri("temp1").owner("name1").amount(100).build()
+                TicketResponse.builder().raffle(Raffle.builder().build()).tokenUri("temp1").owner("name1").amount(100).build()
         );
 
         Page<TicketResponse> response = new PageImpl<>(dummyCollectionList, pageable, size);
@@ -73,7 +73,7 @@ public class TicketControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/tickets/tempWallet?size=10&page=0"));
+                MockMvcRequestBuilders.get("/tickets/{walletAddress}?size=10&page=0","address"));
 
         // then
         Mockito.verify(ticketService).getMyTickets(request);
@@ -123,5 +123,50 @@ public class TicketControllerTest {
                             fieldWithPath("first").description("Is the first page").type("boolean"),
                             fieldWithPath("numberOfElements").description("Total number of elements in the result").type("number"),
                             fieldWithPath("empty").description("Is the result empty").type("boolean"))));
+    }
+
+    @Test
+    @DisplayName("GET /detail/{raffleId}")
+    void getTicketInfoByRaffle() throws Exception{
+        // given
+        Long raffleId = 1L;
+        List<TicketResponse> response = Arrays.asList(
+                TicketResponse.builder().raffle(Raffle.builder().build()).tokenUri("temp1").owner("name1").amount(100).build()
+        );
+
+        Mockito.when(ticketService.getTicketInfoByRaffleId(raffleId))
+                .thenReturn(response);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/tickets/detail/{raffleId}",1L));
+
+        // then
+        Mockito.verify(ticketService).getTicketInfoByRaffleId(raffleId);
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcRestDocumentation.document("getTicketInfoByRaffleId",
+                        responseFields(
+                                fieldWithPath("[].id").description("The ID of the object."),
+                                fieldWithPath("[].raffle.createdAt").description("The creation date of the raffle."),
+                                fieldWithPath("[].raffle.updatedAt").description("The update date of the raffle."),
+                                fieldWithPath("[].raffle.id").description("The ID of the raffle."),
+                                fieldWithPath("[].raffle.ca").description("The CA of the raffle."),
+                                fieldWithPath("[].raffle.tokenId").description("The token ID of the raffle."),
+                                fieldWithPath("[].raffle.tokenUri").description("The token URI of the raffle."),
+                                fieldWithPath("[].raffle.totalTicket").description("The total number of tickets for the raffle."),
+                                fieldWithPath("[].raffle.leftTicket").description("The number of tickets left for the raffle."),
+                                fieldWithPath("[].raffle.ticketPrice").description("The price of the ticket for the raffle."),
+                                fieldWithPath("[].raffle.seller").description("The seller of the raffle."),
+                                fieldWithPath("[].raffle.winner").description("The winner of the raffle."),
+                                fieldWithPath("[].raffle.endTime").description("The end time of the raffle."),
+                                fieldWithPath("[].raffle.settlement").description("The settlement amount for the raffle."),
+                                fieldWithPath("[].raffle.paid").description("Indicates if the raffle is paid."),
+                                fieldWithPath("[].raffle.failed").description("Indicates if the raffle failed."),
+                                fieldWithPath("[].raffle.claimNft").description("Indicates if the NFT is claimed for the raffle."),
+                                fieldWithPath("[].raffle.end").description("Indicates if the raffle ended."),
+                                fieldWithPath("[].owner").description("The owner of the object."),
+                                fieldWithPath("[].tokenUri").description("The token URI of the object."),
+                                fieldWithPath("[].amount").description("The amount for the object."))));
     }
 }

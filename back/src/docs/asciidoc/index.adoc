@@ -49,3 +49,7 @@ operation::getPopularRaffle[snippets='http-request,response-fields']
 [[My-Ticket-조회]]
 === My Ticket 조회
 operation::myTickets[snippets='http-request,response-fields']
+
+[[raffle-마다-구매-티켓-조회]]
+=== raffle 마다 구매 티켓 조회
+operation::getTicketInfoByRaffleId[snippets='http-request,response-fields']
