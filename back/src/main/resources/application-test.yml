@@ -34,3 +34,16 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema.sql
+
+# uri
+
+uri:
+  contract-address: ${CONTRACT_ADDRESS}
+  websocket-uri: ${WEBSOCKET_URI}
+  http-rpc-uri: ${HTTP_RPC_URI}
+
+# wallet
+
+wallet:
+  private-key: ${PRIVATE_KEY}
+  public-key: ${PUBLIC_KEY}
