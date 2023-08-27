@@ -65,7 +65,11 @@ public class Raffle extends BaseTimeEntity {
     private double settlement;
 
     @Builder
-    public Raffle(Long id, String ca, int tokenId, String tokenUri, int totalTicket, int leftTicket, double ticketPrice, String seller, String winner, LocalDateTime endTime, boolean isEnd, boolean isPaid, boolean isFailed, boolean isClaimNft, double settlement) {
+    public Raffle(
+            Long id, String ca, int tokenId, String tokenUri, int totalTicket,
+            int leftTicket, double ticketPrice, String seller, String winner,
+            LocalDateTime endTime, boolean isEnd, boolean isPaid, boolean isFailed,
+            boolean isClaimNft, double settlement) {
         this.id = id;
         this.ca = ca;
         this.tokenId = tokenId;

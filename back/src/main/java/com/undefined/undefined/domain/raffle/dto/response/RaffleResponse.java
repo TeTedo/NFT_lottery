@@ -24,7 +24,11 @@ public class RaffleResponse {
     private LocalDateTime createdAt;
 
     @Builder
-    public RaffleResponse(Long id, String ca, int tokenId, String tokenUri, int totalTicket, int leftTicket, double ticketPrice, LocalDateTime endTime, boolean isEnd, boolean isPaid, boolean isFailed, boolean isClaimNft, double settlement, LocalDateTime createdAt) {
+    public RaffleResponse(
+            Long id, String ca, int tokenId, String tokenUri, int totalTicket,
+            int leftTicket, double ticketPrice, LocalDateTime endTime, boolean isEnd,
+            boolean isPaid, boolean isFailed, boolean isClaimNft, double settlement,
+            LocalDateTime createdAt) {
         this.id = id;
         this.ca = ca;
         this.tokenId = tokenId;
@@ -40,9 +44,6 @@ public class RaffleResponse {
         this.settlement = settlement;
         this.createdAt = createdAt;
     }
-
-
-
 
     public static RaffleResponse of(Raffle raffle){
         return RaffleResponse.builder()
