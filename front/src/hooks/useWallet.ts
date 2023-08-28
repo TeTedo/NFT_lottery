@@ -1,11 +1,23 @@
 import { Provider, ethers, formatEther, getAddress } from "ethers";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const useMetaMask = () => {
-  const [account, setAccount] = useState("");
-  const [balance, setBalance] = useState("0");
-  const [chainId, setChainId] = useState(0);
-  const [provider, setProvider] = useState(null);
+declare global {
+  interface Window {
+    ethereum: any; // 간단한 타입 정의
+  }
+}
+type UseMetaMaskResult = {
+  account: string;
+  balance: string;
+  chainId: number;
+  provider: Provider | null;
+  connect: () => Promise<void>;
+};
+const useMetaMask = (): UseMetaMaskResult => {
+  const [account, setAccount] = useState<string>("");
+  const [balance, setBalance] = useState<string>("0");
+  const [chainId, setChainId] = useState<number>(0);
+  const [provider, setProvider] = useState<Provider | null>(null);
 
   useEffect(() => {
     if (!window.ethereum) {
@@ -13,7 +25,7 @@ const useMetaMask = () => {
       return;
     }
 
-    window.ethereum.on("accountsChanged", async (accounts) => {
+    window.ethereum.on("accountsChanged", async (accounts: string[]) => {
       if (accounts.length === 0) {
         setAccount("");
         setBalance("0");
@@ -27,9 +39,9 @@ const useMetaMask = () => {
       }
     });
 
-    window.ethereum.on("disconnect", (error) => {});
+    window.ethereum.on("disconnect", (error: any) => {});
 
-    window.ethereum.on("chainChanged", async (chainId) => {
+    window.ethereum.on("chainChanged", async (chainId: string) => {
       await init();
     });
 
@@ -66,7 +78,7 @@ const useMetaMask = () => {
     try {
       await window.ethereum.request({ method: "eth_requestAccounts" });
       await init();
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === 4001) alert("connect to MetaMask");
       else alert(error);
     }

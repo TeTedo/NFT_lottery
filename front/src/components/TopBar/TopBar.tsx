@@ -1,15 +1,10 @@
-import React, { useState } from "react";
 import { Contents } from "./styles";
 import { useNavigation } from "hooks/useNavigation";
 import useMetaMask from "hooks/useWallet";
 
 export function TopBar() {
   const { goToHome, goToMyPage } = useNavigation();
-  const { account, balance, chainId, provider, connect } = useMetaMask();
-  console.log("account", account);
-  console.log("balance", balance);
-  console.log("chainId", chainId);
-  console.log("provider", provider);
+  const { account, connect }: any = useMetaMask();
 
   return (
     <Contents.Container>

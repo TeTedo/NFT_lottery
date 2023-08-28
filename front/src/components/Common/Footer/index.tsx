@@ -1,3 +1,4 @@
+import React from "react";
 import { FooterItem } from "./styles";
 
 export default function Footer() {

@@ -6,10 +6,10 @@ export function useNavigation() {
   function goToHome() {
     navigate("/");
   }
-  function goToDetail(id) {
+  function goToDetail(id: string) {
     navigate(`/detail/${id}`);
   }
-  function goToMyPage(id) {
+  function goToMyPage() {
     navigate(`/mypage`);
   }
 

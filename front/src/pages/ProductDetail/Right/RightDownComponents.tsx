@@ -2,7 +2,7 @@ import { Box, Button } from "@mui/material";
 import React from "react";
 import { RightDown } from "../styles";
 
-function RightDownComponents({ items }) {
+function RightDownComponents({ items }: any) {
   return (
     <RightDown.Content>
       {/* NFT 소개 */}

@@ -1,10 +1,8 @@
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import TopBar from "./components/TopBar/TopBar";
+import Main from "./pages/Main";
 import ProductDetail from "./pages/ProductDetail";
-import Main from "pages/Main";
-import MyPage from "pages/MyPage";
-// import Main from "./pages/Main";
+import MyPage from "./pages/MyPage";
 
 function App() {
   return (

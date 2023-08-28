@@ -34,7 +34,7 @@ export default function ProductRecommendationItem() {
               <NFT.Box.Time>147일 17시간</NFT.Box.Time>
               <NFT.Box.Text>남음</NFT.Box.Text>
             </Box>
-            <NFT.Box.Button onClick={() => goToDetail()}>BUY</NFT.Box.Button>
+            <NFT.Box.Button onClick={() => goToDetail("1")}>BUY</NFT.Box.Button>
           </NFT.Box.Container>
         </NFT.Contents>
         <NFT.Img />

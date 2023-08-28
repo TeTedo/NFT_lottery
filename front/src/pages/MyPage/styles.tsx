@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import { background, colors } from "../globalStyles";
-
+type MenuContentProps = {
+  name?: "holding" | "sell";
+  value?: boolean;
+};
+type CategoryContentProps = {
+  name?: "NFT" | "TICKET";
+  value?: boolean;
+};
 const Container = styled.div`
   width: 100%;
   min-height: calc(100vh);
@@ -37,9 +44,9 @@ const Left = {
     color: ${colors.white};
     font-size: 20px;
   `,
-  Content: styled.div`
+  Content: styled.div<MenuContentProps>`
     margin-left: 20px;
-    color: ${(props) => {
+    color: ${(props: any) => {
       if (props.name === "holding" && props.value) return colors.white;
       if (props.name === "sell" && !props.value) return colors.white;
       return colors.dark_grey;
@@ -58,18 +65,18 @@ const Right = {
     gap: 20px;
     padding-bottom: 25px;
   `,
-  Item: styled.div`
+  Item: styled.div<CategoryContentProps>`
     cursor: pointer;
     font-size: 16px;
     border: 1px solid
-      ${(props) => {
+      ${(props: any) => {
         if (props.name === "NFT" && props.value) return colors.white;
         if (props.name === "TICKET" && !props.value) return colors.white;
         return colors.dark_grey;
       }};
     padding: 10px 20px;
     border-radius: 30px;
-    color: ${(props) => {
+    color: ${(props: any) => {
       if (props.name === "NFT" && props.value) return colors.white;
       if (props.name === "TICKET" && !props.value) return colors.white;
       return colors.dark_grey;

@@ -1,5 +1,6 @@
+// import { background, colors } from "pages/globalStyles";
+import { background, colors } from "pages/globalStyles";
 import styled from "styled-components";
-import { background, colors } from "../../../pages/globalStyles";
 
 const FooterItem = {
   Container: styled.div`
