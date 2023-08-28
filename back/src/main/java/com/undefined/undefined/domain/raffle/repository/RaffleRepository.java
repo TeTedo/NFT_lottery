@@ -19,6 +19,8 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             SELECT r
             FROM Raffle r
             WHERE r.seller = :seller
+            AND r.isPaid = false
+            AND r.isEnd = true
             """)
     List<Raffle> findAllBySeller(@Param("seller") String seller);
 
@@ -56,4 +58,25 @@ public interface RaffleRepository extends JpaRepository<Raffle, Long> {
             AND r.isEnd = false
             """)
     List<Raffle> findEndRaffle();
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.endTime > now()
+            ORDER BY r.endTime DESC
+            LIMIT 10
+            """)
+    List<Raffle> findDeadlineRaffles();
+
+    @Query("""
+            SELECT r
+            FROM Raffle r
+            WHERE r.leftTicket = ( 
+                    SELECT MIN(a.leftTicket) 
+                    FROM Raffle a
+                    WHERE a.leftTicket > 0
+                    AND a.endTime > now()
+                    )
+            """)
+    List<Raffle> findPopularRaffle();
 }

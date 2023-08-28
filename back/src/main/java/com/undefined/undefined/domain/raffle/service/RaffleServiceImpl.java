@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +35,14 @@ public class RaffleServiceImpl implements  RaffleService{
 
         List<MultiChooseWinnerDto> dto = new ArrayList<>();
         for(Raffle raffle : endRaffles) {
+
+            if(raffle.getLeftTicket() == raffle.getTotalTicket()) {
+                raffle.failedRaffle();
+                raffle.endTimeRaffle();
+                raffleRepository.save(raffle);
+                continue;
+            }
+
             int pick = raffle.getTotalTicket() - raffle.getLeftTicket();
             int randNum = (int) (Math.random() * pick + 1);
 
@@ -115,5 +124,22 @@ public class RaffleServiceImpl implements  RaffleService{
     public Page<RaffleResponse> getRafflesByWinner(GetWinnerRafflesRequest request) {
         Page<Raffle> rafflePage = raffleRepository.findByWinnerAndPage(request.getPageable(), request.getWinner());
         return raffleMapper.toRaffleResponse(rafflePage);
+    }
+
+    @Override
+    public List<RaffleResponse> getDeadLineRaffles() {
+        return raffleRepository.findDeadlineRaffles()
+                .stream()
+                .map(RaffleResponse::of)
+                .toList();
+    }
+
+    @Override
+    public RaffleResponse getPopularRaffle() {
+        List<Raffle> popularRaffle = raffleRepository.findPopularRaffle();
+
+        if(popularRaffle.size() == 0) return null;
+
+        return RaffleResponse.of(popularRaffle.get(0));
     }
 }
