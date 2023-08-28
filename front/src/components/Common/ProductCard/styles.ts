@@ -1,5 +1,5 @@
+import { background } from "pages/globalStyles";
 import styled from "styled-components";
-import { background, colors } from "../../../pages/globalStyles";
 
 const Card = {
   Container: styled.div``,

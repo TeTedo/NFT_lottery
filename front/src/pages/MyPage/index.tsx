@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Container, Contents, Left, Right } from "./styles";
-import ProductList from "components/Main/ProductList";
+import ProductList from "../../components/Main/ProductList";
+// import ProductList from "../../components/Main/ProductList";
+// import ProductList from "components/Main/ProductList";
 
 function MyPage() {
   const [value, setValue] = useState(true);
