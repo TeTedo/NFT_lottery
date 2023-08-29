@@ -19,7 +19,6 @@ const Container = styled.div`
 `;
 const Contents = {
   Container: styled.div`
-    /* border: 1px solid white; */
     margin-top: 130px;
     width: 1400px;
     padding-bottom: 110px;
