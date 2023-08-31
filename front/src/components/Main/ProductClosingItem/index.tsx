@@ -1,9 +1,9 @@
+import ProductCard from "components/Common/Card/ProductCard";
 import { Contents } from "./styles";
-import ProductCard from "../../Common/ProductCard";
 
-export default function ProductList() {
+export default function ProductClosingItem() {  
   return (
-    <Contents.Container>
+    <Contents.Container >
       <ProductCard />
       <ProductCard />
       <ProductCard />
@@ -17,8 +17,13 @@ export default function ProductList() {
       <ProductCard />
       <ProductCard />
       <ProductCard />
-
-
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
+      <ProductCard />
     </Contents.Container>
   );
 }

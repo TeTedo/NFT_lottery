@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import { Card } from "./styles";
-import { useNavigation } from '../../../hooks/useNavigation';
+import { useNavigation } from "hooks/useNavigation";
 
 export default function ProductCard() {
   const { goToDetail } = useNavigation();

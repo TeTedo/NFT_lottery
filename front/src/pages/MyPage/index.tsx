@@ -1,23 +1,20 @@
 import React, { useState } from "react";
 import { Container, Contents, Left, Right } from "./styles";
-import ProductList from "../../components/Main/ProductList";
-// import ProductList from "../../components/Main/ProductList";
-// import ProductList from "components/Main/ProductList";
+import Holding from "components/MyPage/Holding";
+import Sell from "components/MyPage/Sell";
+import Winner from "components/MyPage/Winner";
 
 function MyPage() {
-  const [value, setValue] = useState(true);
-  const [NFTValue, setNFTValue] = useState(true);
+  const [value, setValue] = useState<string>("holding");
+
   function SellHandler() {
-    setValue(false);
+    setValue("sell");
   }
   function HoldingHandler() {
-    setValue(true);
+    setValue("holding");
   }
-  function NFTHandler() {
-    setNFTValue(true);
-  }
-  function TicketHandler() {
-    setNFTValue(false);
+  function WinnerHandler() {
+    setValue("winner");
   }
 
   return (
@@ -32,21 +29,18 @@ function MyPage() {
             <Left.Content name="sell" value={value} onClick={SellHandler}>
               판매
             </Left.Content>
+            <Left.Content name="winner" value={value} onClick={WinnerHandler}>
+              당첨
+            </Left.Content>
           </Left.Container>
           <Right.Container>
-            <Right.Menu>
-              <Right.Item name="NFT" value={NFTValue} onClick={NFTHandler}>
-                NFT
-              </Right.Item>
-              <Right.Item
-                name="TICKET"
-                value={NFTValue}
-                onClick={TicketHandler}
-              >
-                TICKET
-              </Right.Item>
-            </Right.Menu>
-            <ProductList />
+            {value === "holding" ? (
+              <Holding />
+            ) : value === "sell" ? (
+              <Sell />
+            ) : (
+              <Winner />
+            )}
           </Right.Container>
         </Contents.Container>
       </Container>

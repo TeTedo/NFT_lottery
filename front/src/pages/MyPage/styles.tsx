@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { background, colors } from "../globalStyles";
 type MenuContentProps = {
-  name?: "holding" | "sell";
-  value?: boolean;
+  name: "holding" | "sell" | "winner";
+  value: string;
 };
 type CategoryContentProps = {
-  name?: "NFT" | "TICKET";
-  value?: boolean;
+  name: "NFT" | "Ticket";
+  value: string;
 };
 const Container = styled.div`
   width: 100%;
@@ -20,7 +20,7 @@ const Container = styled.div`
 const Contents = {
   Container: styled.div`
     margin-top: 130px;
-    width: 1400px;
+    width: 1200px;
     padding-bottom: 110px;
     display: flex;
   `,
@@ -46,8 +46,7 @@ const Left = {
   Content: styled.div<MenuContentProps>`
     margin-left: 20px;
     color: ${(props: any) => {
-      if (props.name === "holding" && props.value) return colors.white;
-      if (props.name === "sell" && !props.value) return colors.white;
+      if (props.name === props.value) return colors.white;
       return colors.dark_grey;
     }};
     cursor: pointer;
@@ -69,15 +68,13 @@ const Right = {
     font-size: 16px;
     border: 1px solid
       ${(props: any) => {
-        if (props.name === "NFT" && props.value) return colors.white;
-        if (props.name === "TICKET" && !props.value) return colors.white;
+        if (props.name === props.value) return colors.white;
         return colors.dark_grey;
       }};
     padding: 10px 20px;
     border-radius: 30px;
     color: ${(props: any) => {
-      if (props.name === "NFT" && props.value) return colors.white;
-      if (props.name === "TICKET" && !props.value) return colors.white;
+      if (props.name === props.value) return colors.white;
       return colors.dark_grey;
     }};
   `,

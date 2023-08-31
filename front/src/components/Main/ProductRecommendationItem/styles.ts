@@ -27,8 +27,8 @@ const NFT = {
     font-size: 35px;
   `,
   Img: styled.div`
-    width: 300px;
-    height: 300px;
+    width: 270px;
+    height: 270px;
     border-radius: 20px;
     border: 1px solid #fff;
   `,

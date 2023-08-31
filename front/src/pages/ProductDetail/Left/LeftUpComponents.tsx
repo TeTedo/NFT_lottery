@@ -5,7 +5,7 @@ import MetaDataContent from "../../../components/Product/MetaDataContent";
 function LeftUpComponents() {
   return (
     <LeftUp.Content>
-      <LeftUp.Title>Details</LeftUp.Title>
+      <LeftUp.Title>Raffle ID</LeftUp.Title>
       <MetaDataContent />
     </LeftUp.Content>
   );

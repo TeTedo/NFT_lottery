@@ -10,20 +10,15 @@ export function TopBar() {
     <Contents.Container>
       <Contents.Content>
         <Contents.Logo onClick={goToHome}>Undefined.</Contents.Logo>
-        <Contents.TitleContainer>
-          <Contents.Title onClick={goToMyPage}>My Page</Contents.Title>
-        </Contents.TitleContainer>
         {account === "" ? (
-          <button onClick={connect}>Connect with MetaMask</button>
+          <Contents.Login onClick={connect}>
+            Connect with MetaMask
+          </Contents.Login>
         ) : (
-          <p>Connected Account: {account}</p>
+          <Contents.NickName onClick={goToMyPage}>
+            Connected Account: {account}
+          </Contents.NickName>
         )}
-        {/* {!address !== null ? (
-          <>
-          </>
-        ) : (
-          <div>연결 계정 : {address}</div>
-        )} */}
       </Contents.Content>
     </Contents.Container>
   );

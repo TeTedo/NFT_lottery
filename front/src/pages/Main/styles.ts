@@ -12,8 +12,8 @@ const Container = styled.div`
 `;
 const Contents = {
   Container: styled.div`
+    width: 1200px;
     margin-top: 130px;
-    width: 1400px;  
     padding-bottom: 110px;
   `,
   Title: styled.div`

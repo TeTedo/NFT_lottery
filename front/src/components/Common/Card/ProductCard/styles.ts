@@ -4,8 +4,8 @@ import styled from "styled-components";
 const Card = {
   Container: styled.div``,
   Img: styled.div`
-    width: 250px;
-    height: 250px;
+    width: 270px;
+    height: 270px;
     background-color: ${background.grey};
     border-radius: 20px;
   `,
