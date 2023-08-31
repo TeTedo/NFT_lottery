@@ -12,7 +12,7 @@ const Container = styled.div`
 `;
 const Contents = {
   Container: styled.div`
-    width: 1400px;
+    width: 1200px;
     margin-top: 110px;
     margin-bottom: 100px;
     display: flex;
