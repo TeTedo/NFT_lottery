@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class RaffleControllerTest {
                 .build();
 
         List<RaffleResponse> dummy = Arrays.asList(
-                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).settlement(10).createdAt(LocalDateTime.now()).build()
+                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).isFailed(false).settlement(10).createdAt(LocalDateTime.now()).build()
         );
 
         Page<RaffleResponse> response = new PageImpl<>(dummy, pageable, size);
@@ -73,7 +74,7 @@ public class RaffleControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/raffles/my/tempAddress?size=10&page=0"));
+                MockMvcRequestBuilders.get("/raffles/my/{wallet-address}?size=10&page=0",address));
 
         // then
         Mockito.verify(raffleService).getMyRaffles(request);
@@ -94,6 +95,7 @@ public class RaffleControllerTest {
                                 fieldWithPath("content[].createdAt").description("Creation time of the raffle").type("string"),
                                 fieldWithPath("content[].end").description("Is the raffle ended").type("boolean"),
                                 fieldWithPath("content[].paid").description("Is the raffle paid").type("boolean"),
+                                fieldWithPath("content[].failed").description("Is the raffle failed").type("boolean"),
                                 fieldWithPath("content[].claimNft").description("Is the nft claimed").type("boolean"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
@@ -130,7 +132,7 @@ public class RaffleControllerTest {
                 .build();
 
         List<RaffleResponse> dummy = Arrays.asList(
-                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).settlement(10).createdAt(LocalDateTime.now()).build()
+                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).isFailed(false).settlement(10).createdAt(LocalDateTime.now()).build()
         );
 
         Page<RaffleResponse> response = new PageImpl<>(dummy, pageable, size);
@@ -161,6 +163,7 @@ public class RaffleControllerTest {
                                 fieldWithPath("content[].createdAt").description("Creation time of the raffle").type("string"),
                                 fieldWithPath("content[].end").description("Is the raffle ended").type("boolean"),
                                 fieldWithPath("content[].paid").description("Is the raffle paid").type("boolean"),
+                                fieldWithPath("content[].failed").description("Is the raffle failed").type("boolean"),
                                 fieldWithPath("content[].claimNft").description("Is the nft claimed").type("boolean"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
@@ -199,7 +202,7 @@ public class RaffleControllerTest {
                 .build();
 
         List<RaffleResponse> dummy = Arrays.asList(
-                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).settlement(10).createdAt(LocalDateTime.now()).build()
+                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).isFailed(false).settlement(10).createdAt(LocalDateTime.now()).build()
         );
 
         Page<RaffleResponse> response = new PageImpl<>(dummy, pageable, size);
@@ -209,7 +212,7 @@ public class RaffleControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/raffles/tempContractAddress?size=10&page=0"));
+                MockMvcRequestBuilders.get("/raffles/{contract-address}?size=10&page=0",ca));
 
         // then
         Mockito.verify(raffleService).getRafflesByCA(request);
@@ -230,6 +233,7 @@ public class RaffleControllerTest {
                                 fieldWithPath("content[].createdAt").description("Creation time of the raffle").type("string"),
                                 fieldWithPath("content[].end").description("Is the raffle ended").type("boolean"),
                                 fieldWithPath("content[].paid").description("Is the raffle paid").type("boolean"),
+                                fieldWithPath("content[].failed").description("Is the raffle failed").type("boolean"),
                                 fieldWithPath("content[].claimNft").description("Is the nft claimed").type("boolean"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
@@ -268,7 +272,7 @@ public class RaffleControllerTest {
                 .build();
 
         List<RaffleResponse> dummy = Arrays.asList(
-                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).settlement(10).createdAt(LocalDateTime.now()).build()
+                RaffleResponse.builder().id(1L).ca("ca").tokenUri("tokenUri").tokenId(1).totalTicket(100).leftTicket(50).ticketPrice(0.1).endTime(LocalDateTime.now()).isEnd(true).isPaid(false).isFailed(false).settlement(10).createdAt(LocalDateTime.now()).build()
         );
 
         Page<RaffleResponse> response = new PageImpl<>(dummy, pageable, size);
@@ -278,7 +282,7 @@ public class RaffleControllerTest {
 
         // when
         ResultActions resultActions = mockMvc.perform(
-                MockMvcRequestBuilders.get("/raffles/winner/tempContractAddress?size=10&page=0"));
+                MockMvcRequestBuilders.get("/raffles/winner/{contract-address}?size=10&page=0",winner));
 
         // then
         Mockito.verify(raffleService).getRafflesByWinner(request);
@@ -299,6 +303,7 @@ public class RaffleControllerTest {
                                 fieldWithPath("content[].createdAt").description("Creation time of the raffle").type("string"),
                                 fieldWithPath("content[].end").description("Is the raffle ended").type("boolean"),
                                 fieldWithPath("content[].paid").description("Is the raffle paid").type("boolean"),
+                                fieldWithPath("content[].failed").description("Is the raffle failed").type("boolean"),
                                 fieldWithPath("content[].claimNft").description("Is the nft claimed").type("boolean"),
                                 fieldWithPath("totalElements").description("Total number of elements").type("Number"),
                                 fieldWithPath("totalPages").description("Total number of pages").type("Number"),
@@ -321,5 +326,111 @@ public class RaffleControllerTest {
                                 fieldWithPath("numberOfElements").description("Total number of elements in the result").type("number"),
                                 fieldWithPath("empty").description("Is the result empty").type("boolean"),
                                 fieldWithPath("content").description("List of collection items").type("Array of CollectionResponse"))));
+    }
+
+    @Test
+    @DisplayName("GET /raffles/deadline")
+    void getDeadLineRaffles() throws Exception{
+        // given
+        List<RaffleResponse> response = new ArrayList<>();
+        RaffleResponse data = RaffleResponse.builder()
+                .id(1L)
+                .ca("test")
+                .tokenId(1)
+                .tokenUri("test")
+                .totalTicket(1)
+                .leftTicket(1)
+                .ticketPrice(1)
+                .endTime(LocalDateTime.now())
+                .isEnd(false)
+                .isPaid(false)
+                .isClaimNft(false)
+                .isFailed(false)
+                .settlement(1)
+                .createdAt(LocalDateTime.now())
+                .build();
+        response.add(data);
+        response.add(data);
+
+        Mockito.when(raffleService.getDeadLineRaffles())
+                .thenReturn(response);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/raffles/deadline"));
+
+        // then
+        Mockito.verify(raffleService).getDeadLineRaffles();
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcRestDocumentation.document("getDeadlineRaffles",
+                        responseFields(
+                                fieldWithPath("[].id").description("The ID of the item."),
+                                fieldWithPath("[].ca").description("The CA value."),
+                                fieldWithPath("[].tokenId").description("The token ID."),
+                                fieldWithPath("[].tokenUri").description("The URI of the token."),
+                                fieldWithPath("[].totalTicket").description("The total number of tickets."),
+                                fieldWithPath("[].leftTicket").description("The number of left tickets."),
+                                fieldWithPath("[].ticketPrice").description("The price of a ticket."),
+                                fieldWithPath("[].endTime").description("The end time."),
+                                fieldWithPath("[].settlement").description("The settlement value."),
+                                fieldWithPath("[].createdAt").description("The creation timestamp."),
+                                fieldWithPath("[].claimNft").description("Indicates whether NFT is claimed."),
+                                fieldWithPath("[].end").description("Indicates whether the process is ended."),
+                                fieldWithPath("[].paid").description("Indicates whether the payment is made."),
+                                fieldWithPath("[].failed").description("Indicates whether the raffle is made."))));
+
+    }
+
+    @Test
+    @DisplayName("GET /raffles/popular")
+    void getPopularRaffle() throws Exception{
+        // given
+        RaffleResponse response = RaffleResponse.builder()
+                .id(1L)
+                .ca("test")
+                .tokenId(1)
+                .tokenUri("test")
+                .totalTicket(1)
+                .leftTicket(1)
+                .ticketPrice(1)
+                .endTime(LocalDateTime.now())
+                .isEnd(false)
+                .isPaid(false)
+                .isClaimNft(false)
+                .isFailed(false)
+                .settlement(1)
+                .createdAt(LocalDateTime.now())
+                .build();
+
+
+        Mockito.when(raffleService.getPopularRaffle())
+                .thenReturn(response);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.get("/raffles/popular"));
+
+        // then
+        Mockito.verify(raffleService).getPopularRaffle();
+
+        resultActions.andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcRestDocumentation.document("getPopularRaffle",
+                        responseFields(
+                                fieldWithPath("id").description("The ID of the item."),
+                                fieldWithPath("ca").description("The CA value."),
+                                fieldWithPath("tokenId").description("The token ID."),
+                                fieldWithPath("tokenUri").description("The URI of the token."),
+                                fieldWithPath("totalTicket").description("The total number of tickets."),
+                                fieldWithPath("leftTicket").description("The number of left tickets."),
+                                fieldWithPath("ticketPrice").description("The price of a ticket."),
+                                fieldWithPath("endTime").description("The end time."),
+                                fieldWithPath("settlement").description("The settlement value."),
+                                fieldWithPath("createdAt").description("The creation timestamp."),
+                                fieldWithPath("claimNft").description("Indicates whether NFT is claimed."),
+                                fieldWithPath("end").description("Indicates whether the process is ended."),
+                                fieldWithPath("paid").description("Indicates whether the payment is made."),
+                                fieldWithPath("failed").description("Indicates whether the raffle is made."))));
+
     }
 }

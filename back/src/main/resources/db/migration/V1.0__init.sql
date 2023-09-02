@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS `collections`;
 DROP TABLE IF EXISTS `tickets`;
 DROP TABLE IF EXISTS `raffles`;
+DROP TABLE IF EXISTS `blocks`;
 
 CREATE TABLE IF NOT EXISTS `raffles`
 (
@@ -16,6 +17,7 @@ CREATE TABLE IF NOT EXISTS `raffles`
     end_time        dateTime        NOT NULL,
     is_end          boolean         NOT NULL    DEFAULT false,
     is_paid         boolean         NOT NULL    DEFAULT false,
+    is_failed       boolean         NOT NULL    DEFAULT false,
     is_claim_nft    boolean         NOT NULL    DEFAULT false,
     settlement      double          NULL,
     created_at      dateTime        NOT NULL    DEFAULT now(),
@@ -55,4 +57,9 @@ CREATE TABLE IF NOT EXISTS `collections`
     link_scope          varchar(255)    NULL,
     created_at          dateTime        NOT NULL    DEFAULT now(),
     updated_at          dateTime        NOT NULL    DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS `blocks`
+(
+    block_num      decimal(38,0)      PRIMARY KEY
 );

@@ -35,9 +35,21 @@ operation::raffleByCA[snippets='http-request,response-fields']
 === 당첨자 Raffle 조회
 operation::raffleByWinner[snippets='http-request,response-fields']
 
+[[마감임박-Raffle-조회]]
+=== 마감임박 Raffle 조회
+operation::getDeadlineRaffles[snippets='http-request,response-fields']
+
+[[인기있는-Raffle-조회]]
+=== 인기있는 Raffle 조회
+operation::getPopularRaffle[snippets='http-request,response-fields']
+
 [[Ticket-API]]
 == Ticket API
 
 [[My-Ticket-조회]]
 === My Ticket 조회
 operation::myTickets[snippets='http-request,response-fields']
+
+[[raffle-마다-구매-티켓-조회]]
+=== raffle 마다 구매 티켓 조회
+operation::getTicketInfoByRaffleId[snippets='http-request,response-fields']

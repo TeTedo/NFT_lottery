@@ -7,17 +7,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TicketMapper {
-    public TicketResponse toTicketResponse(Ticket ticket) {
+    public TicketResponse toTicketResponse(Ticket ticket, String contractName) {
         return TicketResponse.builder()
                 .id(ticket.getId())
                 .raffle(ticket.getRaffle())
                 .owner(ticket.getOwner())
                 .tokenUri(ticket.getTokenUri())
                 .amount(ticket.getAmount())
+                .contractName(contractName)
                 .build();
-    }
-
-    public Page<TicketResponse> toTicketResponse(Page<Ticket> ticketPage) {
-        return ticketPage.map(v-> toTicketResponse(v));
     }
 }

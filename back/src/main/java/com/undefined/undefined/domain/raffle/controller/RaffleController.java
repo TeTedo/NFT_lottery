@@ -6,12 +6,15 @@ import com.undefined.undefined.domain.raffle.dto.request.GetRafflesByCARequest;
 import com.undefined.undefined.domain.raffle.dto.request.GetWinnerRafflesRequest;
 import com.undefined.undefined.domain.raffle.dto.response.RaffleResponse;
 import com.undefined.undefined.domain.raffle.service.RaffleService;
+import com.undefined.undefined.domain.ticket.dto.response.TicketResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,6 +42,18 @@ public class RaffleController {
     @GetMapping("/winner/{winner}")
     public ResponseEntity<Page<RaffleResponse>> getRafflesByWinner(GetWinnerRafflesRequest request){
         Page<RaffleResponse> response = raffleService.getRafflesByWinner(request);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/deadline")
+    public ResponseEntity<List<RaffleResponse>> getDeadlineRaffles(){
+        List<RaffleResponse> response = raffleService.getDeadLineRaffles();
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/popular")
+    public ResponseEntity<RaffleResponse> getPopularRaffle(){
+        RaffleResponse response = raffleService.getPopularRaffle();
         return ResponseEntity.ok().body(response);
     }
 }

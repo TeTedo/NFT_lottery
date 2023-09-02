@@ -54,6 +54,10 @@ public class Raffle extends BaseTimeEntity {
     private boolean isPaid;
 
     @ColumnDefault("0")
+    @Column(name = "is_failed", nullable = false)
+    private boolean isFailed;
+
+    @ColumnDefault("0")
     @Column(name = "is_claim_nft", nullable = false)
     private boolean isClaimNft;
 
@@ -61,21 +65,25 @@ public class Raffle extends BaseTimeEntity {
     private double settlement;
 
     @Builder
-    public Raffle(Long id, String ca, int tokenId, String tokenUri, int totalTicket, double ticketPrice, String seller, String winner, LocalDateTime endTime, boolean isEnd, boolean isPaid,
-                  int leftTicket, double settlement, boolean isClaimNft) {
+    public Raffle(
+            Long id, String ca, int tokenId, String tokenUri, int totalTicket,
+            int leftTicket, double ticketPrice, String seller, String winner,
+            LocalDateTime endTime, boolean isEnd, boolean isPaid, boolean isFailed,
+            boolean isClaimNft, double settlement) {
         this.id = id;
         this.ca = ca;
         this.tokenId = tokenId;
         this.tokenUri = tokenUri;
         this.totalTicket = totalTicket;
+        this.leftTicket = leftTicket;
         this.ticketPrice = ticketPrice;
         this.seller = seller;
         this.winner = winner;
         this.endTime = endTime;
         this.isEnd = isEnd;
         this.isPaid = isPaid;
+        this.isFailed = isFailed;
         this.isClaimNft = isClaimNft;
-        this.leftTicket = leftTicket;
         this.settlement = settlement;
     }
 
@@ -87,6 +95,7 @@ public class Raffle extends BaseTimeEntity {
     public Raffle chooseWinner(String address, double settlement) {
         this.winner = address;
         this.settlement = settlement;
+        this.isEnd = true;
         return this;
     }
 
@@ -98,5 +107,14 @@ public class Raffle extends BaseTimeEntity {
     public Raffle claimBalance() {
         this.isPaid = true;
         return this;
+    }
+
+    public void endTimeRaffle() {
+        this.endTime = LocalDateTime.now();
+    }
+
+    public void failedRaffle(){
+        this.isFailed = true;
+        this.isEnd = true;
     }
 }
