@@ -82,7 +82,7 @@ contract Undefined is IUndefined, UndefinedConfig, IERC721Receiver {
             "unproper ticket amount"
         );
         require(minute > 0, "day must more than zero");
-        // require(day > 0, "day must more than zero");
+        // require(day > 0 && day < 7, "day must more than zero & less than 7");
         IERC721(nftCa).transferFrom(msg.sender, address(this), tokenId);
         uint96 raffleId = uint96(raffles.length);
         raffles.push(RaffleInfo({
@@ -121,16 +121,24 @@ contract Undefined is IUndefined, UndefinedConfig, IERC721Receiver {
         require(raffleInfo.endTime >= block.timestamp, "raffle times up");
         uint soldTicketsAmount;
         uint toIndex;
+        uint max;
         unchecked {
             soldTicketsAmount =
                 raffleInfo.totalTickets -
                 raffleInfo.leftTickets; // totalTickets >= leftTickets
-            toIndex = soldTicketsAmount + amount - 1; // amount > 0
+            toIndex = soldTicketsAmount + amount - 1 ; // amount >= 1
+            max = amount / 50;
         }
-        for (uint i = 1; i <= (amount / 50); i++) {
-            uint stampIndex = soldTicketsAmount + 50 * i - 1;
+        for (uint i = 1; i <= max;) {
+            uint stampIndex;
+            unchecked {
+                stampIndex = soldTicketsAmount + 50 * i - 1;    
+            } // i start from 1
             if (toIndex == stampIndex) break;
             buyer[raffleId][stampIndex] = msg.sender;
+            unchecked {
+                i++;
+            }
         }
         buyer[raffleId][toIndex] = msg.sender;
         unchecked {
@@ -205,14 +213,16 @@ contract Undefined is IUndefined, UndefinedConfig, IERC721Receiver {
         uint length = nftInfoList.length; // for gas saving
         uint[] memory raffleIds = new uint[](length);
         require(length > 0, "no claimable nfts");
-        // no need for check-effects-interaction pattern
-        for (uint i = 0; i < length; i++) {
+        for (uint i = 0; i < length;) {
             IERC721(nftInfoList[i].nftCa).safeTransferFrom(
                 address(this),
                 msg.sender,
                 nftInfoList[i].tokenId
             );
             raffleIds[i] = nftInfoList[i].raffleId;
+            unchecked {
+                i++;
+            }
         }
         delete claimableNft[msg.sender]; 
         emit ClaimAllNfts(msg.sender, raffleIds);
@@ -221,7 +231,6 @@ contract Undefined is IUndefined, UndefinedConfig, IERC721Receiver {
     function claimNftByIndex(uint index) external {
         NftInfo[] storage nfts = claimableNft[msg.sender];
         uint length = nfts.length; // for gas saving
-        // no need for check-effects-interaction pattern
         require(index < length, "unclaimable index");
         NftInfo storage claimNftInfo = nfts[index];
         IERC721(claimNftInfo.nftCa).safeTransferFrom(
@@ -259,7 +268,7 @@ contract Undefined is IUndefined, UndefinedConfig, IERC721Receiver {
         require(balance >= amount, "not enough balance");
         claimableBalance[msg.sender] -= amount;
         (bool success, ) = msg.sender.call{value: amount}("");
-        if (!success) revert("transfer failed");
+        require(success, "transfer failed");
         emit ClaimBalance(msg.sender, amount, balance - amount);
     }
 
@@ -274,12 +283,17 @@ contract Undefined is IUndefined, UndefinedConfig, IERC721Receiver {
         uint raffleId,
         uint index
     ) public view returns (address) {
-        uint soldTicketsAmount = raffles[raffleId].totalTickets -
-            raffles[raffleId].leftTickets;
+        uint soldTicketsAmount;
+        unchecked {
+            soldTicketsAmount = raffles[raffleId].totalTickets - raffles[raffleId].leftTickets;
+        } // totalTickets >= leftTickets
         require(index < soldTicketsAmount, "unsold index");
-        for (uint i = index; i < soldTicketsAmount; i++) {
+        for (uint i = index; i < soldTicketsAmount;) {
             address owner = buyer[raffleId][i];
             if (owner != address(0)) return owner;
+            unchecked {
+                i++;
+            }
         }
         revert("internal logic error");
     }
