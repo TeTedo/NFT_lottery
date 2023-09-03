@@ -5,8 +5,8 @@ import { abi } from "../common/abi/ERC721Enumerable.json";
 
 const useERC721 = (chainID: ChainID) => {
   class ERC721 {
-    static interface = new ethers.Interface(abi);
-    static raffleCa = chains[chainID].ca.raffle;
+    private static interface = new ethers.Interface(abi);
+    private static raffleCa = chains[chainID].ca.raffle;
 
     // 메서드 호출하는 곳에서 에러핸들링 필요
 
