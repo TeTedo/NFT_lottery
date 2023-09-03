@@ -2,9 +2,11 @@ package com.undefined.undefined.global.web3.klaytn.dto;
 
 import com.undefined.undefined.domain.raffle.model.Raffle;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class RegisterRaffleDto {
     private final Long raffleId;
     private final int tokenId;
@@ -30,7 +32,7 @@ public class RegisterRaffleDto {
         this.leftTickets = totalTickets;
     }
 
-    public Raffle toRaffle() {
+    public Raffle toRaffleWithTokenUri(String tokenUri) {
         return Raffle.builder()
                 .id(raffleId)
                 .tokenId(tokenId)
@@ -40,6 +42,7 @@ public class RegisterRaffleDto {
                 .endTime(endTime)
                 .seller(seller)
                 .leftTicket(leftTickets)
+                .tokenUri(tokenUri)
                 .build();
     }
 

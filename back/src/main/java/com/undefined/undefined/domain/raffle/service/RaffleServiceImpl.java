@@ -54,7 +54,8 @@ public class RaffleServiceImpl implements  RaffleService{
 
     @Override
     public void saveRaffleByEvent(RegisterRaffleDto dto) {
-        raffleRepository.save(dto.toRaffle());
+        String tokenUri = klaytnService.getTokenUri(dto);
+        raffleRepository.save(dto.toRaffleWithTokenUri(tokenUri));
     }
 
     @Override
