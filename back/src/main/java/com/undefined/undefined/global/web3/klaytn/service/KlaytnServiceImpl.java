@@ -1,21 +1,28 @@
 package com.undefined.undefined.global.web3.klaytn.service;
 
 import com.undefined.undefined.global.web3.klaytn.dto.MultiChooseWinnerDto;
+import com.undefined.undefined.global.web3.klaytn.dto.RegisterRaffleDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.FunctionReturnDecoder;
+import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.Uint;
+import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.abi.datatypes.generated.Uint96;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Response;
+import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthBlockNumber;
+import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.tx.FastRawTransactionManager;
@@ -32,6 +39,7 @@ import java.util.List;
 
 @Service
 @Getter
+
 @RequiredArgsConstructor
 @Slf4j
 public class KlaytnServiceImpl implements KlaytnService{
@@ -127,5 +135,36 @@ public class KlaytnServiceImpl implements KlaytnService{
             e.printStackTrace();
             return BigInteger.ZERO;
         }
+    }
+
+    @Override
+    public String getTokenUri(RegisterRaffleDto dto) {
+
+        try {
+            Function function = new Function(
+                    "tokenURI",
+                    Arrays.asList(new Uint(BigInteger.valueOf(dto.getTokenId()))),
+                    Arrays.asList(new TypeReference<Utf8String>(){})
+            );
+
+            String encodedFunction = FunctionEncoder.encode(function);
+
+            EthCall response = web3jHttpRpc.ethCall(
+                    Transaction.createEthCallTransaction(PUBLIC_KEY, dto.getNftCa(), encodedFunction),
+                    DefaultBlockParameterName.LATEST
+            ).send();
+
+            // 응답에서 결과를 디코딩
+            List<Type> results = FunctionReturnDecoder.decode(response.getValue(), function.getOutputParameters());
+
+            if (!results.isEmpty()) {
+                return ((Utf8String) results.get(0)).getValue();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
