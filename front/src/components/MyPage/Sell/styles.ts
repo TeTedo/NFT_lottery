@@ -28,7 +28,7 @@ const SellContents = {
     box-shadow: 0;
     /* margin-left: 15px; */
     border-radius: 10px;
-    padding: 5px 25px;
+    padding: 10px 25px;
     transition: all 0.3s ease-in-out;
     font-weight: 700;
     cursor: pointer;
