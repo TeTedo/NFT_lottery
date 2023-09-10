@@ -25,7 +25,7 @@ const Card = {
     font-size: 16px;
   `,
   Flex: styled.div`
-    margin-top: 10px;
+    /* margin-top: 10px; */
     display: flex;
     justify-content: space-between;
   `,

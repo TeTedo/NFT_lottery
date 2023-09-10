@@ -8,7 +8,10 @@ export function Sell() {
     <>
       <SellContents.Menu>
         <SellContents.Item>NFT</SellContents.Item>
-        <SellContents.Button>모두 받기</SellContents.Button>
+        <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+          <div>받을 클레이 : 10KLAY</div>
+          <SellContents.Button>모두 받기</SellContents.Button>
+        </div>
       </SellContents.Menu>
       <ProductList category="sell" />
     </>

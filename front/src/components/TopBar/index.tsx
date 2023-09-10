@@ -1,6 +1,7 @@
 import { Contents } from "./styles";
 import { useNavigation } from "hooks/useNavigation";
 import useMetaMask from "hooks/useWallet";
+import ShortenAddress from "./ShortenAddress";
 
 export function TopBar() {
   const { goToHome, goToMyPage } = useNavigation();
@@ -16,7 +17,7 @@ export function TopBar() {
           </Contents.Login>
         ) : (
           <Contents.NickName onClick={goToMyPage}>
-            Connected Account: {account}
+            Connected Account: <ShortenAddress address={account} />
           </Contents.NickName>
         )}
       </Contents.Content>
