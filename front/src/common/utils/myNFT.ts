@@ -42,7 +42,8 @@ export class MyNFT {
     return Promise.all(promises);
   }
 
-  private _split(chunkSize: number) {
+  private _split(chunkSize: number = 20) {
+    if (chunkSize <= 0) chunkSize = 20;
     const res = [];
 
     for (let i = 0; i < this.listedNfts.length; i += chunkSize) {
