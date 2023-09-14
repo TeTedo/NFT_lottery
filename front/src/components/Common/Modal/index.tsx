@@ -1,7 +1,7 @@
 import React from "react";
 import { ModalItem } from "./styles";
 
-export default function Modal() {
+export default function Modal123() {
   return (
     <>
       <ModalItem.Container>
