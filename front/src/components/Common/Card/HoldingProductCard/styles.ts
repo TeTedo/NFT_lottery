@@ -12,6 +12,7 @@ const Card = {
   Contents: styled.div`
     display: flex;
     flex-direction: column;
+    gap: 10px;
     text-align: end;
     padding: 10px;
   `,

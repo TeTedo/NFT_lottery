@@ -18,6 +18,7 @@ const ModalItem = {
     background-color: rgba(0, 0, 0, 0.5);
   `,
   Box: styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,8 +34,10 @@ const ModalItem = {
     font-size: 25px;
   `,
   TextInput: styled(TextField)`
+    flex: 1;
     color: ${colors.white};
     background-color: ${colors.white};
+    border-radius: 8px;
     label.Mui-focused {
       color: ${colors.purple}; // 라벨 색상을 변경합니다.
     }
@@ -45,6 +48,8 @@ const ModalItem = {
     }
   `,
   CustomDatePicker: styled(DatePicker)`
+    flex: 1;
+    border-radius: 8px;
     .MuiInputBase-root {
       background-color: ${colors.white}; // 배경색 변경
       /* border: 1px solid ${colors.purple}; // 선 색상 변경 */
@@ -55,6 +60,20 @@ const ModalItem = {
     &.Mui-selected {
       background-color: ${colors.purple} !important;
     }
+  `,
+  Button: styled.button`
+    width: 100%;
+    background-color: ${colors.purple};
+    border: 0;
+    font-size: 16px;
+    color: ${colors.white};
+    box-shadow: 0;
+    /* margin-left: 15px; */
+    border-radius: 10px;
+    padding: 20px 25px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 700;
+    cursor: pointer;
   `,
 };
 
