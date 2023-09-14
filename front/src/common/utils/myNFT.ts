@@ -1,5 +1,4 @@
-import { UndefinedUtil } from "common/typechain-types/contracts/UndefinedUtil";
-import { BigNumberish } from "ethers";
+import { BigNumberish, ethers } from "ethers";
 
 export class MyNFT {
   private chunkedListedNfts: string[][];
@@ -11,14 +10,14 @@ export class MyNFT {
    * @param chunkSize chunk size for batch call on contract
    */
   constructor(
-    private undefinedUtil: UndefinedUtil,
+    private undefinedUtil: ethers.Contract,
     private listedNfts: string[],
     chunkSize: number = 20
   ) {
     this.chunkedListedNfts = this._split(chunkSize);
   }
 
-  async nftsOf(address: string): Promise<UndefinedUtil.TokenOfOwnerStructOutput[]> {
+  async nftsOf(address: string) {
     const promises = this.chunkedListedNfts.map(() =>
       this.undefinedUtil.getTokensOfOwnerWithListedNft(this.listedNfts, address)
     );
@@ -27,7 +26,7 @@ export class MyNFT {
     return nfts;
   }
 
-  bindURI(nftsOfOwner: UndefinedUtil.TokenOfOwnerStructOutput[]): Promise<
+  bindURI(nftsOfOwner: any[]): Promise<
     {
       tokenCa: string;
       tokenId: BigNumberish;
