@@ -2,8 +2,8 @@ package com.undefined.undefined.domain.collection.service;
 
 import com.undefined.undefined.domain.collection.dto.request.RegisterCollectionRequest;
 import com.undefined.undefined.domain.collection.dto.response.CollectionResponse;
-import com.undefined.undefined.global.web3.klaytn.dto.DeListNftDto;
-import com.undefined.undefined.global.web3.klaytn.dto.ListNftDto;
+import com.undefined.undefined.domain.web3.klaytn.dto.DeListNftDto;
+import com.undefined.undefined.domain.web3.klaytn.dto.ListNftDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

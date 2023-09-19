@@ -9,27 +9,28 @@ import com.undefined.undefined.domain.raffle.exception.RaffleNotFoundException;
 import com.undefined.undefined.domain.raffle.mapper.RaffleMapper;
 import com.undefined.undefined.domain.raffle.model.Raffle;
 import com.undefined.undefined.domain.raffle.repository.RaffleRepository;
-import com.undefined.undefined.global.web3.klaytn.dto.*;
-import com.undefined.undefined.global.web3.klaytn.service.KlaytnService;
-import jakarta.transaction.Transactional;
+import com.undefined.undefined.domain.web3.klaytn.dto.*;
+import com.undefined.undefined.domain.web3.klaytn.service.KlaytnService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RaffleServiceImpl implements  RaffleService{
     private final RaffleRepository raffleRepository;
     private final RaffleMapper raffleMapper;
     private final KlaytnService klaytnService;
 
     @Override
+    @Transactional
     public void chooseWinner() throws IOException {
         List<Raffle> endRaffles = raffleRepository.findEndRaffle();
 
@@ -53,6 +54,7 @@ public class RaffleServiceImpl implements  RaffleService{
     }
 
     @Override
+    @Transactional
     public void saveRaffleByEvent(RegisterRaffleDto dto) {
         String tokenUri = klaytnService.getTokenUri(dto);
         raffleRepository.save(dto.toRaffleWithTokenUri(tokenUri));
@@ -80,6 +82,7 @@ public class RaffleServiceImpl implements  RaffleService{
     }
 
     @Override
+    @Transactional
     public void claimAllNftByEvent(ClaimAllNftsDto dto) {
         for(Long raffleId : dto.getRaffleIds()) {
             Raffle raffle = raffleRepository.findById(raffleId)
@@ -105,7 +108,6 @@ public class RaffleServiceImpl implements  RaffleService{
     public Page<RaffleResponse> getMyRaffles(GetMyRafflesRequest request) {
         Page<Raffle> response = raffleRepository.findBySellerAndPage( request.getPageable(), request.getAddress());
 
-
         return raffleMapper.toRaffleResponse(response);
     }
 
@@ -118,17 +120,20 @@ public class RaffleServiceImpl implements  RaffleService{
     @Override
     public Page<RaffleResponse> getRafflesByCA(GetRafflesByCARequest request) {
         Page<Raffle> rafflePage = raffleRepository.findByCaAndPage(request.getPageable(), request.getCa());
+
         return raffleMapper.toRaffleResponse(rafflePage);
     }
 
     @Override
     public Page<RaffleResponse> getRafflesByWinner(GetWinnerRafflesRequest request) {
         Page<Raffle> rafflePage = raffleRepository.findByWinnerAndPage(request.getPageable(), request.getWinner());
+
         return raffleMapper.toRaffleResponse(rafflePage);
     }
 
     @Override
     public List<RaffleResponse> getDeadLineRaffles() {
+
         return raffleRepository.findDeadlineRaffles()
                 .stream()
                 .map(RaffleResponse::of)
