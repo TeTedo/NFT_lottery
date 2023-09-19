@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface CollectionRepository extends JpaRepository<Collection, Long> {
 
     @Query("""
-            SELECT c 
+            SELECT c
             FROM Collection c
             """)
     Page<Collection> findCollectionByPage(Pageable pageable);

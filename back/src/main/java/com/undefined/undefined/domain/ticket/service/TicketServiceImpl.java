@@ -10,20 +10,18 @@ import com.undefined.undefined.domain.ticket.dto.response.TicketResponse;
 import com.undefined.undefined.domain.ticket.mapper.TicketMapper;
 import com.undefined.undefined.domain.ticket.model.Ticket;
 import com.undefined.undefined.domain.ticket.repository.TicketRepository;
-import com.undefined.undefined.global.web3.klaytn.dto.BuyTicketsDto;
-import com.undefined.undefined.global.web3.klaytn.service.KlaytnService;
-import jakarta.transaction.Transactional;
+import com.undefined.undefined.domain.web3.klaytn.dto.BuyTicketsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class TicketServiceImpl implements TicketService{
     private final TicketRepository ticketRepository;
     private final RaffleRepository raffleRepository;
@@ -31,7 +29,9 @@ public class TicketServiceImpl implements TicketService{
     private final CollectionRepository collectionRepository;
 
     @Override
+    @Transactional
     public void saveTicketByEvent(BuyTicketsDto dto) {
+
         Raffle raffle = raffleRepository.findById(dto.getRaffleId())
                 .orElseThrow(RaffleNotFoundException::new).updateLeftTicket(dto.getAmount());
 
@@ -66,7 +66,11 @@ public class TicketServiceImpl implements TicketService{
 
     @Override
     public List<TicketResponse> getTicketInfoByRaffleId(Long raffleId) {
+
         List<Ticket> ticketList = ticketRepository.getTicketInfoByRaffleId(raffleId);
-        return ticketList.stream().map(TicketResponse::of).toList();
+
+        return ticketList.stream()
+                .map(TicketResponse::of)
+                .toList();
     }
 }
