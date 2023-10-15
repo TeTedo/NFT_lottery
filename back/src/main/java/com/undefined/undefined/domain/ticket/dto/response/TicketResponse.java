@@ -24,6 +24,10 @@ public class TicketResponse {
         this.contractName = contractName;
     }
 
+    public void setContractName(String contractName) {
+        this.contractName = contractName;
+    }
+
     public static TicketResponse of(Ticket ticket) {
         return TicketResponse.builder()
                 .id(ticket.getId())
