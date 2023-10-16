@@ -9,6 +9,7 @@ import org.web3j.protocol.websocket.WebSocketService;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,8 @@ public class WebSocketConfig {
 
     @Value("${uri.websocket-uri}")
     private String WEBSOCKET_URI;
+
+    private final ExecutorService executorService = Executors.newFixedThreadPool(3);
 
     @Bean
     public WebSocketService webSocketService() {
@@ -40,7 +43,7 @@ public class WebSocketConfig {
         Runnable onClose = () -> {
             log.warn("WebSocket 연결이 종료됨. 재연결 시도...");
             // 기존 스레드는 close 되면서 종료됨. 별도의 스레드에서 재연결
-            new Thread(() -> connectWebSocketService(webSocketService)).start();
+            executorService.submit(() -> connectWebSocketService(webSocketService));
         };
 
         try {
